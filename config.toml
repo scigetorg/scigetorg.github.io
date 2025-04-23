@@ -1,5 +1,5 @@
-baseURL = "https://www.neurodesk.org/"
-title = "Neurodesk"
+baseURL = "https://www.sciget.org/"
+title = "SCIGET"
 canonifyURLs=true
 
 enableRobotsTXT = true
@@ -54,12 +54,12 @@ id = "G-4Z9774J59Y"
 
 [languages]
 [languages.en]
-title = "Neurodesk"
+title = "SCIGET"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
 [languages.en.params]
-description = "Neurodesk"
+description = "SCIGET"
 # [languages.no]
 # title = "Goldydocs"
 # description = "Docsy er operativsystem for skyen"
@@ -123,9 +123,9 @@ version = "0.0"
 url_latest_version = "https://example.com"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-github_repo = "https://github.com/NeuroDesk/neurodesk.github.io"
+github_repo = "https://github.com/scigetorg/scigetorg.github.io"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-github_project_repo = "https://github.com/NeuroDesk/neurodesk.github.io"
+github_project_repo = "https://github.com/scigetorg/scigetorg.github.io"
 
 # Specify a value here if your content directory is not in your repo's root directory
 # github_subdir = ""
@@ -150,7 +150,7 @@ prism_syntax_highlighting = false
 [params.search.algolia]
 appId = "P5JEPQ5LZ2"
 apiKey = "56c6d9a954f7df2a98dcedb2763af8c4"
-indexName = "neurodesk"
+indexName = "sciget"
 
 # User interface configuration
 [params.ui]
@@ -190,12 +190,12 @@ enable = false
     #     desc = "Discussion and help from your fellow users"
 [[params.links.user]]
 	name ="Mastodon"
-	url = "https://masto.ai/@Neurodesk"
+	url = "https://masto.ai/@sciget"
 	icon = "fab fa-mastodon"
 	desc = "Follow us on Mastodon to get the latest news!"
 # [[params.links.user]]
 # 	name ="RSS"
-# 	url = "https://neurodesk.github.io/blog/index.xml"
+# 	url = "https://scigetorg.github.io/blog/index.xml"
 # 	icon = "fas fa-rss"
 # 	desc = "Follow us on RSS to get the latest news!"
 # [[params.links.user]]
@@ -216,7 +216,7 @@ enable = false
     #     desc = "Chat with other project developers"
 [[params.links.user]]
 	name = "Discussion"
-	url = "https://github.com/orgs/NeuroDesk/discussions"
+	url = "https://github.com/orgs/scigetorg/discussions"
  	icon = "fa fa-envelope"
     desc = "Discuss development issues around the project"
 [[params.links.developer]]
@@ -233,7 +233,7 @@ enable = false
 [[menu.main]]
     name = "GitHub"
     weight = 40
-    url = "https://github.com/NeuroDesk"
+    url = "https://github.com/scigetorg"
 	
 [module]
 proxy = "direct"

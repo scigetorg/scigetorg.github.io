@@ -1,15 +1,18 @@
 ---
-title: Neurodesk
-linktitle: Neurodesk
+title: SCIGET
+linktitle: sciget
 ---
 
-<section class="row td-box -bg-secondary justify-content-left h-auto col-big-desktop">
+<div class="d-flex flex-column min-vh-100">
+
+<section class="row td-box -bg-secondary justify-content-left d-flex align-items-center col-big-desktop">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-8 order-md-1">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8 order-md-1 text-center">
+				<h1 class="mt-0 mt-md-5 pb-2 display-1">SCIGET</h1>
                 <h1 class="mt-0 mt-md-5 pb-2">Flexible. Scalable. Reproducible.</h1>
-                <h2>Environment for Imaging Analysis</h2>
-                <div class="mt-4 mb-5">
+                <h2>Environment for Scientific Analysis</h2>
+                <!-- <div class="mt-4 mb-5">
                     <a class="btn btn-lg btn-light me-2 mb-3" href="docs/support/faq/#what-is-neurodesk">
                         What is Neurodesk?</a>
                     <a class="btn btn-lg btn-light me-2 mb-3" href="docs/getting-started/local">
@@ -18,15 +21,31 @@ linktitle: Neurodesk
                         <i class="fa fa-cloud"></i> Hosted</a>
                     <a class="btn btn-lg btn-light me-2 mb-3" href="tutorials-examples/examples/examples">
                         <i class="fa fa-book"></i> Examples</a>
-                </div>
+                </div> -->
             </div>
-            <div class="col-md-4 order-md-2 text-center">
+            <!-- <div class="col-md-4 order-md-2 text-center">
                 <img src="/static/favicons/neurodesk-logo.svg" style="height:250px; max-width:100%;" alt="Neurodesk logo" />
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
 
+<section
+  id="startup"
+  class="row -bg-light justify-content-left flex-grow-1 col-big-desktop"
+  style="
+    background-image: url('/static/favicons/background-bottom.svg');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100% auto;">
+	<!-- <div class="td-box">
+		<h2>SCIGET Components</h2>
+		<p class="lead mt-2">Details of each component within the SCIGET project.<br /> SCIGET makes it easy for
+			beginners and experts to use scientific tools for desktop, hpc, web, and cloud.</p>
+	</div> -->
+</section>
+</div>
+<!-- 
 <section id="startup" class="row -bg-light justify-content-left h-auto col-big-desktop">
 	<div class="td-box">
 		<h2>Get started with Neurodesk</h2>
@@ -280,4 +299,4 @@ linktitle: Neurodesk
 	</div>
 </section>
 
-<script src="/static/js/command.js"></script>
+<script src="/static/js/command.js"></script> -->
