@@ -38,6 +38,19 @@ linktitle: sciget
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: 100% auto;">
+	<div class="col-md-8 order-md-1 text-center">
+		<h2>More information coming soon ...</h2>
+		<!-- <div class="mt-4 mb-5">
+			<a class="btn btn-lg btn-light me-2 mb-3" href="docs/support/faq/#what-is-neurodesk">
+				What is Neurodesk?</a>
+			<a class="btn btn-lg btn-light me-2 mb-3" href="docs/getting-started/local">
+				<i class="fa fa-laptop"></i> Local</a>
+			<a class="btn btn-lg btn-light me-2 mb-3" href="docs/getting-started/hosted">
+				<i class="fa fa-cloud"></i> Hosted</a>
+			<a class="btn btn-lg btn-light me-2 mb-3" href="tutorials-examples/examples/examples">
+				<i class="fa fa-book"></i> Examples</a>
+		</div> -->
+	</div>
 	<!-- <div class="td-box">
 		<h2>SCIGET Components</h2>
 		<p class="lead mt-2">Details of each component within the SCIGET project.<br /> SCIGET makes it easy for
