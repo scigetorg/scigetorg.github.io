@@ -188,11 +188,11 @@ enable = false
 	# url = "https://example.org/mail"
 	# icon = "fa fa-envelope"
     #     desc = "Discussion and help from your fellow users"
-[[params.links.user]]
-	name ="Mastodon"
-	url = "https://masto.ai/@sciget"
-	icon = "fab fa-mastodon"
-	desc = "Follow us on Mastodon to get the latest news!"
+# [[params.links.user]]
+# 	name ="Mastodon"
+# 	url = "https://masto.ai/@sciget"
+# 	icon = "fab fa-mastodon"
+# 	desc = "Follow us on Mastodon to get the latest news!"
 # [[params.links.user]]
 # 	name ="RSS"
 # 	url = "https://scigetorg.github.io/blog/index.xml"
@@ -204,31 +204,31 @@ enable = false
 	# icon = "fab fa-stack-overflow"
     #     desc = "Practical questions and curated answers"
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
-[[params.links.developer]]
-	name = "Metrics"
-	url = "/docs/overview/metrics"
-	icon = "fa fa-signal"
-    desc = "Metrics"
+# [[params.links.developer]]
+# 	name = "Metrics"
+# 	url = "/docs/overview/metrics"
+# 	icon = "fa fa-signal"
+#     desc = "Metrics"
 #[[params.links.developer]]
 	# name = "Slack"
 	# url = "https://example.org/slack"
 	# icon = "fab fa-slack"
     #     desc = "Chat with other project developers"
-[[params.links.user]]
-	name = "Discussion"
-	url = "https://github.com/orgs/scigetorg/discussions"
- 	icon = "fa fa-envelope"
-    desc = "Discuss development issues around the project"
-[[params.links.developer]]
-	name = "Uptime"
-	url = "https://stats.uptimerobot.com/NBE38IZWZM"
- 	icon = "fa fa-circle"
-    desc = "Uptime"
-[[params.links.user]]
-	name = "Acknowledgements"
-	url = "/docs/overview/acknowledgement/"
- 	icon = "fa fa-handshake"
-    desc = "Acknowledgements support and fundings for the project"
+# [[params.links.user]]
+# 	name = "Discussion"
+# 	url = "https://github.com/orgs/scigetorg/discussions"
+#  	icon = "fa fa-envelope"
+#     desc = "Discuss development issues around the project"
+# [[params.links.developer]]
+# 	name = "Uptime"
+# 	url = "https://stats.uptimerobot.com/NBE38IZWZM"
+#  	icon = "fa fa-circle"
+#     desc = "Uptime"
+# [[params.links.user]]
+# 	name = "Acknowledgements"
+# 	url = "/docs/overview/acknowledgement/"
+#  	icon = "fa fa-handshake"
+#     desc = "Acknowledgements support and fundings for the project"
 
 [[menu.main]]
     name = "GitHub"
