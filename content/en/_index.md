@@ -11,7 +11,7 @@ linktitle: sciget
             <div class="col-md-8 order-md-1 text-center">
 				<h1 class="mt-0 mt-md-5 pb-2 display-1">SCIGET</h1>
                 <h1 class="mt-0 mt-md-5 pb-2">Flexible. Scalable. Reproducible.</h1>
-                <h2>Environment for Scientific Analysis</h2>
+                <h2>Enabling Scientific Analysis</h2>
                 <!-- <div class="mt-4 mb-5">
                     <a class="btn btn-lg btn-light me-2 mb-3" href="docs/support/faq/#what-is-neurodesk">
                         What is Neurodesk?</a>
