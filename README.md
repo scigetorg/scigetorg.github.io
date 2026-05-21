@@ -32,7 +32,6 @@ pnpm preview      # serve the production build locally
 
 - **Landing**: `src/content/docs/index.mdx` (uses `template: splash`).
 - **Docs pages**: any `.md` / `.mdx` file under `src/content/docs/` is a route.
-- **Components demo**: `src/content/docs/components-demo.mdx` — reference for all built-in Starlight components.
 
 ## Deployment
 

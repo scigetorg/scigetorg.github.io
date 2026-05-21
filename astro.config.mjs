@@ -40,10 +40,6 @@ export default defineConfig({
 					label: 'About',
 					link: '/about/',
 				},
-				{
-					label: 'Components demo',
-					link: '/components-demo/',
-				},
 			],
 			customCss: ['./src/styles/custom.css'],
 		}),
