@@ -11,6 +11,28 @@
 	--sl-color-accent-high: #4d2400;
 }
 
+/* Header GitHub link: neutralise the accent-coloured hover and add a "GitHub" label. */
+.social-icons a[href*="github.com"] {
+	color: var(--sl-color-text);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.25rem 0.6rem;
+	border-radius: 0.375rem;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.social-icons a[href*="github.com"]::after {
+	content: 'GitHub';
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.social-icons a[href*="github.com"]:hover {
+	color: var(--sl-color-white);
+	background: var(--sl-color-gray-5);
+}
+
 /* Hero title — lighter weight for a more modern feel. */
 .hero h1 {
 	font-weight: 500;
