@@ -1,0 +1,121 @@
+---
+title: SCIGET
+description: Run scientific software anywhere. Sciget is an open-source platform for flexible, scalable, accessible research.
+template: splash
+hero:
+  title: Run scientific software anywhere
+  tagline: Your open-source platform for flexible, scalable, accessible research.
+  image:
+    file: ../../assets/sciget-icon.svg
+  actions:
+    - text: Get started
+      link: /get-started/
+      icon: right-arrow
+      variant: primary
+    - text: How it works
+      link: /about/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import platformsImg from '../../assets/platforms.svg';
+
+<div class="split-section split-section--reverse">
+<div class="split-section__copy">
+
+## Run anywhere
+
+Sciget runs on the infrastructure you already have — from your laptop to national HPC.
+
+</div>
+<div class="split-section__image diagram-card">
+	<Image src={platformsImg} alt="Sciget runs on HPC, cloud, laptops, and unprivileged systems" />
+</div>
+</div>
+
+## Key features
+
+<CardGrid>
+	<Card title="Containerised tools" icon="seti:docker">
+		Peer-reviewed scientific containers with pinned versions — reproducibility by default.
+	</Card>
+	<Card title="Add your own tools" icon="puzzle">
+		Integrate custom software into the catalogue via our recipe maker.
+	</Card>
+	<Card title="Shareable workflows" icon="random">
+		Build and share reproducible analysis pipelines with your team.
+	</Card>
+	<Card title="AI copilots" icon="comment-alt">
+		Pair Sciget's validated tools with AI agents via [Scigent](https://scigent.ai), our solution for agentic research.
+	</Card>
+</CardGrid>
+
+## Communities
+
+<div class="community-grid not-content">
+	<a class="community-card" href="/about/">
+		<span class="community-card__icon" aria-hidden="true">🧪</span>
+		<span class="community-card__title">General science</span>
+		<span class="community-card__desc">Versatile applications across multiple scientific disciplines.</span>
+	</a>
+	<a class="community-card" href="https://neurodesk.org">
+		<span class="community-card__icon" aria-hidden="true">🧠</span>
+		<span class="community-card__title">Neuroimaging</span>
+		<span class="community-card__desc">Neurodesk — 200+ containerised tools, thousands of monthly users.</span>
+	</a>
+	<a class="community-card" href="/about/">
+		<span class="community-card__icon" aria-hidden="true">🧬</span>
+		<span class="community-card__title">Genomics</span>
+		<span class="community-card__desc">Variant calling, sequencing pipelines, and reference data tools.</span>
+	</a>
+	<a class="community-card" href="/about/">
+		<span class="community-card__icon" aria-hidden="true">🔬</span>
+		<span class="community-card__title">Microscopy</span>
+		<span class="community-card__desc">Image processing, segmentation, and quantitative analysis.</span>
+	</a>
+	<a class="community-card" href="/about/">
+		<span class="community-card__icon" aria-hidden="true">🦠</span>
+		<span class="community-card__title">Cellular biology</span>
+		<span class="community-card__desc">Single-cell analysis, flow cytometry, and lab automation pipelines.</span>
+	</a>
+	<a class="community-card" href="/about/">
+		<span class="community-card__icon" aria-hidden="true">🩺</span>
+		<span class="community-card__title">Clinical research</span>
+		<span class="community-card__desc">EHR-linked analytics, trial workflows, and patient cohort tools.</span>
+	</a>
+</div>
+
+<div class="split-section">
+<div class="split-section__copy">
+
+## Built on Neurodesk
+
+Sciget extends [Neurodesk](https://neurodesk.org), the open-source platform for biomedical imaging analysis published in Nature Methods.
+
+- 200+ containerised, version-pinned scientific tools.
+- 3,800 monthly users across 100+ countries.
+- Australian iAwards 2025 winner — Best Technology Platform.
+- Backed by $2.5M+ AUD from ARDC, CZI, Wellcome Trust, and NIF.
+
+[Visit Neurodesk →](https://neurodesk.org)
+
+</div>
+<div class="split-section__image">
+	<video class="feature-video" autoplay muted loop playsinline poster="/videos/neurodesk.jpeg">
+		<source src="/videos/neurodesk.webm" type="video/webm" />
+		<source src="/videos/neurodesk.mp4" type="video/mp4" />
+	</video>
+</div>
+</div>
+
+## Acknowledgements
+
+<div class="partner-grid not-content">
+	<div class="partner-card"><img src="/docs/about/ARDC_logo.png" alt="ARDC" /></div>
+	<div class="partner-card"><img src="/docs/about/czi_logo.png" alt="CZI" /></div>
+	<div class="partner-card"><img src="/docs/about/nif-logo.svg" alt="NIF" /></div>
+	<div class="partner-card"><img src="/docs/about/uq_logo.png" alt="UQ" /></div>
+	<div class="partner-card"><img src="/docs/about/Wellcome_Trust_logo.png" alt="Wellcome Trust" /></div>
+</div>

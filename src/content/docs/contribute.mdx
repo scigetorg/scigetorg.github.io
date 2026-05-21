@@ -1,0 +1,31 @@
+---
+title: Contribute a tool
+description: How to package, document, and submit a scientific tool to the Sciget catalogue.
+---
+
+import { Steps, Icon } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import submissionFlowImg from '../../assets/submission-flow.svg';
+
+Sciget is a community-engaged catalogue. Anyone can propose, package, and contribute a scientific tool. Submissions are peer-reviewed before publication.
+
+## Submission workflow
+
+<Steps>
+
+1. **Package your tool.** Build a container recipe with our easy-to-use recipe maker.
+2. **Add documentation.** Provide clear instructions and example datasets.
+3. **Review.** Your submission undergoes peer review before publication.
+
+</Steps>
+
+<div class="auto-chip">
+	<Icon name="setting" />
+	<span>Sciget automatically builds, security-scans, and indexes your container.</span>
+</div>
+
+## How it flows end-to-end
+
+<div class="diagram-card">
+	<Image src={submissionFlowImg} alt="Sciget submission and distribution flow" />
+</div>
