@@ -23,6 +23,7 @@ export default defineConfig({
 			],
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/scigetorg' },
+				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/sciget-org/' },
 			],
 			editLink: {
 				baseUrl: 'https://github.com/scigetorg/scigetorg.github.io/edit/main/',
