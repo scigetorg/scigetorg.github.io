@@ -1,6 +1,63 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
-  ]
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommitsDisabled"
+  ],
+  "timezone": "Australia/Brisbane",
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 3,
+  "commitMessageAction": "Update",
+  "labels": ["dependencies"],
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  },
+
+  "packageRules": [
+    {
+      "description": "Astro core and its integrations move in lockstep - one PR, never split.",
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "groupName": "astro",
+      "minimumReleaseAge": "5 days"
+    },
+    {
+      "description": "React and its types together.",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react"
+    },
+    {
+      "description": "Patch bumps are low risk - merge them once the build passes.",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Majors always get reviewed by hand.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["major"]
+    },
+    {
+      "description": "Overrides in pnpm-workspace.yaml are CVE pins for transitive deps, not tracked dependencies. A major bump there forces every consumer onto a new major to fix a CVE the current range already covers - so hold them within the current major and bump by hand if a package genuinely moves on.",
+      "matchFileNames": ["pnpm-workspace.yaml"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Keep GitHub Actions current, grouped.",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "automerge": true
+    }
+  ],
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "labels": ["security"]
+  }
 }
