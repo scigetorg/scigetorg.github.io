@@ -1,3 +1,12 @@
 allowBuilds:
   esbuild: true
   sharp: true
+
+# Force patched versions of transitive deps flagged by `pnpm audit`.
+# Astro/Starlight pull these in indirectly and lag the fixed releases.
+overrides:
+  '@babel/core': ^7.29.7
+  js-yaml: ^4.3.1
+  postcss: ^8.5.25
+  sharp: ^0.35.3
+  svgo: ^4.0.2
