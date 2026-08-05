@@ -25,6 +25,10 @@ export default defineConfig({
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/scigetorg' },
 				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/sciget-org/' },
 			],
+			components: {
+				// Cycling theme toggle (auto → light → dark) instead of the dropdown.
+				ThemeSelect: './src/components/ThemeSelect.astro',
+			},
 			editLink: {
 				baseUrl: 'https://github.com/scigetorg/scigetorg.github.io/edit/main/',
 			},
