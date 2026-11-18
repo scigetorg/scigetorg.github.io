@@ -587,3 +587,42 @@ site-search button[data-open-modal] {
 	font-size: var(--sl-text-xs);
 	color: var(--sl-color-gray-3);
 }
+
+/* Desktop column layout. Starlight caps content at 45rem and gives the "On this
+   page" column everything else, half the spare width, so on a wide screen the
+   column is mostly empty. Instead give the TOC a fixed narrow column, let the
+   content grow into the freed space, and centre it in what is left. Pages
+   without a TOC (see MIN_TOC_HEADINGS in src/starlightRouteData.ts) get
+   Starlight's full-width cap. Screen only: print.css already reclaims the
+   TOC space for paper. Unlayered, so these beat starlight.core. */
+@media screen and (min-width: 72rem) {
+	:root {
+		/* 16rem of text plus padding, matching neurodesk.org. Measured there over
+		   582 TOC entries: 87% fit on one line, and wider buys little (17rem: 90%,
+		   20rem: 95%). Long entries wrap. */
+		--toc-width: 18rem;
+		--sl-content-width: 56rem;
+	}
+
+	:root:not([data-has-toc]) {
+		--sl-content-width: 67.5rem;
+	}
+
+	/* The fixed panel is otherwise viewport-wide and its text box is sized to
+	   Starlight's own sidebar width, so entries ran past the column edge and
+	   were clipped instead of wrapping. Size both to the column. */
+	.right-sidebar-container,
+	.right-sidebar {
+		width: var(--toc-width);
+	}
+
+	.right-sidebar-panel .sl-container {
+		width: auto;
+		max-width: none;
+	}
+
+	[data-has-sidebar][data-has-toc] .main-pane {
+		--sl-content-margin-inline: auto;
+		width: calc(100% - var(--toc-width));
+	}
+}
