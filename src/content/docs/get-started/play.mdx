@@ -1,0 +1,41 @@
+---
+title: Sciget Play
+description: Sciget Play is a free hosted service for using Sciget in your browser without any setup.
+sidebar:
+  label: Play
+  order: 2
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+import PlayServers from '../../../components/PlayServers.astro';
+
+Sciget Play gives you the Sciget analysis environment in your web browser. With Play you can:
+
+- Start using Sciget without installing anything.
+- Use a wide range of preinstalled scientific tools.
+- Try the platform before you install it locally.
+- Work with colleagues in the same environment.
+
+:::note
+Sciget Play is free but has resource limits. For heavier workloads, [install the Sciget App](/get-started/scigetapp/) or [choose another setup](/get-started/).
+:::
+
+## Launch Sciget Play
+
+The tool below checks how quickly each Play server responds from your location. Select the **Recommended** card to start.
+
+<PlayServers />
+
+:::note[Signing in]
+The Australian server uses the [Australian Access Federation](https://aaf.edu.au/) (AAF). Sign in with your university or research institution account.
+:::
+
+## Alternative: run a web app on your own computer
+
+For single tasks, Sciget Webapps run directly in your browser on your own computer. Play gives you a complete desktop on a hosted server. Webapps let you open one tool without starting a Play session or installing anything, and your data never leaves your machine. Browser and GPU requirements vary by app.
+
+<LinkCard
+	title="Browse Sciget Webapps"
+	description="Choose a tool and run it locally in your browser."
+	href="https://webapps.sciget.org/"
+/>

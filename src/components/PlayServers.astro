@@ -1,0 +1,79 @@
+---
+/**
+ * Play server picker, ported from neurodesk.org. Each card is timed with a
+ * no-cors request and the fastest reachable one is marked Recommended.
+ * Add a region by adding an entry here.
+ */
+const servers = [
+	{ name: 'Australia', flag: '🇦🇺', url: 'https://play-australia.sciget.org', login: 'AAF' },
+];
+---
+
+<div class="not-content play-latency" data-play-servers>
+	<div class="ping-container">
+		{
+			servers.map((s) => (
+				<a href={s.url} target="_blank" rel="noopener" class="ping-card" data-url={s.url}>
+					<span class="ping-name">
+						<span aria-hidden="true">{s.flag}</span> {s.name}
+					</span>
+					<div class="ping-req">Login: {s.login}</div>
+					<div class="ping-time">-- ms</div>
+					<span class="ping-status">Waiting...</span>
+				</a>
+			))
+		}
+	</div>
+	<button class="ping-btn" type="button">Re-test latency</button>
+</div>
+
+<script>
+	const root = document.querySelector<HTMLElement>('[data-play-servers]');
+	if (root) {
+		const cards = [...root.querySelectorAll<HTMLAnchorElement>('.ping-card')];
+		const btn = root.querySelector<HTMLButtonElement>('.ping-btn')!;
+
+		const time = async (url: string) => {
+			const start = performance.now();
+			try {
+				await fetch(url, { mode: 'no-cors', cache: 'no-cache', method: 'HEAD' });
+				return Math.round(performance.now() - start);
+			} catch {
+				return null;
+			}
+		};
+
+		const run = async () => {
+			btn.disabled = true;
+			btn.textContent = 'Testing...';
+			for (const card of cards) {
+				card.classList.remove('ping-winner');
+				card.querySelector('.ping-time')!.textContent = '-- ms';
+				card.querySelector('.ping-status')!.textContent = 'Pinging...';
+			}
+
+			const results = await Promise.all(cards.map((card) => time(card.dataset.url!)));
+
+			cards.forEach((card, i) => {
+				const ms = results[i];
+				const timeEl = card.querySelector<HTMLElement>('.ping-time')!;
+				timeEl.textContent = ms === null ? 'Error' : `${ms} ms`;
+				timeEl.classList.toggle('ping-error', ms === null);
+				card.querySelector('.ping-status')!.textContent = ms === null ? 'Unreachable' : 'Online';
+			});
+
+			const reachable = results.flatMap((ms, i) => (ms === null ? [] : [{ ms, card: cards[i] }]));
+			const best = reachable.sort((a, b) => a.ms - b.ms)[0];
+			if (best) {
+				best.card.classList.add('ping-winner');
+				best.card.querySelector('.ping-status')!.textContent = 'Recommended';
+			}
+
+			btn.disabled = false;
+			btn.textContent = 'Re-test latency';
+		};
+
+		btn.addEventListener('click', run);
+		run();
+	}
+</script>

@@ -2,7 +2,7 @@
 title: Sciget App
 description: A cross-platform desktop application for Sciget — the easiest way to use Scidesktop.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 ## Determine system privileges

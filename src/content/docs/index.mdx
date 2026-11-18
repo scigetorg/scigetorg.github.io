@@ -8,17 +8,36 @@ hero:
   image:
     file: ../../assets/sciget-icon.svg
   actions:
-    - text: Get started
-      link: /get-started/
-      icon: right-arrow
+    - text: Try Sciget now
+      link: /get-started/play/
+      icon: rocket
       variant: primary
+    - text: Choose your setup
+      link: /get-started/
+      icon: down-caret
+      variant: secondary
     - text: How it works
       link: /about/
-      icon: external
+      icon: right-arrow
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkButton } from '@astrojs/starlight/components';
+
+<section class="webapps-feature not-content" aria-labelledby="webapps-heading">
+	<div>
+		<p class="webapps-feature__label"><span class="webapps-feature__badge">New</span> Sciget Webapps</p>
+		<h2 id="webapps-heading">Scientific tools, right in your browser</h2>
+		<p>Segment, register, measure and explore your data locally, without installing software or uploading anything.</p>
+		<LinkButton href="https://webapps.sciget.org/" icon="external">Browse webapps</LinkButton>
+	</div>
+	<ul class="webapps-feature__catalogues">
+		<li><a href="https://webapps.neurodesk.org/"><strong>Neuroimaging</strong><span>webapps.neurodesk.org</span></a></li>
+		<li><a href="https://mskapps.sciget.org/"><strong>Musculoskeletal</strong><span>mskapps.sciget.org</span></a></li>
+		<li><a href="https://microscopyapps.sciget.org/"><strong>Microscopy</strong><span>microscopyapps.sciget.org</span></a></li>
+		<li><a href="https://preclinicalapps.sciget.org/"><strong>Preclinical</strong><span>preclinicalapps.sciget.org</span></a></li>
+	</ul>
+</section>
 import { Image } from 'astro:assets';
 import platformsImg from '../../assets/platforms.svg';
 
@@ -118,4 +137,13 @@ Sciget extends [Neurodesk](https://neurodesk.org), the open-source platform for 
 	<div class="partner-card"><img src="/docs/about/nif-logo.svg" alt="NIF" /></div>
 	<div class="partner-card"><img src="/docs/about/uq_logo.png" alt="UQ" /></div>
 	<div class="partner-card"><img src="/docs/about/Wellcome_Trust_logo.png" alt="Wellcome Trust" /></div>
+</div>
+
+<div class="final-cta not-content">
+	<h2>Ready to run Sciget anywhere?</h2>
+	<p class="final-cta__tagline">Start in your browser in minutes, or install Sciget on the infrastructure you already have.</p>
+	<div class="final-cta__actions">
+		<LinkButton href="/get-started/play/" icon="rocket">Try Sciget now</LinkButton>
+		<LinkButton href="/get-started/" variant="secondary" icon="right-arrow">Choose your setup</LinkButton>
+	</div>
 </div>
