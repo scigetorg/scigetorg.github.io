@@ -12,3 +12,11 @@ overrides:
   svgo: ^4.1.0
   nanoid@3: ^3.3.18
   source-map-js: ^1.2.2
+
+auditConfig:
+  ignoreGhsas:
+    # picomatch ReDoS via attacker-supplied extglob patterns. Every release
+    # through 4.0.7 is affected and the advisory lists no patched version yet.
+    # The build only matches globs from this repo's own config, so there is no
+    # untrusted pattern to exploit. Remove once a fixed picomatch ships.
+    - GHSA-fc5q-39xc-vjpf
