@@ -1,0 +1,271 @@
+---
+title: Sciget App
+description: A cross-platform desktop application for Sciget — the easiest way to use Scidesktop.
+sidebar:
+  order: 3
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Step 1: Download and install
+
+Download the Sciget App for your operating system, then follow the install instructions below.
+
+:::note[No admin/root access?]
+Use the built-in TinyRange engine to run Scidesktop without installing Docker or Podman.
+:::
+
+<Tabs syncKey="os">
+<TabItem label="macOS">
+
+**Download:**
+
+- [macOS Apple silicon (M1/M2/M3/M4)](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-macOS-arm64.dmg)
+- [macOS Intel](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-macOS-x64.dmg)
+
+**Install:**
+Double-click the downloaded `.dmg` file and drag ScigetApp into your Applications folder. To open it, right-click `ScigetApp.app` and select "Open".
+
+</TabItem>
+<TabItem label="Windows">
+
+**Download:**
+
+- [Windows Installer](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-Windows.exe)
+
+**Install:**
+Double-click the downloaded `.exe` file. Windows will show an "Unknown publisher" warning because the installer is not code-signed. This is expected: the installer is an official release from the [scigetapp GitHub repository](https://github.com/scigetorg/scigetapp). Click "Yes" to proceed, then accept the licence agreement and click "Finish".
+
+</TabItem>
+<TabItem label="Linux">
+
+**Download:**
+
+| Distribution | x64 | arm64 |
+| --- | --- | --- |
+| Debian / Ubuntu | [.deb (x64)](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-Debian-x64.deb) | [.deb (arm64)](https://github.com/scigetorg/neurodesk-app/releases/download/latest/ScigetApp-Setup-Debian-arm64.deb) |
+| Fedora / RHEL / SUSE | [.rpm (x64)](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-Fedora-x64.rpm) | [.rpm (arm64)](https://github.com/scigetorg/neurodesk-app/releases/latest/download/ScigetApp-Setup-Fedora-arm64.rpm) |
+
+**Install:**
+Replace `<arch>` in the following commands with the architecture of the file you downloaded (x64 or arm64).
+
+```bash
+# Debian / Ubuntu
+sudo apt install -f ./ScigetApp-Setup-Debian-<arch>.deb
+
+# Fedora / RHEL / SUSE
+sudo rpm -i ScigetApp-Setup-Fedora-<arch>.rpm
+```
+
+</TabItem>
+</Tabs>
+
+### Minimum system requirements
+
+- At least 5 GB free disk space for the Scidesktop base image
+- A container engine or the TinyRange engine (see Step 2 below)
+
+## Step 2: Set up an engine
+
+The Sciget App needs an engine to run. Docker is recommended, Podman is also supported, and TinyRange is available for systems without admin/root access.
+
+![Engine options](/docs/getting-started/scigetapp/engine-options.png)
+
+<Tabs>
+<TabItem label="Docker (recommended)">
+
+**Requires:** admin/root access on your machine.
+
+If you already have Docker installed, skip to [Step 3](#step-3-launch-the-app). Otherwise, install Docker:
+
+- [Docker Desktop for Windows](https://docs.docker.com/docker-for-windows/install/)
+- [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/install/)
+- [Docker Engine for Linux](https://docs.docker.com/engine/install/)
+
+Verify your installation:
+
+```bash
+docker --version
+docker run hello-world
+```
+
+**Apple silicon users:** enable Rosetta support in Docker Desktop settings for best performance.
+
+</TabItem>
+<TabItem label="Podman">
+
+**Requires:** admin/root access on your machine.
+
+Podman is a drop-in replacement for Docker. Install it using your system's package manager or from [podman.io](https://podman.io/docs/installation).
+
+After installing Podman, configure the Sciget App to use it before starting a local session:
+
+1. Open the Sciget App's **Settings**.
+2. Select **General** in the sidebar.
+3. Under **Engine Options**, select **Podman**.
+4. Click **Apply & restart**.
+
+</TabItem>
+<TabItem label="TinyRange (no admin access)">
+
+**Does not require** admin/root access or Docker/Podman.
+
+TinyRange is included with the Sciget App. No additional installation is needed on Windows or Linux.
+
+**macOS only:** install QEMU using [Homebrew](https://brew.sh/):
+
+```bash
+brew install qemu
+```
+
+Verify the installation:
+
+```bash
+qemu-system-aarch64 --version
+```
+
+To use TinyRange, select it under **Engine Options** in the Sciget App settings.
+
+</TabItem>
+</Tabs>
+
+## Step 3: Launch the app
+
+Open the Sciget App from your operating system's application menu, or run `scigetapp` from the command line.
+
+On the Welcome Page you have two options:
+
+- **Launch Local** creates a new session on your machine.
+- **Launch Remote** connects to an existing Sciget server running elsewhere.
+
+![Start session](/docs/getting-started/scigetapp/start-session.png)
+
+### Local sessions
+
+Click "Launch Local" on the mini app you want to start. This opens a JupyterLab interface.
+
+Click the **scidesktop** icon to open the full Linux desktop. Choose **Desktop RDP** (recommended) or **Desktop VNC**. The app will load into a full Linux desktop environment with **Software-Applications** on the desktop to choose from.
+
+![Connect to local](/docs/getting-started/scigetapp/connect-to-local.png)
+
+### Remote sessions
+
+Click "Launch Remote" to connect to a server running elsewhere.
+
+Select a server from the list, or enter the URL of the application server. If the server requires a token for authentication, include it as a query parameter of the URL (`/lab?token=<token-value>`). Press <kbd>Enter</kbd> to connect.
+
+Use your GitHub credentials to log in, then click **Start** to launch Scidesktop.
+
+![Connect to server](/docs/getting-started/scigetapp/connect-to-server.png)
+
+:::note
+If the **Persist session data** option is checked, the session information is stored and reused on the next launch. If unchecked, the session data is automatically deleted at the next launch and servers requiring authentication will prompt for re-login.
+:::
+
+## Data storage
+
+Mini apps store data in `~/<miniapp>-storage` on Linux and macOS, or `C:/<miniapp>-storage` on Windows by default.
+
+### Add a custom data directory
+
+In Settings, select "Additional Directory" in the sidebar, click "Change" to choose a local directory, then click "Apply & restart". The directory will appear at `/home/jovyan/data` inside the app.
+
+![Additional Directory settings interface](/docs/getting-started/scigetapp/additional_dir.png)
+
+:::danger[macOS with Podman]
+To mount an external drive, run these commands once:
+
+```bash
+podman machine reset -f
+podman machine init --rootful --now -v /Volumes:/Volumes -v $HOME:$HOME podman-machine-default
+```
+
+**Warning:** `podman machine reset -f` will delete all existing Podman machines, containers, and their data. Back up any important data stored inside Podman containers before running this command.
+
+Then set the path in the Sciget App settings.
+:::
+
+:::caution
+On Windows, it is currently not possible to mount external hard drives. We recommend copying data from the external drive to your local disk first and then processing it in the app.
+:::
+
+## Privacy settings
+
+You can delete stored session data manually at any time using the **Clear History** option in the Privacy tab of the Settings dialog.
+
+![Settings privacy](/docs/getting-started/scigetapp/settings-privacy.png)
+
+## Troubleshooting
+
+### `/var/run/docker.sock: connect: permission denied`
+
+This means Docker is not correctly set up yet. Run:
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+sudo chown root:docker /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
+```
+
+### `FATAL:setuid_sandbox_host.cc(158)`
+
+If you see the error `FATAL:setuid_sandbox_host.cc(158)] The SUID sandbox helper binary was found, but is not configured correctly...`, this is caused by a recent change in Ubuntu 24.04.
+
+A temporary workaround: create the file `/etc/apparmor.d/scigetapp` with this content:
+
+```text
+# This profile allows everything and only exists to give the
+# application a name instead of having the label "unconfined"
+
+abi <abi/4.0>,
+include <tunables/global>
+
+profile scigetapp "/opt/ScigetApp/scigetapp" flags=(unconfined) {
+  userns,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/scigetapp>
+}
+```
+
+Then restart your computer and try to start the Sciget App again.
+
+## Uninstalling Sciget App
+
+<Tabs syncKey="os">
+<TabItem label="macOS">
+
+Find `ScigetApp.app` in Finder (in `/Applications` or `~/Applications`) and move to Trash using `CMD + Delete`. Then clean up:
+
+```bash
+rm -rf ~/Library/scigetapp # remove application cache
+rm -rf ~/Library/Application\ Support/scigetapp # remove user data
+```
+
+</TabItem>
+<TabItem label="Windows">
+
+Go to **Windows Apps & Features** via **Start Menu → Settings → Apps** and uninstall Sciget App.
+
+To remove the application cache, delete `C:\Users\<username>\AppData\Roaming\scigetapp`. The `AppData` directory is hidden — activate hidden items in Windows Explorer under **View → Show → Hidden Items**.
+
+</TabItem>
+<TabItem label="Linux">
+
+```bash
+# Debian / Ubuntu
+sudo apt-get purge scigetapp # remove application
+sudo rm /usr/bin/scigetapp # remove command symlink
+rm -rf ~/.config/scigetapp # remove application cache
+
+# Fedora / RHEL / SUSE
+sudo rpm -e scigetapp # remove application
+sudo rm /usr/bin/scigetapp # remove command symlink
+rm -rf ~/.config/scigetapp # remove application cache
+```
+
+</TabItem>
+</Tabs>
