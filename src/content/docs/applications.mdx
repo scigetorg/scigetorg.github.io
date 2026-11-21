@@ -1,0 +1,29 @@
+---
+title: Applications
+description: Browse containerised scientific applications across Sciget domain catalogs.
+---
+
+import ApplicationsBrowser from '../../components/ApplicationsBrowser.tsx';
+
+Browse the containerised applications available across Sciget's domain catalogs. Switch between domains below to explore tools for your research area, or search across all catalogs at once.
+
+To run these applications on your laptop, in the cloud, or on HPC, [choose your setup](/get-started/) — or try them in your browser right away with [Sciget Play](/get-started/play/).
+
+Scidesktop environments come packaged with:
+
+- programming software (e.g. Visual Studio Code, Python, git)
+- workflow systems (Nipype)
+- data synchronisation utilities (Rsync, Rclone, Nextcloud, Owncloud)
+- system management tools (Lmod, Apptainer/Singularity, Htop)
+- additional resources (ImageMagick, Firefox, OpenSSH client)
+- on-demand access to domain container applications via the desktop menu (see list below)
+
+:::note
+Missing a tool you need? Learn how to package and submit it on our [Contribute](/contribute/) page, or start a request on [GitHub discussions](https://github.com/orgs/scigetorg/discussions).
+:::
+
+## Citing the tools you use
+
+Please cite the original tool publications as well as the Sciget / Neurodesk platform. Each application's **Tool citations** row shows the tool's reference where the recipe provides one, and **Copy methods text** copies a methods sentence with the tool version, platform version, and references. The [Citation Guide](https://neurodesk.org/overview/how-to-cite-us/#citing-specific-tools) explains where to find references for tools without one and what to record in your methods section. **Container DOI** links identify a packaged version of the software.
+
+<ApplicationsBrowser client:load />

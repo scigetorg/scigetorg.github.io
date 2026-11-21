@@ -38,6 +38,10 @@ export default defineConfig({
 					items: [{ autogenerate: { directory: 'get-started' } }],
 				},
 				{
+					label: 'Applications',
+					link: '/applications/',
+				},
+				{
 					label: 'Webapps',
 					link: 'https://webapps.sciget.org/',
 					attrs: { target: '_blank', rel: 'noopener noreferrer' },
