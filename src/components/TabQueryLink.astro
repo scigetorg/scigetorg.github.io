@@ -1,0 +1,176 @@
+---
+/**
+ * Makes the immediately following Starlight <Tabs> block deep-linkable via a
+ * URL query parameter (e.g. `?os=macos` or `?engine=tinyrange`).
+ *
+ * - On load, an explicit query parameter selects the matching tab directly
+ *   (taking precedence over Starlight's `syncKey` localStorage restore) without
+ *   calling `.focus()` (so the document's sequential Tab order stays intact)
+ *   and without overwriting the reader's saved `localStorage` tab preference.
+ *   Other `<Tabs>` groups on the same page with the same `syncKey` are kept in
+ *   sync, and any `#hash` scroll target is re-aligned after layout changes.
+ * - On any user tab change (mouse click, Arrow/Home/End keys, or another
+ *   `syncKey`-linked tab group), the URL is updated in place via
+ *   `history.replaceState` while preserving other query params and `#hash`.
+ * - Optional `values` maps tab labels to stable query values so URLs stay clean
+ *   even if tab labels contain parenthetical notes.
+ */
+interface Props {
+	param: string;
+	values?: Record<string, string>;
+}
+
+const { param, values = {} } = Astro.props;
+---
+
+<tab-query-link data-param={param} data-values={JSON.stringify(values)} hidden></tab-query-link>
+
+<script>
+	import { findTabIndexForValue, tabValueForLabel } from '../lib/tabQuery';
+
+	/**
+	 * Resolve the immediately following <starlight-tabs> element, skipping only
+	 * non-visual <script>/<style> siblings (such as Starlight's inlined
+	 * starlight-tabs-restore script).
+	 */
+	function adjacentTabGroup(marker: Element): HTMLElement | null {
+		let node: Element | null = marker.nextElementSibling;
+		while (node && (node.tagName === 'SCRIPT' || node.tagName === 'STYLE')) {
+			node = node.nextElementSibling;
+		}
+		if (!node) return null;
+		return node.matches('starlight-tabs') ? (node as HTMLElement) : null;
+	}
+
+	function directTabs(group: HTMLElement): HTMLAnchorElement[] {
+		return [...group.querySelectorAll<HTMLAnchorElement>(':scope > .tablist-wrapper [role="tab"]')];
+	}
+
+	function directPanels(group: HTMLElement): HTMLElement[] {
+		return [...group.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')];
+	}
+
+	/**
+	 * Activate a tab panel directly without invoking .focus() or mutating
+	 * localStorage, preserving normal Tab order and the reader's stored defaults.
+	 */
+	function selectTabSilently(group: HTMLElement, index: number): void {
+		const tabs = directTabs(group);
+		const panels = directPanels(group);
+		const newTab = tabs[index];
+		const newPanel = panels[index];
+		if (!newTab || !newPanel) return;
+
+		for (const tab of tabs) {
+			tab.setAttribute('aria-selected', 'false');
+			tab.setAttribute('tabindex', '-1');
+		}
+		for (const panel of panels) {
+			panel.hidden = true;
+		}
+
+		newTab.removeAttribute('tabindex');
+		newTab.setAttribute('aria-selected', 'true');
+		newPanel.hidden = false;
+	}
+
+	function syncSiblingGroupsSilently(emitter: HTMLElement, label: string): void {
+		const syncKey = emitter.dataset.syncKey;
+		if (!syncKey || !label) return;
+		const siblings = document.querySelectorAll<HTMLElement>('starlight-tabs[data-sync-key]');
+		for (const group of siblings) {
+			if (group === emitter || group.dataset.syncKey !== syncKey) continue;
+			const idx = directTabs(group).findIndex((t) => t.textContent?.trim() === label);
+			if (idx >= 0) selectTabSilently(group, idx);
+		}
+	}
+
+	function restoreScrollAfterActivation(prevScrollY: number): void {
+		const rawHash = location.hash.slice(1);
+		if (rawHash) {
+			let id = rawHash;
+			try {
+				id = decodeURIComponent(rawHash);
+			} catch {
+				// Keep raw hash if percent-encoding is malformed.
+			}
+			const target = document.getElementById(id);
+			if (target) {
+				target.scrollIntoView({ behavior: 'instant' });
+				return;
+			}
+		}
+		window.scrollTo({ top: prevScrollY, behavior: 'instant' });
+	}
+
+	class TabQueryLink extends HTMLElement {
+		#observer: MutationObserver | null = null;
+
+		connectedCallback() {
+			if (this.dataset.wired === 'true') return;
+			const param = this.dataset.param;
+			if (!param) return;
+
+			const group = adjacentTabGroup(this);
+			if (!group) return;
+			this.dataset.wired = 'true';
+
+			let values: Record<string, string> = {};
+			try {
+				const parsed = JSON.parse(this.dataset.values || '{}');
+				if (parsed && typeof parsed === 'object') values = parsed;
+			} catch {
+				values = {};
+			}
+
+			void customElements.whenDefined('starlight-tabs').then(() => {
+				if (!this.isConnected) return;
+
+				const tabs = directTabs(group);
+				if (tabs.length === 0) return;
+
+				const labels = tabs.map((t) => t.textContent);
+
+				// Apply explicit URL query parameter after Starlight initializes tabs.
+				const wanted = new URLSearchParams(location.search).get(param);
+				if (wanted) {
+					const idx = findTabIndexForValue(labels, wanted, values);
+					const match = idx >= 0 ? tabs[idx] : undefined;
+					if (match && match.getAttribute('aria-selected') !== 'true') {
+						const prevScrollY = window.scrollY;
+						selectTabSilently(group, idx);
+						syncSiblingGroupsSilently(group, match.textContent?.trim() ?? '');
+						restoreScrollAfterActivation(prevScrollY);
+					}
+				}
+
+				// Sync subsequent user changes (mouse, keyboard, or syncKey) back into the URL.
+				this.#observer?.disconnect();
+				this.#observer = new MutationObserver(() => {
+					const active = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
+					if (!active) return;
+					const nextValue = tabValueForLabel(active.textContent, values);
+					if (!nextValue) return;
+					const url = new URL(location.href);
+					if (url.searchParams.get(param) === nextValue) return;
+					url.searchParams.set(param, nextValue);
+					history.replaceState(null, '', url);
+				});
+
+				for (const tab of tabs) {
+					this.#observer.observe(tab, { attributes: true, attributeFilter: ['aria-selected'] });
+				}
+			});
+		}
+
+		disconnectedCallback() {
+			this.#observer?.disconnect();
+			this.#observer = null;
+			delete this.dataset.wired;
+		}
+	}
+
+	if (!customElements.get('tab-query-link')) {
+		customElements.define('tab-query-link', TabQueryLink);
+	}
+</script>

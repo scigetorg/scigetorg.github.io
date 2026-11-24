@@ -1,0 +1,128 @@
+---
+/**
+ * Looping demo video that respects `prefers-reduced-motion: reduce` and keeps a
+ * keyboard-accessible pause/play control available whenever autoplay runs
+ * (WCAG 2.2.2). Without JavaScript, native video controls remain enabled.
+ */
+interface Props {
+	poster: string;
+	webm: string;
+	mp4: string;
+	label: string;
+}
+
+const { poster, webm, mp4, label } = Astro.props;
+---
+
+<div class="feature-video-wrap not-content" data-feature-video-wrap>
+	<video
+		class="feature-video"
+		data-feature-video
+		controls
+		muted
+		loop
+		playsinline
+		preload="metadata"
+		poster={poster}
+		aria-label={label}
+	>
+		<source src={webm} type="video/webm" />
+		<source src={mp4} type="video/mp4" />
+	</video>
+	<button
+		type="button"
+		class="feature-video__toggle"
+		data-feature-video-toggle
+		hidden
+		aria-label={`Play ${label}`}
+	>
+		Play
+	</button>
+</div>
+
+<script>
+	const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const wraps = [...document.querySelectorAll<HTMLElement>('[data-feature-video-wrap]')];
+
+	for (const wrap of wraps) {
+		if (wrap.dataset.initialised === 'true') continue;
+		const video = wrap.querySelector<HTMLVideoElement>('video[data-feature-video]');
+		const toggle = wrap.querySelector<HTMLButtonElement>('button[data-feature-video-toggle]');
+		if (!video || !toggle) continue;
+		wrap.dataset.initialised = 'true';
+
+		const label = video.getAttribute('aria-label') || 'video';
+
+		// Replace native transport chrome with a compact, always-accessible pause/play button.
+		video.controls = false;
+		toggle.hidden = false;
+
+		const updateButton = () => {
+			const playing = !video.paused && !video.ended;
+			toggle.textContent = playing ? 'Pause' : 'Play';
+			toggle.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${label}`);
+		};
+
+		let userOverrode = false;
+
+		const applyMotionPreference = () => {
+			if (mq.matches) {
+				video.pause();
+				updateButton();
+			} else if (!userOverrode) {
+				void video
+					.play()
+					.then(updateButton)
+					.catch(updateButton);
+			}
+		};
+
+		toggle.addEventListener('click', () => {
+			userOverrode = true;
+			if (video.paused || video.ended) {
+				void video.play().then(updateButton).catch(updateButton);
+			} else {
+				video.pause();
+				updateButton();
+			}
+		});
+
+		video.addEventListener('play', updateButton);
+		video.addEventListener('pause', updateButton);
+		mq.addEventListener('change', () => {
+			userOverrode = false;
+			applyMotionPreference();
+		});
+
+		updateButton();
+		applyMotionPreference();
+	}
+</script>
+
+<style>
+	.feature-video-wrap {
+		position: relative;
+	}
+
+	.feature-video__toggle {
+		position: absolute;
+		right: 0.75rem;
+		bottom: 0.75rem;
+		padding: 0.3rem 0.7rem;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: 0.375rem;
+		background: rgba(17, 22, 34, 0.84);
+		color: #ffffff;
+		font: inherit;
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		line-height: 1.4;
+		cursor: pointer;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.feature-video__toggle:hover {
+		background: rgba(17, 22, 34, 0.96);
+		border-color: var(--sl-color-accent);
+	}
+</style>

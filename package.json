@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check:links": "node .github/scripts/check-links.mjs dist",
     "test": "node --test \"tests/*.test.*\""
   },
   "dependencies": {

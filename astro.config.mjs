@@ -4,8 +4,10 @@ import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 
+const SITE = 'https://sciget.org';
+
 export default defineConfig({
-	site: 'https://sciget.org',
+	site: SITE,
 	integrations: [
 		starlight({
 			title: 'SCIGET',
@@ -16,6 +18,33 @@ export default defineConfig({
 			},
 			favicon: '/favicons/favicon.ico',
 			head: [
+				// Starlight sets twitter:card=summary_large_image but emits no og:image.
+				{ tag: 'meta', attrs: { property: 'og:image', content: `${SITE}/og-default.png` } },
+				{ tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+				{ tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+				{
+					tag: 'meta',
+					attrs: {
+						property: 'og:image:alt',
+						content: 'SCIGET — Run scientific software anywhere',
+					},
+				},
+				{ tag: 'meta', attrs: { name: 'twitter:image', content: `${SITE}/og-default.png` } },
+				{
+					tag: 'meta',
+					attrs: {
+						name: 'twitter:image:alt',
+						content: 'SCIGET — Run scientific software anywhere',
+					},
+				},
+				{
+					tag: 'meta',
+					attrs: { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' },
+				},
+				{
+					tag: 'meta',
+					attrs: { name: 'theme-color', content: '#17181c', media: '(prefers-color-scheme: dark)' },
+				},
 				{ tag: 'link', attrs: { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' } },
 				{ tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' } },
 				{ tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' } },
@@ -55,7 +84,7 @@ export default defineConfig({
 					link: '/about/',
 				},
 			],
-			customCss: ['./src/styles/custom.css'],
+			customCss: ['./src/styles/base.css', './src/styles/custom.css'],
 			routeMiddleware: './src/starlightRouteData.ts',
 		}),
 		react(),

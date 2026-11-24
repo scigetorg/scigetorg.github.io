@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import TabQueryLink from '../../../components/TabQueryLink.astro';
 
 ## Step 1: Download and install
 
@@ -15,6 +16,7 @@ Download the Sciget App for your operating system, then follow the install instr
 Use the built-in TinyRange engine to run Scidesktop without installing Docker or Podman.
 :::
 
+<TabQueryLink param="os" />
 <Tabs syncKey="os">
 <TabItem label="macOS">
 
@@ -71,6 +73,14 @@ The Sciget App needs an engine to run. Docker is recommended, Podman is also sup
 
 ![Engine options](/docs/getting-started/scigetapp/engine-options.png)
 
+<TabQueryLink
+	param="engine"
+	values={{
+		'Docker (recommended)': 'docker',
+		Podman: 'podman',
+		'TinyRange (no admin access)': 'tinyrange',
+	}}
+/>
 <Tabs>
 <TabItem label="Docker (recommended)">
 

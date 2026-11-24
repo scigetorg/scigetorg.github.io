@@ -8,6 +8,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 permissions:
   contents: read
 
@@ -29,6 +33,8 @@ jobs:
       - run: pnpm test
 
       - run: pnpm build
+
+      - run: pnpm check:links
 
       # Deliberately blocking: the overrides in pnpm-workspace.yaml hold several
       # CVE pins in place, so a regression there needs to turn the build red
