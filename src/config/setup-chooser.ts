@@ -106,7 +106,7 @@ export const outcomes: Outcome[] = [
 				title: 'Sciget App with Docker or Podman',
 				description:
 					'Cross-platform desktop app that manages the container for you. The recommended starting point.',
-				href: '/get-started/scigetapp/#installing-docker',
+				href: '/get-started/scigetapp/?engine=docker#step-2-set-up-an-engine',
 			},
 		],
 	},
@@ -118,7 +118,7 @@ export const outcomes: Outcome[] = [
 				title: 'Sciget App with TinyRange',
 				description:
 					'No root needed. The app runs Sciget in a lightweight VM using the bundled TinyRange engine.',
-				href: '/get-started/scigetapp/#determine-system-privileges',
+				href: '/get-started/scigetapp/?engine=tinyrange#step-2-set-up-an-engine',
 			},
 		],
 	},
@@ -129,7 +129,7 @@ export const outcomes: Outcome[] = [
 			{
 				title: 'Install QEMU first',
 				description: 'TinyRange on macOS needs QEMU, which you can install with Homebrew.',
-				href: '/get-started/scigetapp/#installing-qemu',
+				href: '/get-started/scigetapp/?os=macos&engine=tinyrange#step-2-set-up-an-engine',
 			},
 		],
 	},
@@ -151,7 +151,7 @@ export const outcomes: Outcome[] = [
 			{
 				title: 'Connect the Sciget App to a server',
 				description: 'Use the desktop app as a window onto a remote Sciget server.',
-				href: '/get-started/scigetapp/#connecting-to-a-remote-server',
+				href: '/get-started/scigetapp/#remote-sessions',
 			},
 		],
 	},

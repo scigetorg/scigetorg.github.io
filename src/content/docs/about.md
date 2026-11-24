@@ -26,7 +26,9 @@ Containers run on infrastructure through a variety of mechanisms:
 
 A comprehensive metadata database provides easy tool discovery. In collaboration with the National Imaging Facility, SCIGET is integrated into the Australian Imaging Service, offering biomedical imaging researchers a comprehensive data and analysis solution.
 
-![Submission flow](/docs/about/submission-flow.svg)
+<div class="diagram-card">
+	<img src="/docs/about/submission-flow.svg" alt="Submission flow" />
+</div>
 
 ## Conclusion
 

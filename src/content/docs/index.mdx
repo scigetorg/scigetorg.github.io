@@ -40,6 +40,7 @@ import { Card, CardGrid, LinkButton } from '@astrojs/starlight/components';
 </section>
 import { Image } from 'astro:assets';
 import platformsImg from '../../assets/platforms.svg';
+import FeatureVideo from '../../components/FeatureVideo.astro';
 
 <div class="split-section split-section--reverse">
 <div class="split-section__copy">
@@ -122,10 +123,12 @@ Sciget extends [Neurodesk](https://neurodesk.org), the open-source platform for 
 
 </div>
 <div class="split-section__image">
-	<video class="feature-video" autoplay muted loop playsinline poster="/videos/neurodesk.jpeg">
-		<source src="/videos/neurodesk.webm" type="video/webm" />
-		<source src="/videos/neurodesk.mp4" type="video/mp4" />
-	</video>
+	<FeatureVideo
+		poster="/videos/neurodesk.jpeg"
+		webm="/videos/neurodesk.webm"
+		mp4="/videos/neurodesk.mp4"
+		label="Neurodesk desktop environment demonstration"
+	/>
 </div>
 </div>
 

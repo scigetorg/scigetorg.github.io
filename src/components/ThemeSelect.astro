@@ -58,16 +58,21 @@ import { Icon } from '@astrojs/starlight/components';
   });
 
   class ThemeToggle extends HTMLElement {
-    constructor() {
-      super();
+    connectedCallback() {
+      if (this.dataset.initialised === 'true') return;
+      const btn = this.querySelector('button');
+      if (!btn) return;
+      this.dataset.initialised = 'true';
       applyTheme(loadTheme());
-      this.querySelector('button')?.addEventListener('click', () => {
+      btn.addEventListener('click', () => {
         const next = order[(order.indexOf(loadTheme()) + 1) % order.length]!;
         applyTheme(next);
       });
     }
   }
-  customElements.define('theme-toggle', ThemeToggle);
+  if (!customElements.get('theme-toggle')) {
+    customElements.define('theme-toggle', ThemeToggle);
+  }
 </script>
 
 <style>
