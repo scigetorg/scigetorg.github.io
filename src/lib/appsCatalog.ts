@@ -15,6 +15,10 @@ const MAX_REDIRECTS = 3;
 const RETRY_DELAY_MS = 500;
 const DOI_PATH_PATTERN = /^10\.\d{4,9}\/[^\s<>"]+$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const EESSI_STACK_PATTERN = /^\d{4}\.\d{2}$/;
+const EESSI_MODULE_PATTERN =
+	/^[A-Za-z0-9][A-Za-z0-9._+-]*\/[A-Za-z0-9][A-Za-z0-9._+-]*$/;
+const EESSI_EXEC_ARG_PATTERN = /^[A-Za-z0-9._/@:+=-]{1,128}$/;
 
 export interface AppListEntry {
 	/** `<image>_<build_date>`, kept compatible with Neurodesk's applist.json schema. */
@@ -32,13 +36,38 @@ export interface AppListEntry {
 	openrecon?: boolean;
 }
 
+export interface EessiAppEntry {
+	/** Tool key in eessi.json (e.g. `paraview`). */
+	id: string;
+	/** Upstream EasyBuild package name (e.g. `ParaView`). */
+	package: string;
+	/** Display label from eessi.json (e.g. `ParaView 6.0.1 (EESSI/2025.06)`). */
+	label: string;
+	stack: string;
+	module: string;
+	version: string;
+	toolchain?: string;
+	arch: string[];
+	gpu: boolean;
+	gpuTargets?: string[];
+	license?: string[];
+	description?: string;
+	homepage?: string;
+	categories: string[];
+	exec: string[];
+	gui: boolean;
+	terminal?: boolean;
+}
+
 export interface DomainDefinition {
 	id: string;
 	label: string;
 	title?: string;
 	description?: string;
 	defaultVersion?: string;
-	appJsonUrl: string;
+	appJsonUrl?: string;
+	eessiCatalogUrl?: string;
+	eessiStacks?: string[];
 }
 
 export interface DomainCatalog {
@@ -48,12 +77,48 @@ export interface DomainCatalog {
 	description?: string;
 	defaultVersion?: string;
 	list: AppListEntry[];
-	/** Set when this domain's feed failed during build while other catalogs succeeded. */
+	eessi?: EessiAppEntry[];
+	/** Set when this domain's container feed failed during build while other catalogs succeeded. */
 	unavailable?: boolean;
+	/** Set when this domain's EESSI feed failed during build. */
+	eessiUnavailable?: boolean;
 }
 
 export interface AppsCatalogPayload {
 	domains: DomainCatalog[];
+}
+
+export interface EessiDomainEntry {
+	entry: EessiAppEntry;
+	domain: DomainBadgeInfo;
+}
+
+export interface EessiBuild {
+	label: string;
+	stack: string;
+	module: string;
+	version: string;
+	toolchain?: string;
+	arch: string[];
+	gpu: boolean;
+	gpuTargets?: string[];
+	license?: string[];
+	exec: string[];
+	gui: boolean;
+	terminal?: boolean;
+	domains: DomainBadgeInfo[];
+}
+
+export interface GroupedEessiApp {
+	id: string;
+	name: string;
+	description?: string;
+	homepage?: string;
+	categories: string[];
+	domains: DomainBadgeInfo[];
+	builds: EessiBuild[];
+	hasGpu: boolean;
+	arm64: boolean;
 }
 
 export interface AppVersion {
@@ -218,6 +283,113 @@ export function methodsText(
 	return `${app.name} (v${version}, built ${buildDate}) was run in Sciget / Neurodesk (${platformVersion}Renton et al., 2024).\n\nReferences:\n${references.join('\n\n')}`;
 }
 
+export function isEessiArm64Build(entry: EessiAppEntry): boolean {
+	return entry.arch.includes('aarch64');
+}
+
+export function eessiLoadCommand(build: Pick<EessiBuild, 'stack' | 'module'>): string {
+	return `module load EESSI/${build.stack} && module load ${build.module}`;
+}
+
+export function eessiLaunchCommand(
+	build: Pick<EessiBuild, 'stack' | 'module' | 'exec'>,
+): string | null {
+	if (!build.exec.length) return null;
+	return `eessi-launch --stack ${build.stack} -- ${build.module} ${build.exec.join(' ')}`;
+}
+
+/**
+ * Groups curated EESSI entries into one card per tool, preserving domain
+ * provenance and deduplicating builds shared across multiple domains.
+ */
+export function groupEessiApps(
+	items: EessiDomainEntry[],
+	arm64Only: boolean,
+): GroupedEessiApp[] {
+	const map = new Map<string, GroupedEessiApp>();
+	const buildMaps = new Map<string, Map<string, EessiBuild>>();
+
+	for (const { entry, domain } of items) {
+		if (arm64Only && !isEessiArm64Build(entry)) continue;
+		const buildKey = `${entry.stack}\0${entry.module}\0${entry.exec.join(' ')}`;
+		let existing = map.get(entry.id);
+		let buildsByKey = buildMaps.get(entry.id);
+
+		if (!existing || !buildsByKey) {
+			buildsByKey = new Map<string, EessiBuild>();
+			buildMaps.set(entry.id, buildsByKey);
+			existing = {
+				id: entry.id,
+				name: entry.package,
+				description: entry.description,
+				homepage: entry.homepage,
+				categories: [...entry.categories],
+				domains: [domain],
+				builds: [],
+				hasGpu: entry.gpu,
+				arm64: isEessiArm64Build(entry),
+			};
+			map.set(entry.id, existing);
+		} else {
+			if (!existing.description && entry.description) {
+				existing.description = entry.description;
+			}
+			if (!existing.homepage && entry.homepage) {
+				existing.homepage = entry.homepage;
+			}
+			if (entry.gpu) existing.hasGpu = true;
+			if (isEessiArm64Build(entry)) existing.arm64 = true;
+			if (!existing.domains.some((d) => d.id === domain.id)) {
+				existing.domains.push(domain);
+			}
+			for (const cat of entry.categories) {
+				if (!existing.categories.includes(cat)) {
+					existing.categories.push(cat);
+				}
+			}
+		}
+
+		const existingBuild = buildsByKey.get(buildKey);
+		if (existingBuild) {
+			if (!existingBuild.domains.some((d) => d.id === domain.id)) {
+				existingBuild.domains.push(domain);
+			}
+			if (!existingBuild.license?.length && entry.license?.length) {
+				existingBuild.license = entry.license;
+			}
+		} else {
+			const buildEntry: EessiBuild = {
+				label: entry.label,
+				stack: entry.stack,
+				module: entry.module,
+				version: entry.version,
+				toolchain: entry.toolchain,
+				arch: [...entry.arch],
+				gpu: entry.gpu,
+				gpuTargets: entry.gpuTargets ? [...entry.gpuTargets] : undefined,
+				license: entry.license ? [...entry.license] : undefined,
+				exec: [...entry.exec],
+				gui: entry.gui,
+				terminal: entry.terminal,
+				domains: [domain],
+			};
+			buildsByKey.set(buildKey, buildEntry);
+			existing.builds.push(buildEntry);
+		}
+	}
+
+	for (const app of map.values()) {
+		app.builds.sort((a, b) => {
+			const stackDiff = b.stack.localeCompare(a.stack);
+			if (stackDiff !== 0) return stackDiff;
+			if (a.gpu !== b.gpu) return a.gpu ? 1 : -1;
+			return a.module.localeCompare(b.module);
+		});
+	}
+
+	return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 interface FeedApp {
 	image: string;
 	version: string;
@@ -312,6 +484,20 @@ export function formatDomainLabel(id: string): string {
 		.join(' ');
 }
 
+function normalizeExternalUrl(raw: string): string | undefined {
+	const trimmed = raw.trim();
+	if (!trimmed) return undefined;
+	try {
+		const parsed = new URL(trimmed);
+		if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+			return parsed.href;
+		}
+	} catch {
+		return undefined;
+	}
+	return undefined;
+}
+
 function parseDomainEntry(
 	id: string,
 	entry: unknown,
@@ -322,12 +508,28 @@ function parseDomainEntry(
 	if (!id.trim() || !isRecord(entry)) {
 		throw new Error(`domains.json${source} domain "${id}" is malformed`);
 	}
-	const appJsonUrl = assertAllowedCatalogUrl(
-		entry.appJsonUrl,
-		allowedOrigins,
-		`domains.json${source} domain "${id}" appJsonUrl`,
-	).href;
-	const { title, description, defaultVersion } = entry;
+	const appJsonUrl =
+		entry.appJsonUrl !== undefined
+			? assertAllowedCatalogUrl(
+					entry.appJsonUrl,
+					allowedOrigins,
+					`domains.json${source} domain "${id}" appJsonUrl`,
+				).href
+			: undefined;
+	const eessiCatalogUrl =
+		entry.eessiCatalogUrl !== undefined
+			? assertAllowedCatalogUrl(
+					entry.eessiCatalogUrl,
+					allowedOrigins,
+					`domains.json${source} domain "${id}" eessiCatalogUrl`,
+				).href
+			: undefined;
+	if (!appJsonUrl && !eessiCatalogUrl) {
+		throw new Error(
+			`domains.json${source} domain "${id}" must define appJsonUrl or eessiCatalogUrl`,
+		);
+	}
+	const { title, description, defaultVersion, eessi_stacks } = entry;
 	if (
 		!optional(title, isString) ||
 		!optional(description, isString) ||
@@ -337,13 +539,28 @@ function parseDomainEntry(
 			`domains.json${source} domain "${id}" has an invalid title, description or defaultVersion`,
 		);
 	}
+	let eessiStacks: string[] | undefined;
+	if (eessi_stacks !== undefined) {
+		if (
+			!isStringArray(eessi_stacks) ||
+			!eessi_stacks.length ||
+			eessi_stacks.some((stack) => !EESSI_STACK_PATTERN.test(stack))
+		) {
+			throw new Error(
+				`domains.json${source} domain "${id}" has invalid eessi_stacks`,
+			);
+		}
+		eessiStacks = [...eessi_stacks];
+	}
 	return {
 		id,
 		label: formatDomainLabel(id),
 		...(title ? { title } : {}),
 		...(description ? { description } : {}),
 		...(defaultVersion ? { defaultVersion } : {}),
-		appJsonUrl,
+		...(appJsonUrl ? { appJsonUrl } : {}),
+		...(eessiCatalogUrl ? { eessiCatalogUrl } : {}),
+		...(eessiStacks ? { eessiStacks } : {}),
 	};
 }
 
@@ -436,6 +653,125 @@ export function parseAppsFeed(data: unknown, sourceUrl?: string): AppsFeed {
 		};
 	}
 	return parsed;
+}
+
+export function parseEessiFeed(
+	data: unknown,
+	sourceUrl?: string,
+): EessiAppEntry[] {
+	const source = sourceUrl ? ` (${sourceUrl})` : '';
+	if (!isRecord(data)) {
+		throw new Error(`eessi.json${source} must be an object`);
+	}
+	if (
+		data.schemaVersion !== 1 ||
+		data.backend !== 'eessi' ||
+		data.explicitSelectionRequired !== true ||
+		typeof data.cvmfsRepo !== 'string' ||
+		!isStringArray(data.stacks) ||
+		!data.stacks.length ||
+		data.stacks.some((s) => !EESSI_STACK_PATTERN.test(s)) ||
+		!isRecord(data.tools)
+	) {
+		throw new Error(`eessi.json${source} has an invalid envelope`);
+	}
+	const entries: EessiAppEntry[] = [];
+	for (const [id, rawTool] of Object.entries(data.tools)) {
+		if (
+			!isRecord(rawTool) ||
+			typeof rawTool.package !== 'string' ||
+			!rawTool.package.trim() ||
+			!isStringArray(rawTool.categories) ||
+			!isRecord(rawTool.apps)
+		) {
+			throw new Error(`eessi.json${source} tool "${id}" is malformed`);
+		}
+		if (
+			!optional(rawTool.description, isString) ||
+			!optional(rawTool.homepage, isString)
+		) {
+			throw new Error(
+				`eessi.json${source} tool "${id}" has an invalid description or homepage`,
+			);
+		}
+		const description = rawTool.description?.trim() || undefined;
+		const homepage = rawTool.homepage
+			? normalizeExternalUrl(rawTool.homepage)
+			: undefined;
+
+		for (const [label, rawApp] of Object.entries(rawTool.apps)) {
+			if (!isRecord(rawApp)) {
+				throw new Error(
+					`eessi.json${source} app "${id}/${label}" is malformed`,
+				);
+			}
+			const {
+				backend,
+				stack,
+				module,
+				software_version,
+				toolchain,
+				arch,
+				gpu,
+				gpu_targets,
+				license,
+				exec,
+				gui,
+				terminal,
+				show_in_applist,
+			} = rawApp;
+			if (
+				backend !== 'eessi' ||
+				typeof stack !== 'string' ||
+				!EESSI_STACK_PATTERN.test(stack) ||
+				typeof module !== 'string' ||
+				!EESSI_MODULE_PATTERN.test(module) ||
+				typeof software_version !== 'string' ||
+				!software_version.trim() ||
+				!optional(toolchain, isString) ||
+				!isStringArray(arch) ||
+				typeof gpu !== 'boolean' ||
+				!optional(gpu_targets, isStringArray) ||
+				!optional(license, isStringArray) ||
+				!Array.isArray(exec) ||
+				!exec.every(
+					(arg) => typeof arg === 'string' && EESSI_EXEC_ARG_PATTERN.test(arg),
+				) ||
+				typeof gui !== 'boolean' ||
+				!optional(terminal, isBoolean) ||
+				!optional(show_in_applist, isBoolean)
+			) {
+				throw new Error(
+					`eessi.json${source} app "${id}/${label}" is malformed`,
+				);
+			}
+			if (show_in_applist === false) continue;
+			entries.push({
+				id,
+				package: rawTool.package.trim(),
+				label,
+				stack,
+				module,
+				version: software_version.trim(),
+				...(toolchain ? { toolchain } : {}),
+				arch: [...arch],
+				gpu,
+				...(gpu_targets?.length ? { gpuTargets: [...gpu_targets] } : {}),
+				...(license?.length ? { license: [...license] } : {}),
+				...(description ? { description } : {}),
+				...(homepage ? { homepage } : {}),
+				categories: [...rawTool.categories],
+				exec: [...exec],
+				gui,
+				...(terminal !== undefined ? { terminal } : {}),
+			});
+		}
+	}
+	return entries.sort((a, b) =>
+		`${a.id}\0${b.stack}\0${a.module}`.localeCompare(
+			`${b.id}\0${a.stack}\0${b.module}`,
+		),
+	);
 }
 
 export interface ToAppListOptions {
@@ -663,31 +999,60 @@ export async function fetchCatalog(
 				};
 			}
 
-			const { appJsonUrl, ...meta } = definition;
-			try {
-				const feedData = await fetchAllowedJson(appJsonUrl, {
-					fetchImpl,
-					allowedOrigins,
-					timeoutMs,
-					retries,
-				});
-				return {
-					...meta,
-					list: toAppList(parseAppsFeed(feedData, appJsonUrl), {
+			const { appJsonUrl, eessiCatalogUrl, eessiStacks: _stacks, ...meta } =
+				definition;
+			let list: AppListEntry[] = [];
+			let unavailable = false;
+			if (appJsonUrl) {
+				try {
+					const feedData = await fetchAllowedJson(appJsonUrl, {
+						fetchImpl,
+						allowedOrigins,
+						timeoutMs,
+						retries,
+					});
+					list = toAppList(parseAppsFeed(feedData, appJsonUrl), {
 						allowEmpty: true,
 						sourceUrl: appJsonUrl,
-					}),
-				};
-			} catch (error) {
-				const err = error instanceof Error ? error : new Error(String(error));
-				onDomainError(meta.id, appJsonUrl, err);
-				failures.push(`${meta.id}: ${err.message}`);
-				return {
-					...meta,
-					list: [],
-					unavailable: true,
-				};
+					});
+				} catch (error) {
+					const err = error instanceof Error ? error : new Error(String(error));
+					onDomainError(meta.id, appJsonUrl, err);
+					failures.push(`${meta.id}: ${err.message}`);
+					unavailable = true;
+				}
 			}
+
+			let eessi: EessiAppEntry[] | undefined;
+			let eessiUnavailable = false;
+			if (eessiCatalogUrl) {
+				try {
+					const eessiData = await fetchAllowedJson(eessiCatalogUrl, {
+						fetchImpl,
+						allowedOrigins,
+						timeoutMs,
+						retries,
+					});
+					eessi = parseEessiFeed(eessiData, eessiCatalogUrl);
+				} catch (error) {
+					const err = error instanceof Error ? error : new Error(String(error));
+					onDomainError(meta.id, eessiCatalogUrl, err);
+					failures.push(`${meta.id} (eessi): ${err.message}`);
+					eessiUnavailable = true;
+				}
+			}
+
+			if (!appJsonUrl && eessiUnavailable) {
+				unavailable = true;
+			}
+
+			return {
+				...meta,
+				list,
+				...(eessi ? { eessi } : {}),
+				...(unavailable ? { unavailable: true } : {}),
+				...(eessiUnavailable ? { eessiUnavailable: true } : {}),
+			};
 		}),
 	);
 
@@ -695,7 +1060,7 @@ export async function fetchCatalog(
 	const validDomains = domains.filter((d) => d.id.trim() !== '');
 	const healthyDomains = validDomains.filter((d) => !d.unavailable);
 	const totalEntries = healthyDomains.reduce(
-		(sum, domain) => sum + domain.list.length,
+		(sum, domain) => sum + domain.list.length + (domain.eessi?.length ?? 0),
 		0,
 	);
 	if (!healthyDomains.length || totalEntries === 0) {
