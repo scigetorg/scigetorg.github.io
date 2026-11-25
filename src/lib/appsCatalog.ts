@@ -500,6 +500,7 @@ function normalizeExternalUrl(raw: string): string | undefined {
 
 interface ParsedDomainConfig {
 	definition: DomainDefinition;
+	appConfigError?: { url: string; error: Error };
 	eessiConfigError?: { url: string; error: Error };
 }
 
@@ -513,14 +514,6 @@ function parseDomainConfig(
 	if (!id.trim() || !isRecord(entry)) {
 		throw new Error(`domains.json${source} domain "${id}" is malformed`);
 	}
-	const appJsonUrl =
-		entry.appJsonUrl !== undefined
-			? assertAllowedCatalogUrl(
-					entry.appJsonUrl,
-					allowedOrigins,
-					`domains.json${source} domain "${id}" appJsonUrl`,
-				).href
-			: undefined;
 	const { title, description, defaultVersion, eessi_stacks } = entry;
 	if (
 		!optional(title, isString) ||
@@ -530,6 +523,26 @@ function parseDomainConfig(
 		throw new Error(
 			`domains.json${source} domain "${id}" has an invalid title, description or defaultVersion`,
 		);
+	}
+
+	let appJsonUrl: string | undefined;
+	let appConfigError: { url: string; error: Error } | undefined;
+	if (entry.appJsonUrl !== undefined) {
+		try {
+			appJsonUrl = assertAllowedCatalogUrl(
+				entry.appJsonUrl,
+				allowedOrigins,
+				`domains.json${source} domain "${id}" appJsonUrl`,
+			).href;
+		} catch (error) {
+			appConfigError = {
+				url:
+					typeof entry.appJsonUrl === 'string'
+						? entry.appJsonUrl
+						: (sourceUrl ?? DOMAINS_JSON_URL),
+				error: error instanceof Error ? error : new Error(String(error)),
+			};
+		}
 	}
 
 	let eessiCatalogUrl: string | undefined;
@@ -570,6 +583,9 @@ function parseDomainConfig(
 	}
 
 	if (!appJsonUrl && !eessiCatalogUrl) {
+		if (appConfigError) {
+			throw appConfigError.error;
+		}
 		if (eessiConfigError) {
 			throw eessiConfigError.error;
 		}
@@ -589,6 +605,7 @@ function parseDomainConfig(
 			...(eessiCatalogUrl ? { eessiCatalogUrl } : {}),
 			...(eessiStacks ? { eessiStacks } : {}),
 		},
+		...(appConfigError ? { appConfigError } : {}),
 		...(eessiConfigError ? { eessiConfigError } : {}),
 	};
 }
@@ -599,12 +616,15 @@ function parseDomainEntry(
 	allowedOrigins: readonly string[],
 	sourceUrl?: string,
 ): DomainDefinition {
-	const { definition, eessiConfigError } = parseDomainConfig(
+	const { definition, appConfigError, eessiConfigError } = parseDomainConfig(
 		id,
 		entry,
 		allowedOrigins,
 		sourceUrl,
 	);
+	if (appConfigError) {
+		throw appConfigError.error;
+	}
 	if (eessiConfigError) {
 		throw eessiConfigError.error;
 	}
@@ -1047,6 +1067,7 @@ export async function fetchCatalog(
 					isRecord(rawEntry) && typeof rawEntry.appJsonUrl === 'string'
 						? rawEntry.appJsonUrl
 						: domainsUrl;
+				const hasRawApp = isRecord(rawEntry) && rawEntry.appJsonUrl !== undefined;
 				const hasRawEessi =
 					isRecord(rawEntry) &&
 					(rawEntry.eessiCatalogUrl !== undefined ||
@@ -1057,7 +1078,7 @@ export async function fetchCatalog(
 					id,
 					label: formatDomainLabel(id) || id,
 					list: [],
-					unavailable: true,
+					...(hasRawApp || !hasRawEessi ? { unavailable: true } : {}),
 					...(hasRawEessi ? { eessiUnavailable: true } : {}),
 				};
 			}
@@ -1066,7 +1087,23 @@ export async function fetchCatalog(
 				parsedConfig.definition;
 			let list: AppListEntry[] = [];
 			let unavailable = false;
-			if (appJsonUrl) {
+			let eessi: EessiAppEntry[] | undefined;
+			let eessiUnavailable = false;
+
+			const fetchApps = async () => {
+				if (parsedConfig.appConfigError) {
+					onDomainError(
+						meta.id,
+						parsedConfig.appConfigError.url,
+						parsedConfig.appConfigError.error,
+					);
+					failures.push(
+						`${meta.id}: ${parsedConfig.appConfigError.error.message}`,
+					);
+					unavailable = true;
+					return;
+				}
+				if (!appJsonUrl) return;
 				try {
 					const feedData = await fetchAllowedJson(appJsonUrl, {
 						fetchImpl,
@@ -1084,21 +1121,22 @@ export async function fetchCatalog(
 					failures.push(`${meta.id}: ${err.message}`);
 					unavailable = true;
 				}
-			}
+			};
 
-			let eessi: EessiAppEntry[] | undefined;
-			let eessiUnavailable = false;
-			if (parsedConfig.eessiConfigError) {
-				onDomainError(
-					meta.id,
-					parsedConfig.eessiConfigError.url,
-					parsedConfig.eessiConfigError.error,
-				);
-				failures.push(
-					`${meta.id} (eessi): ${parsedConfig.eessiConfigError.error.message}`,
-				);
-				eessiUnavailable = true;
-			} else if (eessiCatalogUrl) {
+			const fetchEessi = async () => {
+				if (parsedConfig.eessiConfigError) {
+					onDomainError(
+						meta.id,
+						parsedConfig.eessiConfigError.url,
+						parsedConfig.eessiConfigError.error,
+					);
+					failures.push(
+						`${meta.id} (eessi): ${parsedConfig.eessiConfigError.error.message}`,
+					);
+					eessiUnavailable = true;
+					return;
+				}
+				if (!eessiCatalogUrl) return;
 				try {
 					const eessiData = await fetchAllowedJson(eessiCatalogUrl, {
 						fetchImpl,
@@ -1113,11 +1151,9 @@ export async function fetchCatalog(
 					failures.push(`${meta.id} (eessi): ${err.message}`);
 					eessiUnavailable = true;
 				}
-			}
+			};
 
-			if (!appJsonUrl && eessiUnavailable) {
-				unavailable = true;
-			}
+			await Promise.all([fetchApps(), fetchEessi()]);
 
 			return {
 				...meta,

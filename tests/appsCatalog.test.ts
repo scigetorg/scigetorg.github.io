@@ -975,3 +975,66 @@ test('parseEessiFeed rejects builds on undeclared feed stacks or outside domain 
 		/malformed/,
 	);
 });
+
+test('fetchCatalog isolates invalid container URL on a hybrid domain, keeps EESSI-only outage flags separate, and fetches hybrid feeds in parallel', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			hybridBadApp: {
+				title: 'hybrid',
+				appJsonUrl: 'https://untrusted.example/hybrid/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/hybrid/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			eessiOnlyDown: {
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/down/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			parallelDomain: {
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/parallel/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/parallel/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+		},
+	};
+	let releaseApps!: () => void;
+	const appsGate = new Promise<void>((resolve) => {
+		releaseApps = resolve;
+	});
+	let eessiRequestedWhileAppsPending = false;
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/parallel/apps.json')) {
+				await appsGate;
+				return new Response(JSON.stringify(feed()));
+			}
+			if (url.endsWith('/parallel/eessi.json')) {
+				eessiRequestedWhileAppsPending = true;
+				releaseApps();
+				return new Response(JSON.stringify(eessiFeed()));
+			}
+			if (url.endsWith('/hybrid/eessi.json')) {
+				return new Response(JSON.stringify(eessiFeed()));
+			}
+			if (url.endsWith('/down/eessi.json')) {
+				return new Response('down', { status: 503 });
+			}
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(eessiRequestedWhileAppsPending, true);
+	const hybrid = catalog.domains.find((d) => d.id === 'hybridBadApp')!;
+	assert.equal(hybrid.unavailable, true);
+	assert.equal(hybrid.list.length, 0);
+	assert.equal(hybrid.eessiUnavailable, undefined);
+	assert.equal(hybrid.eessi?.length, 3);
+	const down = catalog.domains.find((d) => d.id === 'eessiOnlyDown')!;
+	assert.equal(down.unavailable, undefined);
+	assert.equal(down.eessiUnavailable, true);
+	assert.equal(errors.length, 2);
+});
