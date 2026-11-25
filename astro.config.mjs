@@ -10,6 +10,7 @@ export default defineConfig({
 	site: SITE,
 	redirects: {
 		'/acknowledgement': '/acknowledgements/',
+		'/acknowledgment': '/acknowledgements/',
 		'/donate': '/sponsor/',
 	},
 	integrations: [

@@ -278,18 +278,16 @@ a.partner-card:hover {
 	max-height: 3.5rem;
 	max-width: 100%;
 	width: auto;
-	margin: 0 !important;
+	margin: 0;
 	object-fit: contain;
 }
 
 /* Donorbox donation iframe on /sponsor/. */
 .donate-embed {
-	max-width: 600px;
+	max-width: 500px;
 	min-width: 250px;
 	width: 100%;
 	border: 0;
-	border-radius: 0.5rem;
-	background: #ffffff;
 	display: block;
 	margin: 1.5rem auto;
 }
