@@ -1,0 +1,585 @@
+#!/usr/bin/env python3
+"""Generate static monthly user statistics for sciget.org from the GA4 Data API."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+import requests
+
+
+GA4_PROPERTY_ID_ENV = "GA4_PROPERTY_ID"
+GA4_SERVICE_ACCOUNT_KEY_ENV = "GA4_SERVICE_ACCOUNT_KEY"
+ANALYTICS_SCOPE = "https://www.googleapis.com/auth/analytics.readonly"
+# Earliest date the GA4 Data API accepts; months without data return no rows.
+EARLIEST_START_DATE = "2015-08-14"
+DEFAULT_PERIOD_DAYS = 30
+
+GA4_SEGMENTS: list[dict[str, Any]] = [
+    {
+        "id": "play-australia",
+        "name": "Play Australia",
+        "url": "https://play-australia.sciget.org",
+        "description": "SCIGET Play server in Australia.",
+        "hostNames": ["play-australia.sciget.org"],
+    },
+]
+
+WEBAPP_CATALOGS: list[dict[str, str]] = [
+    {
+        "id": "msk",
+        "label": "Musculoskeletal",
+        "host": "mskapps.sciget.org",
+        "url": "https://mskapps.sciget.org/analytics.json",
+    },
+    {
+        "id": "microscopy",
+        "label": "Microscopy",
+        "host": "microscopyapps.sciget.org",
+        "url": "https://microscopyapps.sciget.org/analytics.json",
+    },
+    {
+        "id": "preclinical",
+        "label": "Preclinical",
+        "host": "preclinicalapps.sciget.org",
+        "url": "https://preclinicalapps.sciget.org/analytics.json",
+    },
+    {
+        "id": "dermatology",
+        "label": "Dermatology",
+        "host": "dermatologyapps.sciget.org",
+        "url": "https://dermatologyapps.sciget.org/analytics.json",
+    },
+]
+
+# Site-wide totals only count SCIGET production hosts, excluding localhost and forks.
+PRODUCTION_DOMAIN = "sciget.org"
+EXTRA_PRODUCTION_HOSTS = ["scigetorg.github.io"]
+
+
+def load_webapp_segments() -> list[dict[str, Any]]:
+    segments: list[dict[str, Any]] = []
+    for catalog_info in WEBAPP_CATALOGS:
+        response = requests.get(catalog_info["url"], timeout=60)
+        response.raise_for_status()
+        catalog = response.json()
+        apps = catalog.get("apps") if isinstance(catalog, dict) else None
+        if not isinstance(apps, list) or not apps:
+            raise ValueError(
+                f"Webapp catalog {catalog_info['url']} must contain a nonempty apps list"
+            )
+
+        paths: set[str] = set()
+        host = catalog_info["host"]
+        catalog_id = catalog_info["id"]
+        for app in apps:
+            if not isinstance(app, dict):
+                raise ValueError(f"Webapp catalog {catalog_info['url']} entries must be objects")
+            path, title = app.get("path"), app.get("title")
+            if not isinstance(path, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", path):
+                raise ValueError(f"Invalid webapp path in {catalog_id}: {path!r}")
+            if not isinstance(title, str) or not title.strip():
+                raise ValueError(f"Missing webapp title for {catalog_id}/{path}")
+            if path in paths:
+                raise ValueError(f"Duplicate webapp path in {catalog_id}: {path}")
+            paths.add(path)
+            segments.append({
+                "id": f"webapp-{catalog_id}-{path}",
+                "name": title.strip(),
+                "url": f"https://{host}/{path}/",
+                "description": f"{title.strip()} hosted SCIGET {catalog_info['label']} webapp.",
+                "webappHost": host,
+                "webappPath": f"/{path}",
+            })
+    return segments
+
+
+def utc_now() -> dt.datetime:
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+
+
+def isoformat_z(value: dt.datetime) -> str:
+    return value.isoformat().replace("+00:00", "Z")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Write public/data/user-metrics.json from the GA4 Data API."
+    )
+    parser.add_argument(
+        "--property-id",
+        default=os.environ.get(GA4_PROPERTY_ID_ENV, ""),
+        help="GA4 property id (numeric).",
+    )
+    parser.add_argument(
+        "--output",
+        default="public/data/user-metrics.json",
+        help="Path to the generated JSON file.",
+    )
+    parser.add_argument(
+        "--period-days",
+        type=int,
+        default=DEFAULT_PERIOD_DAYS,
+        help="Trailing days to include in service usage summaries.",
+    )
+    parser.add_argument(
+        "--allow-missing-token",
+        action="store_true",
+        help="Write an unavailable placeholder instead of failing when credentials are absent.",
+    )
+    return parser.parse_args()
+
+
+def public_segment_config(segment: dict[str, Any]) -> dict[str, Any]:
+    filters: dict[str, Any] = {"hostNames": segment.get("hostNames", [])}
+    page_path_prefix = segment.get("pagePathPrefix")
+    if page_path_prefix:
+        filters["pagePathPrefix"] = page_path_prefix
+    return {
+        "id": segment["id"],
+        "name": segment["name"],
+        "url": segment["url"],
+        "description": segment.get("description", ""),
+        "filters": dimension_filter_for_segment(segment) if "webappPath" in segment else filters,
+    }
+
+
+def empty_segment(segment: dict[str, Any]) -> dict[str, Any]:
+    return {
+        **public_segment_config(segment),
+        "trackingStartDate": None,
+        "totalUsers": 0,
+        "periodUsers": 0,
+        "periodSessions": 0,
+        "periodPageViews": 0,
+        "months": [],
+        "countries": [],
+    }
+
+
+def empty_metrics(
+    generated_at: str,
+    period_days: int = DEFAULT_PERIOD_DAYS,
+    unavailable: bool = False,
+) -> dict[str, Any]:
+    data: dict[str, Any] = {
+        "generatedAt": generated_at,
+        "source": "Google Analytics 4",
+        "periodDays": period_days,
+        "totalUsers": 0,
+        "periodUsers": 0,
+        "periodSessions": 0,
+        "periodPageViews": 0,
+        "months": [],
+        "countries": [],
+        "periodCountries": [],
+        "segments": [empty_segment(segment) for segment in GA4_SEGMENTS],
+    }
+    if unavailable:
+        data["unavailable"] = True
+    return data
+
+
+def write_json(path: str, data: dict[str, Any]) -> None:
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(data, indent=2, sort_keys=False) + "\n", encoding="utf-8")
+    print(f"Wrote {output_path}")
+
+
+def get_access_token(service_account_info: dict[str, Any]) -> str:
+    # Imported lazily so placeholder mode works without google-auth installed.
+    from google.oauth2 import service_account
+    import google.auth.transport.requests
+
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info, scopes=[ANALYTICS_SCOPE]
+    )
+    credentials.refresh(google.auth.transport.requests.Request())
+    return credentials.token
+
+
+def run_report(
+    token: str,
+    property_id: str,
+    body: dict[str, Any],
+    start_date: str = EARLIEST_START_DATE,
+    end_date: str = "today",
+) -> list[dict[str, Any]]:
+    response = requests.post(
+        f"https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "dateRanges": [{"startDate": start_date, "endDate": end_date}],
+            "limit": 10000,
+            **body,
+        },
+        timeout=60,
+    )
+    if response.status_code != 200:
+        raise RuntimeError(
+            f"GA4 Data API returned HTTP {response.status_code}: {response.text[:500]}"
+        )
+    return response.json().get("rows") or []
+
+
+def string_filter(field_name: str, value: str, match_type: str = "EXACT") -> dict[str, Any]:
+    return {
+        "filter": {
+            "fieldName": field_name,
+            "stringFilter": {
+                "matchType": match_type,
+                "value": value,
+                "caseSensitive": False,
+            },
+        }
+    }
+
+
+def grouped_filter(group_name: str, expressions: list[dict[str, Any]]) -> dict[str, Any] | None:
+    if not expressions:
+        return None
+    if len(expressions) == 1:
+        return expressions[0]
+    return {group_name: {"expressions": expressions}}
+
+
+def production_hosts_filter() -> dict[str, Any] | None:
+    extra_hosts = {
+        host_name
+        for segment in GA4_SEGMENTS
+        for host_name in segment.get("hostNames", [])
+        if host_name != PRODUCTION_DOMAIN and not host_name.endswith("." + PRODUCTION_DOMAIN)
+    }
+    return grouped_filter("orGroup", [
+        string_filter("hostName", PRODUCTION_DOMAIN),
+        string_filter("hostName", "." + PRODUCTION_DOMAIN, "ENDS_WITH"),
+        *(string_filter("hostName", host_name) for host_name in sorted({*extra_hosts, *EXTRA_PRODUCTION_HOSTS})),
+    ])
+
+
+def dimension_filter_for_segment(segment: dict[str, Any]) -> dict[str, Any] | None:
+    if "webappPath" in segment:
+        path = segment["webappPath"]
+        host = segment["webappHost"]
+        return grouped_filter("andGroup", [
+            string_filter("hostName", host),
+            grouped_filter("orGroup", [
+                string_filter("pagePath", path),
+                string_filter("pagePath", path + "/", "BEGINS_WITH"),
+            ]),
+        ])
+
+    expressions: list[dict[str, Any]] = []
+
+    host_filters = [
+        string_filter("hostName", host_name)
+        for host_name in segment.get("hostNames", [])
+        if host_name
+    ]
+    host_filter = grouped_filter("orGroup", host_filters)
+    if host_filter:
+        expressions.append(host_filter)
+
+    page_path_prefix = segment.get("pagePathPrefix")
+    if page_path_prefix:
+        expressions.append(string_filter("pagePath", page_path_prefix, "BEGINS_WITH"))
+
+    return grouped_filter("andGroup", expressions)
+
+
+def with_dimension_filter(
+    body: dict[str, Any],
+    dimension_filter: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if dimension_filter:
+        return {**body, "dimensionFilter": dimension_filter}
+    return body
+
+
+def monthly_report(
+    token: str,
+    property_id: str,
+    dimension_filter: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    return run_report(
+        token,
+        property_id,
+        with_dimension_filter(
+            {
+                "dimensions": [{"name": "yearMonth"}],
+                "metrics": [{"name": "newUsers"}],
+                "orderBys": [{"dimension": {"dimensionName": "yearMonth"}}],
+            },
+            dimension_filter,
+        ),
+    )
+
+
+def all_time_users_report(
+    token: str,
+    property_id: str,
+    dimension_filter: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    return run_report(
+        token,
+        property_id,
+        with_dimension_filter(
+            {
+                "metrics": [{"name": "totalUsers"}],
+            },
+            dimension_filter,
+        ),
+    )
+
+
+def tracking_start_report(
+    token: str,
+    property_id: str,
+    dimension_filter: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    return run_report(
+        token,
+        property_id,
+        with_dimension_filter(
+            {
+                "dimensions": [{"name": "date"}],
+                "metrics": [{"name": "screenPageViews"}],
+                "metricFilter": {
+                    "filter": {
+                        "fieldName": "screenPageViews",
+                        "numericFilter": {
+                            "operation": "GREATER_THAN",
+                            "value": {"int64Value": "0"},
+                        },
+                    }
+                },
+                "orderBys": [{"dimension": {"dimensionName": "date"}}],
+                "limit": "1",
+            },
+            dimension_filter,
+        ),
+    )
+
+
+def country_report(
+    token: str,
+    property_id: str,
+    dimension_filter: dict[str, Any] | None = None,
+    start_date: str = EARLIEST_START_DATE,
+    end_date: str = "today",
+) -> list[dict[str, Any]]:
+    return run_report(
+        token,
+        property_id,
+        with_dimension_filter(
+            {
+                "dimensions": [{"name": "countryId"}, {"name": "country"}],
+                "metrics": [{"name": "totalUsers"}],
+                "orderBys": [{"metric": {"metricName": "totalUsers"}, "desc": True}],
+            },
+            dimension_filter,
+        ),
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+
+def period_report(
+    token: str,
+    property_id: str,
+    period_days: int,
+    dimension_filter: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    # GA4 date ranges are inclusive on both endpoints, so "<N>daysAgo" through
+    # "yesterday" spans exactly N completed calendar days.
+    return run_report(
+        token,
+        property_id,
+        with_dimension_filter(
+            {
+                "metrics": [
+                    {"name": "totalUsers"},
+                    {"name": "sessions"},
+                    {"name": "screenPageViews"},
+                ],
+            },
+            dimension_filter,
+        ),
+        start_date=f"{period_days}daysAgo",
+        end_date="yesterday",
+    )
+
+
+def summarize_countries(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    countries: list[dict[str, Any]] = []
+    for row in rows:
+        dimensions = row.get("dimensionValues") or [{}, {}]
+        code = (dimensions[0].get("value") or "").strip()
+        name = (dimensions[1].get("value") or "").strip() if len(dimensions) > 1 else ""
+        users = int(round(float((row.get("metricValues") or [{}])[0].get("value") or 0)))
+        if len(code) != 2 or not code.isalpha() or users <= 0:
+            continue
+        countries.append({"code": code.upper(), "name": name or code.upper(), "users": users})
+    return countries
+
+
+def summarize(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
+    months: list[dict[str, Any]] = []
+    cumulative = 0
+    for row in rows:
+        year_month = (row.get("dimensionValues") or [{}])[0].get("value", "")
+        if len(year_month) != 6 or not year_month.isdigit():
+            continue
+        new_users = int(round(float((row.get("metricValues") or [{}])[0].get("value") or 0)))
+        cumulative += new_users
+        months.append(
+            {
+                "month": f"{year_month[:4]}-{year_month[4:]}",
+                "newUsers": new_users,
+                "cumulativeUsers": cumulative,
+            }
+        )
+    return months, cumulative
+
+
+def summarize_tracking_start(rows: list[dict[str, Any]]) -> str | None:
+    if not rows:
+        return None
+    value = (rows[0].get("dimensionValues") or [{}])[0].get("value", "")
+    if len(value) != 8 or not value.isdigit():
+        return None
+    return f"{value[:4]}-{value[4:6]}-{value[6:]}"
+
+
+def metric_value(row: dict[str, Any], index: int) -> int:
+    values = row.get("metricValues") or []
+    if index >= len(values):
+        return 0
+    return int(round(float(values[index].get("value") or 0)))
+
+
+def summarize_period(rows: list[dict[str, Any]]) -> dict[str, int]:
+    row = rows[0] if rows else {}
+    return {
+        "periodUsers": metric_value(row, 0),
+        "periodSessions": metric_value(row, 1),
+        "periodPageViews": metric_value(row, 2),
+    }
+
+
+def build_metrics(
+    token: str,
+    property_id: str,
+    period_days: int,
+    dimension_filter: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    months, _ = summarize(monthly_report(token, property_id, dimension_filter))
+    all_time_rows = all_time_users_report(token, property_id, dimension_filter)
+    total_users = metric_value(all_time_rows[0] if all_time_rows else {}, 0)
+    countries = summarize_countries(country_report(token, property_id, dimension_filter))
+    period = summarize_period(period_report(token, property_id, period_days, dimension_filter))
+    return {
+        "totalUsers": total_users,
+        **period,
+        "months": months,
+        "countries": countries,
+    }
+
+
+def main() -> int:
+    args = parse_args()
+    generated_at = isoformat_z(utc_now())
+
+    key_json = os.environ.get(GA4_SERVICE_ACCOUNT_KEY_ENV, "").strip()
+    property_id = args.property_id.strip()
+
+    if not key_json or not property_id:
+        missing = GA4_SERVICE_ACCOUNT_KEY_ENV if not key_json else GA4_PROPERTY_ID_ENV
+        if not args.allow_missing_token:
+            print(f"{missing} is not set", file=sys.stderr)
+            return 1
+        print(f"{missing} is not set — writing unavailable placeholder")
+        write_json(args.output, empty_metrics(generated_at, args.period_days, unavailable=True))
+        return 0
+
+    try:
+        service_account_info = json.loads(key_json)
+    except json.JSONDecodeError as error:
+        print(f"{GA4_SERVICE_ACCOUNT_KEY_ENV} is not valid JSON: {error}", file=sys.stderr)
+        return 1
+
+    try:
+        segment_configs = [*GA4_SEGMENTS, *load_webapp_segments()]
+    except (requests.RequestException, ValueError) as error:
+        print(f"Could not load webapp catalog: {error}", file=sys.stderr)
+        return 1
+
+    token = get_access_token(service_account_info)
+    site_filter = production_hosts_filter()
+    aggregate = build_metrics(token, property_id, args.period_days, site_filter)
+    aggregate["periodCountries"] = summarize_countries(
+        country_report(
+            token,
+            property_id,
+            site_filter,
+            start_date=f"{args.period_days}daysAgo",
+            end_date="yesterday",
+        )
+    )
+    print(
+        f"GA4 property {property_id}: {len(aggregate['months'])} months, "
+        f"{aggregate['totalUsers']} users total, {len(aggregate['countries'])} countries"
+    )
+
+    segments = []
+    for segment in segment_configs:
+        dimension_filter = dimension_filter_for_segment(segment)
+        try:
+            tracking_start_date = summarize_tracking_start(
+                tracking_start_report(token, property_id, dimension_filter)
+            )
+        except (requests.RequestException, RuntimeError) as error:
+            print(
+                f"  {segment['id']}: could not determine tracking start date: {error}",
+                file=sys.stderr,
+            )
+            tracking_start_date = None
+        segment_metrics = build_metrics(
+            token,
+            property_id,
+            args.period_days,
+            dimension_filter,
+        )
+        print(
+            f"  {segment['id']}: {segment_metrics['periodUsers']} users, "
+            f"{segment_metrics['periodSessions']} sessions, "
+            f"{segment_metrics['periodPageViews']} views in last {args.period_days} days"
+        )
+        segments.append(
+            {
+                **public_segment_config(segment),
+                "trackingStartDate": tracking_start_date,
+                **segment_metrics,
+            }
+        )
+
+    data = empty_metrics(generated_at, args.period_days)
+    data.update(aggregate)
+    data["segments"] = segments
+    write_json(args.output, data)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

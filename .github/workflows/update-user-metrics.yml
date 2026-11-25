@@ -1,0 +1,70 @@
+name: Update User Metrics
+
+# Refreshes public/data/user-metrics.json from the GA4 Data API once
+# GA4_PROPERTY_ID and GA4_SERVICE_ACCOUNT_KEY secrets are configured on this
+# repository. Committing an updated snapshot to main triggers Cloudflare Pages
+# to redeploy sciget.org with fresh GA4, webapp, and app-download metrics.
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-user-metrics
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Check GA4 credentials
+        id: creds
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+        run: |
+          if [[ -n "$GA4_PROPERTY_ID" && -n "$GA4_SERVICE_ACCOUNT_KEY" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "GA4_PROPERTY_ID or GA4_SERVICE_ACCOUNT_KEY is not configured; skipping export."
+          fi
+
+      - name: Set up Python
+        if: steps.creds.outputs.configured == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        if: steps.creds.outputs.configured == 'true'
+        run: python -m pip install requests google-auth
+
+      - name: Export SCIGET GA4 user metrics
+        if: steps.creds.outputs.configured == 'true'
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+        run: |
+          python .github/workflows/write-user-metrics.py --output public/data/user-metrics.json
+          python -c 'import json; data = json.load(open("public/data/user-metrics.json")); assert not data.get("unavailable") and data.get("months"), "Generated user metrics are unavailable or empty"'
+
+      - name: Commit updated metrics snapshot
+        if: steps.creds.outputs.configured == 'true'
+        run: |
+          if git diff --quiet public/data/user-metrics.json; then
+            echo "No changes to public/data/user-metrics.json"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/user-metrics.json
+          git commit -m "chore(metrics): refresh GA4 user metrics snapshot"
+          git push origin main
