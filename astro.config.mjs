@@ -8,6 +8,11 @@ const SITE = 'https://sciget.org';
 
 export default defineConfig({
 	site: SITE,
+	redirects: {
+		'/acknowledgement': '/acknowledgements/',
+		'/acknowledgment': '/acknowledgements/',
+		'/donate': '/sponsor/',
+	},
 	integrations: [
 		starlight({
 			title: 'SCIGET',
@@ -81,7 +86,14 @@ export default defineConfig({
 				},
 				{
 					label: 'About',
-					link: '/about/',
+					items: [
+						{ label: 'About SCIGET', link: '/about/' },
+						{ label: 'Acknowledgements', link: '/acknowledgements/' },
+					],
+				},
+				{
+					label: 'Sponsor',
+					link: '/sponsor/',
 				},
 			],
 			customCss: ['./src/styles/base.css', './src/styles/custom.css'],
