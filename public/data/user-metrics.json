@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-11-25T00:00:00Z",
+  "source": "Google Analytics 4",
+  "periodDays": 30,
+  "totalUsers": 0,
+  "periodUsers": 0,
+  "periodSessions": 0,
+  "periodPageViews": 0,
+  "months": [],
+  "countries": [],
+  "periodCountries": [],
+  "segments": [],
+  "unavailable": true
+}

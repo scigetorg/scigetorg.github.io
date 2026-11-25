@@ -12,6 +12,7 @@ export default defineConfig({
 		'/acknowledgement': '/acknowledgements/',
 		'/acknowledgment': '/acknowledgements/',
 		'/donate': '/sponsor/',
+		'/overview/metrics': '/metrics/',
 	},
 	integrations: [
 		starlight({
@@ -54,6 +55,23 @@ export default defineConfig({
 				{ tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' } },
 				{ tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' } },
 				{ tag: 'link', attrs: { rel: 'manifest', href: '/favicons/site.webmanifest' } },
+				{
+					tag: 'script',
+					content: `
+						if (['sciget.org', 'www.sciget.org'].includes(window.location.hostname)) {
+							window.dataLayer = window.dataLayer || [];
+							window.gtag = function(){window.dataLayer.push(arguments);};
+
+							const googleTag = document.createElement('script');
+							googleTag.async = true;
+							googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=G-4Z9774J59Y';
+							document.head.appendChild(googleTag);
+
+							window.gtag('js', new Date());
+							window.gtag('config', 'G-4Z9774J59Y');
+						}
+					`,
+				},
 			],
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/scigetorg' },
@@ -88,6 +106,7 @@ export default defineConfig({
 					label: 'About',
 					items: [
 						{ label: 'About SCIGET', link: '/about/' },
+						{ label: 'Metrics', link: '/metrics/' },
 						{ label: 'Acknowledgements', link: '/acknowledgements/' },
 					],
 				},
