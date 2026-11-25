@@ -36,4 +36,4 @@ SCIGET accelerates scientific discovery by streamlining access to essential soft
 
 ## Support and acknowledgements
 
-SCIGET is backed by research grants, cloud infrastructure partners, and sponsors shared with the Neurodesk ecosystem. See our [Acknowledgements](/acknowledgements/) page for full details and our cultural and land acknowledgement, or visit [Sponsor & Donate](/sponsor/) to help sustain the platform.
+SCIGET is funded through the Australian Research Data Commons (ARDC) project *Developing a National AI Virtual Research Environment Infrastructure for Healthcare Analytics – Phase 1*, and builds on research grants, cloud infrastructure partners, and sponsors shared with the Neurodesk ecosystem. See our [Acknowledgements](/acknowledgements/) page for full details and our cultural and land acknowledgement, or visit [Sponsor & Donate](/sponsor/) to help sustain the platform.
