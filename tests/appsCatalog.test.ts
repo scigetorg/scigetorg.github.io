@@ -812,7 +812,7 @@ test('groupEessiApps merges shared domains, orders CPU before GPU, and formats L
 	);
 	assert.equal(
 		eessiLaunchCommand(gromacs.builds[0]),
-		'eessi-launch --stack 2025.06 -- GROMACS/2026.2-foss-2025b gmx',
+		'module load EESSI/2025.06 && module load GROMACS/2026.2-foss-2025b && gmx',
 	);
 
 	// arm64 filter keeps only aarch64 builds.
@@ -997,11 +997,30 @@ test('fetchCatalog isolates invalid container URL on a hybrid domain, keeps EESS
 			},
 		},
 	};
-	let releaseApps!: () => void;
-	const appsGate = new Promise<void>((resolve) => {
-		releaseApps = resolve;
+	const started = new Set<string>();
+	let releaseBoth!: () => void;
+	const bothStarted = new Promise<void>((resolve, reject) => {
+		const timer = setTimeout(
+			() =>
+				reject(
+					new Error(
+						`Expected parallel fetch of apps.json and eessi.json; only saw: ${[...started].join(', ')}`,
+					),
+				),
+			500,
+		);
+		releaseBoth = () => {
+			clearTimeout(timer);
+			resolve();
+		};
 	});
-	let eessiRequestedWhileAppsPending = false;
+	const markStarted = async (kind: 'apps' | 'eessi') => {
+		started.add(kind);
+		if (started.size === 2) {
+			releaseBoth();
+		}
+		await bothStarted;
+	};
 	const errors: string[] = [];
 	const catalog = await fetchCatalog({
 		retries: 0,
@@ -1010,12 +1029,11 @@ test('fetchCatalog isolates invalid container URL on a hybrid domain, keeps EESS
 			const url = String(input);
 			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
 			if (url.endsWith('/parallel/apps.json')) {
-				await appsGate;
+				await markStarted('apps');
 				return new Response(JSON.stringify(feed()));
 			}
 			if (url.endsWith('/parallel/eessi.json')) {
-				eessiRequestedWhileAppsPending = true;
-				releaseApps();
+				await markStarted('eessi');
 				return new Response(JSON.stringify(eessiFeed()));
 			}
 			if (url.endsWith('/hybrid/eessi.json')) {
@@ -1027,7 +1045,7 @@ test('fetchCatalog isolates invalid container URL on a hybrid domain, keeps EESS
 			return new Response('not found', { status: 404 });
 		},
 	});
-	assert.equal(eessiRequestedWhileAppsPending, true);
+	assert.deepEqual([...started].sort(), ['apps', 'eessi']);
 	const hybrid = catalog.domains.find((d) => d.id === 'hybridBadApp')!;
 	assert.equal(hybrid.unavailable, true);
 	assert.equal(hybrid.list.length, 0);

@@ -295,7 +295,7 @@ export function eessiLaunchCommand(
 	build: Pick<EessiBuild, 'stack' | 'module' | 'exec'>,
 ): string | null {
 	if (!build.exec.length) return null;
-	return `eessi-launch --stack ${build.stack} -- ${build.module} ${build.exec.join(' ')}`;
+	return `${eessiLoadCommand(build)} && ${build.exec.join(' ')}`;
 }
 
 /**
