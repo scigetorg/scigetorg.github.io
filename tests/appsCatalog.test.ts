@@ -3,15 +3,20 @@ import test from 'node:test';
 import {
 	assertAllowedCatalogUrl,
 	displayName,
+	eessiLaunchCommand,
+	eessiLoadCommand,
 	fetchCatalog,
 	formatDomainLabel,
 	groupApps,
+	groupEessiApps,
 	isArm64Build,
+	isEessiArm64Build,
 	latestReleases,
 	methodsText,
 	normalizeDoiUrl,
 	parseAppsFeed,
 	parseDomainsFeed,
+	parseEessiFeed,
 	toAppList,
 } from '../src/lib/appsCatalog.ts';
 
@@ -677,4 +682,377 @@ test('methodsText only cites a platform release verified for the newest build an
 		methodsText(crossDomain, null),
 		/shared \(v2\.0, built 2026-05-01\) was run in Sciget \/ Neurodesk \(Renton et al\., 2024\)\./,
 	);
+});
+
+const eessiFeed = () => ({
+	schemaVersion: 1,
+	backend: 'eessi',
+	explicitSelectionRequired: true,
+	cvmfsRepo: 'software.eessi.io',
+	stacks: ['2025.06'],
+	tools: {
+		gromacs: {
+			package: 'GROMACS',
+			categories: ['molecular dynamics'],
+			description: 'Molecular dynamics package',
+			homepage: 'https://www.gromacs.org/',
+			apps: {
+				'GROMACS 2026.2 (EESSI/2025.06)': {
+					backend: 'eessi',
+					stack: '2025.06',
+					module: 'GROMACS/2026.2-foss-2025b',
+					software_version: '2026.2',
+					toolchain: 'foss/2025b',
+					arch: ['aarch64', 'x86_64'],
+					gpu: false,
+					license: ['LGPL-2.1'],
+					exec: ['gmx'],
+					gui: false,
+					show_in_applist: true,
+				},
+				'GROMACS 2026.2 GPU (EESSI/2025.06)': {
+					backend: 'eessi',
+					stack: '2025.06',
+					module: 'GROMACS/2026.2-foss-2025b-CUDA-12.9.1',
+					software_version: '2026.2',
+					toolchain: 'foss/2025b',
+					arch: ['x86_64'],
+					gpu: true,
+					gpu_targets: ['nvidia/cc80'],
+					license: ['LGPL-2.1'],
+					exec: ['gmx'],
+					gui: false,
+					show_in_applist: true,
+				},
+			},
+		},
+		paraview: {
+			package: 'ParaView',
+			categories: ['visualization'],
+			description: '3D visualization',
+			homepage: 'javascript:alert(1)',
+			apps: {
+				'ParaView 6.0.1 (EESSI/2025.06)': {
+					backend: 'eessi',
+					stack: '2025.06',
+					module: 'ParaView/6.0.1-foss-2025b',
+					software_version: '6.0.1',
+					arch: ['aarch64', 'x86_64'],
+					gpu: false,
+					exec: ['paraview'],
+					gui: true,
+					show_in_applist: true,
+				},
+			},
+		},
+	},
+});
+
+test('parseEessiFeed validates envelope, drops unsafe homepage URLs, and rejects malformed feeds', () => {
+	const entries = parseEessiFeed(eessiFeed(), 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/eessi.json');
+	assert.equal(entries.length, 3);
+	const paraview = entries.find((e) => e.id === 'paraview');
+	assert.equal(paraview?.homepage, undefined);
+	const gromacsCpu = entries.find((e) => e.id === 'gromacs' && !e.gpu);
+	assert.equal(gromacsCpu?.homepage, 'https://www.gromacs.org/');
+	assert.equal(isEessiArm64Build(gromacsCpu!), true);
+	const gromacsGpu = entries.find((e) => e.id === 'gromacs' && e.gpu);
+	assert.equal(isEessiArm64Build(gromacsGpu!), false);
+
+	assert.throws(() => parseEessiFeed({ ...eessiFeed(), explicitSelectionRequired: false }), /invalid envelope/);
+	assert.throws(() =>
+		parseEessiFeed({
+			...eessiFeed(),
+			tools: {
+				evil: {
+					package: 'Evil',
+					categories: ['programming'],
+					apps: {
+						Evil: {
+							backend: 'eessi',
+							stack: '2025.06',
+							module: 'Evil/1.0',
+							software_version: '1.0',
+							arch: ['x86_64'],
+							gpu: false,
+							exec: ['sh', '-c;id'],
+							gui: false,
+						},
+					},
+				},
+			},
+		}),
+	/malformed/);
+});
+
+test('groupEessiApps merges shared domains, orders CPU before GPU, and formats Lmod/launch commands', () => {
+	const neuro = { id: 'neuroimaging', label: 'Neuroimaging' };
+	const preclin = { id: 'preclinical', label: 'Preclinical' };
+	const parsed = parseEessiFeed(eessiFeed());
+	const grouped = groupEessiApps(
+		[
+			...parsed.map((entry) => ({ entry, domain: neuro })),
+			...parsed.filter((e) => e.id === 'gromacs').map((entry) => ({ entry, domain: preclin })),
+		],
+		false,
+	);
+	assert.equal(grouped.length, 2);
+	const gromacs = grouped.find((g) => g.id === 'gromacs')!;
+	assert.equal(gromacs.hasGpu, true);
+	assert.equal(gromacs.builds.length, 2);
+	assert.equal(gromacs.builds[0].gpu, false);
+	assert.equal(gromacs.builds[1].gpu, true);
+	assert.deepEqual(
+		gromacs.domains.map((d) => d.id),
+		['neuroimaging', 'preclinical'],
+	);
+	assert.equal(
+		eessiLoadCommand(gromacs.builds[0]),
+		'module load EESSI/2025.06 && module load GROMACS/2026.2-foss-2025b',
+	);
+	assert.equal(
+		eessiLaunchCommand(gromacs.builds[0]),
+		'module load EESSI/2025.06 && module load GROMACS/2026.2-foss-2025b && gmx',
+	);
+
+	// arm64 filter keeps only aarch64 builds.
+	const armOnly = groupEessiApps(
+		parsed.map((entry) => ({ entry, domain: neuro })),
+		true,
+	);
+	assert.equal(armOnly.find((g) => g.id === 'gromacs')?.builds.length, 1);
+});
+
+test('fetchCatalog loads hybrid and EESSI-only domains while failing soft on EESSI outages', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			neuroimaging: {
+				title: 'neurodesk',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			preclinical: {
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/preclinical/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			microscopy: {
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+		},
+	};
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/apps.json')) return new Response(JSON.stringify(feed()));
+			if (url.endsWith('/microscopy/eessi.json')) return new Response('down', { status: 503 });
+			if (url.endsWith('/eessi.json')) return new Response(JSON.stringify(eessiFeed()));
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(catalog.domains.length, 3);
+	const neuro = catalog.domains.find((d) => d.id === 'neuroimaging')!;
+	assert.ok(neuro.list.length > 0);
+	assert.equal(neuro.eessi?.length, 3);
+	const preclin = catalog.domains.find((d) => d.id === 'preclinical')!;
+	assert.equal(preclin.list.length, 0);
+	assert.equal(preclin.unavailable, undefined);
+	assert.equal(preclin.eessi?.length, 3);
+	const micro = catalog.domains.find((d) => d.id === 'microscopy')!;
+	assert.ok(micro.list.length > 0);
+	assert.equal(micro.unavailable, undefined);
+	assert.equal(micro.eessiUnavailable, true);
+	assert.equal(errors.length, 1);
+});
+
+test('fetchCatalog succeeds when a hybrid domain container feed fails but its EESSI feed succeeds', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			neuroimaging: {
+				title: 'neurodesk',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+		},
+	};
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/apps.json')) return new Response('down', { status: 503 });
+			if (url.endsWith('/eessi.json')) return new Response(JSON.stringify(eessiFeed()));
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(catalog.domains.length, 1);
+	assert.equal(catalog.domains[0].unavailable, true);
+	assert.equal(catalog.domains[0].list.length, 0);
+	assert.equal(catalog.domains[0].eessiUnavailable, undefined);
+	assert.equal(catalog.domains[0].eessi?.length, 3);
+	assert.equal(errors.length, 1);
+});
+
+test('fetchCatalog isolates invalid optional EESSI domain config without suppressing healthy containers', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			neuroimaging: {
+				title: 'neurodesk',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/apps.json',
+				eessiCatalogUrl: 'https://untrusted.example/neuroimaging/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			microscopy: {
+				title: 'microdesktop',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/eessi.json',
+				eessi_stacks: ['not-a-stack'],
+			},
+		},
+	};
+	const fetched: string[] = [];
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			fetched.push(url);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/apps.json')) return new Response(JSON.stringify(feed()));
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(catalog.domains.length, 2);
+	for (const domain of catalog.domains) {
+		assert.ok(domain.list.length > 0);
+		assert.equal(domain.unavailable, undefined);
+		assert.equal(domain.eessiUnavailable, true);
+		assert.equal(domain.eessi, undefined);
+	}
+	assert.ok(!fetched.some((u) => u.includes('eessi.json')));
+	assert.equal(errors.length, 2);
+});
+
+test('parseEessiFeed rejects builds on undeclared feed stacks or outside domain eessi_stacks', () => {
+	const wrongStackFeed = {
+		...eessiFeed(),
+		stacks: ['2025.06'],
+		tools: {
+			paraview: {
+				package: 'ParaView',
+				categories: ['visualization'],
+				apps: {
+					'ParaView 5.12 (EESSI/2023.06)': {
+						backend: 'eessi',
+						stack: '2023.06',
+						module: 'ParaView/5.12.0-foss-2023b',
+						software_version: '5.12.0',
+						arch: ['x86_64'],
+						gpu: false,
+						exec: ['paraview'],
+						gui: true,
+					},
+				},
+			},
+		},
+	};
+	assert.throws(() => parseEessiFeed(wrongStackFeed), /malformed/);
+	assert.throws(
+		() => parseEessiFeed(eessiFeed(), undefined, ['2023.06']),
+		/malformed/,
+	);
+});
+
+test('fetchCatalog isolates invalid container URL on a hybrid domain, keeps EESSI-only outage flags separate, and fetches hybrid feeds in parallel', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			hybridBadApp: {
+				title: 'hybrid',
+				appJsonUrl: 'https://untrusted.example/hybrid/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/hybrid/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			eessiOnlyDown: {
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/down/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			parallelDomain: {
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/parallel/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/parallel/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+		},
+	};
+	const started = new Set<string>();
+	let releaseBoth!: () => void;
+	const bothStarted = new Promise<void>((resolve, reject) => {
+		const timer = setTimeout(
+			() =>
+				reject(
+					new Error(
+						`Expected parallel fetch of apps.json and eessi.json; only saw: ${[...started].join(', ')}`,
+					),
+				),
+			500,
+		);
+		releaseBoth = () => {
+			clearTimeout(timer);
+			resolve();
+		};
+	});
+	const markStarted = async (kind: 'apps' | 'eessi') => {
+		started.add(kind);
+		if (started.size === 2) {
+			releaseBoth();
+		}
+		await bothStarted;
+	};
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/parallel/apps.json')) {
+				await markStarted('apps');
+				return new Response(JSON.stringify(feed()));
+			}
+			if (url.endsWith('/parallel/eessi.json')) {
+				await markStarted('eessi');
+				return new Response(JSON.stringify(eessiFeed()));
+			}
+			if (url.endsWith('/hybrid/eessi.json')) {
+				return new Response(JSON.stringify(eessiFeed()));
+			}
+			if (url.endsWith('/down/eessi.json')) {
+				return new Response('down', { status: 503 });
+			}
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.deepEqual([...started].sort(), ['apps', 'eessi']);
+	const hybrid = catalog.domains.find((d) => d.id === 'hybridBadApp')!;
+	assert.equal(hybrid.unavailable, true);
+	assert.equal(hybrid.list.length, 0);
+	assert.equal(hybrid.eessiUnavailable, undefined);
+	assert.equal(hybrid.eessi?.length, 3);
+	const down = catalog.domains.find((d) => d.id === 'eessiOnlyDown')!;
+	assert.equal(down.unavailable, undefined);
+	assert.equal(down.eessiUnavailable, true);
+	assert.equal(errors.length, 2);
 });
