@@ -871,3 +871,107 @@ test('fetchCatalog loads hybrid and EESSI-only domains while failing soft on EES
 	assert.equal(micro.eessiUnavailable, true);
 	assert.equal(errors.length, 1);
 });
+
+test('fetchCatalog succeeds when a hybrid domain container feed fails but its EESSI feed succeeds', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			neuroimaging: {
+				title: 'neurodesk',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+		},
+	};
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/apps.json')) return new Response('down', { status: 503 });
+			if (url.endsWith('/eessi.json')) return new Response(JSON.stringify(eessiFeed()));
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(catalog.domains.length, 1);
+	assert.equal(catalog.domains[0].unavailable, true);
+	assert.equal(catalog.domains[0].list.length, 0);
+	assert.equal(catalog.domains[0].eessiUnavailable, undefined);
+	assert.equal(catalog.domains[0].eessi?.length, 3);
+	assert.equal(errors.length, 1);
+});
+
+test('fetchCatalog isolates invalid optional EESSI domain config without suppressing healthy containers', async () => {
+	const domainsDoc = {
+		schemaVersion: 1,
+		domains: {
+			neuroimaging: {
+				title: 'neurodesk',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/neuroimaging/apps.json',
+				eessiCatalogUrl: 'https://untrusted.example/neuroimaging/eessi.json',
+				eessi_stacks: ['2025.06'],
+			},
+			microscopy: {
+				title: 'microdesktop',
+				appJsonUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/apps.json',
+				eessiCatalogUrl: 'https://apps-catalog.scigetorg.workers.dev/microscopy/eessi.json',
+				eessi_stacks: ['not-a-stack'],
+			},
+		},
+	};
+	const fetched: string[] = [];
+	const errors: string[] = [];
+	const catalog = await fetchCatalog({
+		retries: 0,
+		onDomainError: (id, _url, err) => errors.push(`${id}:${err.message}`),
+		fetchImpl: async (input) => {
+			const url = String(input);
+			fetched.push(url);
+			if (url.endsWith('/domains.json')) return new Response(JSON.stringify(domainsDoc));
+			if (url.endsWith('/apps.json')) return new Response(JSON.stringify(feed()));
+			return new Response('not found', { status: 404 });
+		},
+	});
+	assert.equal(catalog.domains.length, 2);
+	for (const domain of catalog.domains) {
+		assert.ok(domain.list.length > 0);
+		assert.equal(domain.unavailable, undefined);
+		assert.equal(domain.eessiUnavailable, true);
+		assert.equal(domain.eessi, undefined);
+	}
+	assert.ok(!fetched.some((u) => u.includes('eessi.json')));
+	assert.equal(errors.length, 2);
+});
+
+test('parseEessiFeed rejects builds on undeclared feed stacks or outside domain eessi_stacks', () => {
+	const wrongStackFeed = {
+		...eessiFeed(),
+		stacks: ['2025.06'],
+		tools: {
+			paraview: {
+				package: 'ParaView',
+				categories: ['visualization'],
+				apps: {
+					'ParaView 5.12 (EESSI/2023.06)': {
+						backend: 'eessi',
+						stack: '2023.06',
+						module: 'ParaView/5.12.0-foss-2023b',
+						software_version: '5.12.0',
+						arch: ['x86_64'],
+						gpu: false,
+						exec: ['paraview'],
+						gui: true,
+					},
+				},
+			},
+		},
+	};
+	assert.throws(() => parseEessiFeed(wrongStackFeed), /malformed/);
+	assert.throws(
+		() => parseEessiFeed(eessiFeed(), undefined, ['2023.06']),
+		/malformed/,
+	);
+});

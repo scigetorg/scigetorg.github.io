@@ -498,12 +498,17 @@ function normalizeExternalUrl(raw: string): string | undefined {
 	return undefined;
 }
 
-function parseDomainEntry(
+interface ParsedDomainConfig {
+	definition: DomainDefinition;
+	eessiConfigError?: { url: string; error: Error };
+}
+
+function parseDomainConfig(
 	id: string,
 	entry: unknown,
 	allowedOrigins: readonly string[],
 	sourceUrl?: string,
-): DomainDefinition {
+): ParsedDomainConfig {
 	const source = sourceUrl ? ` (${sourceUrl})` : '';
 	if (!id.trim() || !isRecord(entry)) {
 		throw new Error(`domains.json${source} domain "${id}" is malformed`);
@@ -516,19 +521,6 @@ function parseDomainEntry(
 					`domains.json${source} domain "${id}" appJsonUrl`,
 				).href
 			: undefined;
-	const eessiCatalogUrl =
-		entry.eessiCatalogUrl !== undefined
-			? assertAllowedCatalogUrl(
-					entry.eessiCatalogUrl,
-					allowedOrigins,
-					`domains.json${source} domain "${id}" eessiCatalogUrl`,
-				).href
-			: undefined;
-	if (!appJsonUrl && !eessiCatalogUrl) {
-		throw new Error(
-			`domains.json${source} domain "${id}" must define appJsonUrl or eessiCatalogUrl`,
-		);
-	}
 	const { title, description, defaultVersion, eessi_stacks } = entry;
 	if (
 		!optional(title, isString) ||
@@ -539,29 +531,84 @@ function parseDomainEntry(
 			`domains.json${source} domain "${id}" has an invalid title, description or defaultVersion`,
 		);
 	}
+
+	let eessiCatalogUrl: string | undefined;
 	let eessiStacks: string[] | undefined;
-	if (eessi_stacks !== undefined) {
-		if (
-			!isStringArray(eessi_stacks) ||
-			!eessi_stacks.length ||
-			eessi_stacks.some((stack) => !EESSI_STACK_PATTERN.test(stack))
-		) {
-			throw new Error(
-				`domains.json${source} domain "${id}" has invalid eessi_stacks`,
-			);
+	let eessiConfigError: { url: string; error: Error } | undefined;
+	if (entry.eessiCatalogUrl !== undefined || eessi_stacks !== undefined) {
+		try {
+			if (entry.eessiCatalogUrl !== undefined) {
+				eessiCatalogUrl = assertAllowedCatalogUrl(
+					entry.eessiCatalogUrl,
+					allowedOrigins,
+					`domains.json${source} domain "${id}" eessiCatalogUrl`,
+				).href;
+			}
+			if (eessi_stacks !== undefined) {
+				if (
+					!isStringArray(eessi_stacks) ||
+					!eessi_stacks.length ||
+					eessi_stacks.some((stack) => !EESSI_STACK_PATTERN.test(stack))
+				) {
+					throw new Error(
+						`domains.json${source} domain "${id}" has invalid eessi_stacks`,
+					);
+				}
+				eessiStacks = [...eessi_stacks];
+			}
+		} catch (error) {
+			eessiCatalogUrl = undefined;
+			eessiStacks = undefined;
+			eessiConfigError = {
+				url:
+					typeof entry.eessiCatalogUrl === 'string'
+						? entry.eessiCatalogUrl
+						: (sourceUrl ?? DOMAINS_JSON_URL),
+				error: error instanceof Error ? error : new Error(String(error)),
+			};
 		}
-		eessiStacks = [...eessi_stacks];
 	}
+
+	if (!appJsonUrl && !eessiCatalogUrl) {
+		if (eessiConfigError) {
+			throw eessiConfigError.error;
+		}
+		throw new Error(
+			`domains.json${source} domain "${id}" must define appJsonUrl or eessiCatalogUrl`,
+		);
+	}
+
 	return {
-		id,
-		label: formatDomainLabel(id),
-		...(title ? { title } : {}),
-		...(description ? { description } : {}),
-		...(defaultVersion ? { defaultVersion } : {}),
-		...(appJsonUrl ? { appJsonUrl } : {}),
-		...(eessiCatalogUrl ? { eessiCatalogUrl } : {}),
-		...(eessiStacks ? { eessiStacks } : {}),
+		definition: {
+			id,
+			label: formatDomainLabel(id),
+			...(title ? { title } : {}),
+			...(description ? { description } : {}),
+			...(defaultVersion ? { defaultVersion } : {}),
+			...(appJsonUrl ? { appJsonUrl } : {}),
+			...(eessiCatalogUrl ? { eessiCatalogUrl } : {}),
+			...(eessiStacks ? { eessiStacks } : {}),
+		},
+		...(eessiConfigError ? { eessiConfigError } : {}),
 	};
+}
+
+function parseDomainEntry(
+	id: string,
+	entry: unknown,
+	allowedOrigins: readonly string[],
+	sourceUrl?: string,
+): DomainDefinition {
+	const { definition, eessiConfigError } = parseDomainConfig(
+		id,
+		entry,
+		allowedOrigins,
+		sourceUrl,
+	);
+	if (eessiConfigError) {
+		throw eessiConfigError.error;
+	}
+	return definition;
 }
 
 export function parseDomainsFeed(
@@ -658,6 +705,7 @@ export function parseAppsFeed(data: unknown, sourceUrl?: string): AppsFeed {
 export function parseEessiFeed(
 	data: unknown,
 	sourceUrl?: string,
+	allowedStacks?: readonly string[],
 ): EessiAppEntry[] {
 	const source = sourceUrl ? ` (${sourceUrl})` : '';
 	if (!isRecord(data)) {
@@ -675,6 +723,9 @@ export function parseEessiFeed(
 	) {
 		throw new Error(`eessi.json${source} has an invalid envelope`);
 	}
+	const declaredStacks = new Set(data.stacks);
+	const domainAllowedStacks =
+		allowedStacks && allowedStacks.length > 0 ? new Set(allowedStacks) : null;
 	const entries: EessiAppEntry[] = [];
 	for (const [id, rawTool] of Object.entries(data.tools)) {
 		if (
@@ -724,6 +775,8 @@ export function parseEessiFeed(
 				backend !== 'eessi' ||
 				typeof stack !== 'string' ||
 				!EESSI_STACK_PATTERN.test(stack) ||
+				!declaredStacks.has(stack) ||
+				(domainAllowedStacks !== null && !domainAllowedStacks.has(stack)) ||
 				typeof module !== 'string' ||
 				!EESSI_MODULE_PATTERN.test(module) ||
 				typeof software_version !== 'string' ||
@@ -980,15 +1033,24 @@ export async function fetchCatalog(
 	const failures: string[] = [];
 	const domains = await Promise.all(
 		rawDomains.map(async ([id, rawEntry]): Promise<DomainCatalog> => {
-			let definition: DomainDefinition;
+			let parsedConfig: ParsedDomainConfig;
 			try {
-				definition = parseDomainEntry(id, rawEntry, allowedOrigins, domainsUrl);
+				parsedConfig = parseDomainConfig(
+					id,
+					rawEntry,
+					allowedOrigins,
+					domainsUrl,
+				);
 			} catch (error) {
 				const err = error instanceof Error ? error : new Error(String(error));
 				const attemptedUrl =
 					isRecord(rawEntry) && typeof rawEntry.appJsonUrl === 'string'
 						? rawEntry.appJsonUrl
 						: domainsUrl;
+				const hasRawEessi =
+					isRecord(rawEntry) &&
+					(rawEntry.eessiCatalogUrl !== undefined ||
+						rawEntry.eessi_stacks !== undefined);
 				onDomainError(id, attemptedUrl, err);
 				failures.push(`${id || '<empty>'}: ${err.message}`);
 				return {
@@ -996,11 +1058,12 @@ export async function fetchCatalog(
 					label: formatDomainLabel(id) || id,
 					list: [],
 					unavailable: true,
+					...(hasRawEessi ? { eessiUnavailable: true } : {}),
 				};
 			}
 
-			const { appJsonUrl, eessiCatalogUrl, eessiStacks: _stacks, ...meta } =
-				definition;
+			const { appJsonUrl, eessiCatalogUrl, eessiStacks, ...meta } =
+				parsedConfig.definition;
 			let list: AppListEntry[] = [];
 			let unavailable = false;
 			if (appJsonUrl) {
@@ -1025,7 +1088,17 @@ export async function fetchCatalog(
 
 			let eessi: EessiAppEntry[] | undefined;
 			let eessiUnavailable = false;
-			if (eessiCatalogUrl) {
+			if (parsedConfig.eessiConfigError) {
+				onDomainError(
+					meta.id,
+					parsedConfig.eessiConfigError.url,
+					parsedConfig.eessiConfigError.error,
+				);
+				failures.push(
+					`${meta.id} (eessi): ${parsedConfig.eessiConfigError.error.message}`,
+				);
+				eessiUnavailable = true;
+			} else if (eessiCatalogUrl) {
 				try {
 					const eessiData = await fetchAllowedJson(eessiCatalogUrl, {
 						fetchImpl,
@@ -1033,7 +1106,7 @@ export async function fetchCatalog(
 						timeoutMs,
 						retries,
 					});
-					eessi = parseEessiFeed(eessiData, eessiCatalogUrl);
+					eessi = parseEessiFeed(eessiData, eessiCatalogUrl, eessiStacks);
 				} catch (error) {
 					const err = error instanceof Error ? error : new Error(String(error));
 					onDomainError(meta.id, eessiCatalogUrl, err);
@@ -1057,13 +1130,19 @@ export async function fetchCatalog(
 	);
 
 	// Drop malformed entries with blank IDs after recording their failures.
+	// Count healthy container feeds and healthy EESSI feeds independently so a
+	// container outage on a hybrid domain does not discard a healthy EESSI feed.
 	const validDomains = domains.filter((d) => d.id.trim() !== '');
-	const healthyDomains = validDomains.filter((d) => !d.unavailable);
-	const totalEntries = healthyDomains.reduce(
-		(sum, domain) => sum + domain.list.length + (domain.eessi?.length ?? 0),
+	const containerEntries = validDomains.reduce(
+		(sum, domain) => sum + (domain.unavailable ? 0 : domain.list.length),
 		0,
 	);
-	if (!healthyDomains.length || totalEntries === 0) {
+	const eessiEntries = validDomains.reduce(
+		(sum, domain) =>
+			sum + (domain.eessiUnavailable ? 0 : (domain.eessi?.length ?? 0)),
+		0,
+	);
+	if (containerEntries + eessiEntries === 0) {
 		const details = failures.length ? `: ${failures.join('; ')}` : '';
 		throw new Error(
 			`No domain catalogs produced visible applications${details}`,

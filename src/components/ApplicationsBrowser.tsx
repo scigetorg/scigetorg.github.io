@@ -200,13 +200,21 @@ function EessiAppCard({
           <div className="ab-eessi-cmd">
             <code className="ab-code-inline">{loadCmd}</code>
             <div className="ab-citation-actions">
-              <CopyButton text={loadCmd} label="Copy module load" />
-              {launchCmd && (
-                <CopyButton text={launchCmd} label="Copy eessi-launch" />
-              )}
+              <CopyButton text={loadCmd} label="Copy" />
             </div>
           </div>
         </DetailRow>
+
+        {launchCmd && (
+          <DetailRow label="Launch">
+            <div className="ab-eessi-cmd">
+              <code className="ab-code-inline">{launchCmd}</code>
+              <div className="ab-citation-actions">
+                <CopyButton text={launchCmd} label="Copy" />
+              </div>
+            </div>
+          </DetailRow>
+        )}
 
         {hasMultiple && (
           <DetailRow label="All Builds">
@@ -235,17 +243,23 @@ function EessiAppCard({
             </button>
             {expanded && (
               <div className="ab-versions-list">
-                {app.builds.map((b) => (
-                  <div
-                    key={`${b.stack}-${b.module}-${b.exec.join(" ")}`}
-                    className="ab-version-row"
-                  >
-                    <code className="ab-code-inline">{b.module}</code>
-                    <span className="ab-muted">(EESSI/{b.stack})</span>
-                    {b.gpu && <Badge variant="gpu">GPU</Badge>}
-                    <CopyButton text={eessiLoadCommand(b)} label="Copy" />
-                  </div>
-                ))}
+                {app.builds.map((b) => {
+                  const buildLaunchCmd = eessiLaunchCommand(b);
+                  return (
+                    <div
+                      key={`${b.stack}-${b.module}-${b.exec.join(" ")}`}
+                      className="ab-version-row"
+                    >
+                      <code className="ab-code-inline">{b.module}</code>
+                      <span className="ab-muted">(EESSI/{b.stack})</span>
+                      {b.gpu && <Badge variant="gpu">GPU</Badge>}
+                      <CopyButton text={eessiLoadCommand(b)} label="Copy load" />
+                      {buildLaunchCmd && (
+                        <CopyButton text={buildLaunchCmd} label="Copy launch" />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </DetailRow>
@@ -446,7 +460,7 @@ export default function ApplicationsBrowser() {
         }
         if (
           params.get("source") === "eessi" &&
-          data.domains.some((d) => (d.eessi?.length ?? 0) > 0)
+          data.domains.some((d) => d.eessi !== undefined || d.eessiUnavailable)
         ) {
           setSource("eessi");
         }
@@ -492,7 +506,7 @@ export default function ApplicationsBrowser() {
   };
 
   const hasEessi = useMemo(
-    () => domains.some((d) => (d.eessi?.length ?? 0) > 0),
+    () => domains.some((d) => d.eessi !== undefined || d.eessiUnavailable),
     [domains],
   );
 
@@ -648,7 +662,11 @@ export default function ApplicationsBrowser() {
   }, [available, searchQuery, selectedCategories, openreconOnly]);
 
   const filteredEessi = useMemo(() => {
-    return availableEessi.filter((app) => {
+    const result: GroupedEessiApp[] = [];
+    for (const app of availableEessi) {
+      const builds = gpuOnly ? app.builds.filter((b) => b.gpu) : app.builds;
+      if (builds.length === 0) continue;
+
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const searchable = [
@@ -657,23 +675,26 @@ export default function ApplicationsBrowser() {
           app.description || "",
           ...app.categories,
           ...app.domains.flatMap((d) => [d.id, d.label]),
-          ...app.builds.flatMap((b) => [b.module, b.version, b.stack]),
+          ...builds.flatMap((b) => [b.module, b.version, b.stack]),
         ]
           .join(" ")
           .toLowerCase();
-        if (!searchable.includes(q)) return false;
+        if (!searchable.includes(q)) continue;
       }
 
       if (selectedCategories.length > 0) {
         if (!app.categories.some((c) => selectedCategories.includes(c))) {
-          return false;
+          continue;
         }
       }
 
-      if (gpuOnly && !app.hasGpu) return false;
-
-      return true;
-    });
+      result.push(
+        gpuOnly
+          ? { ...app, builds, arm64: builds.some(isEessiArm64Build) }
+          : app,
+      );
+    }
+    return result;
   }, [availableEessi, searchQuery, selectedCategories, gpuOnly]);
 
   const totalAvailable =
@@ -966,9 +987,20 @@ export default function ApplicationsBrowser() {
                   ? activeDomain?.eessiUnavailable
                   : activeDomain?.unavailable)
                   ? `The ${activeDomain?.label} ${source === "eessi" ? "EESSI " : ""}catalog was unavailable during the latest site build.`
-                  : activeDomain && totalAvailable === 0 && !hasActiveFilters
-                    ? `No ${source === "eessi" ? "EESSI modules" : "applications"} are listed in the ${activeDomain.label} catalog yet.`
-                    : `No ${source === "eessi" ? "EESSI modules" : "applications"} match your criteria.`}
+                  : !activeDomain &&
+                      source === "eessi" &&
+                      totalAvailable === 0 &&
+                      !hasActiveFilters &&
+                      domains.some((d) => d.eessiUnavailable)
+                    ? "EESSI catalogs were unavailable during the latest site build."
+                    : activeDomain && totalAvailable === 0 && !hasActiveFilters
+                      ? `No ${source === "eessi" ? "EESSI modules" : "applications"} are listed in the ${activeDomain.label} catalog yet.`
+                      : !activeDomain &&
+                          source === "eessi" &&
+                          totalAvailable === 0 &&
+                          !hasActiveFilters
+                        ? "No EESSI modules are listed in the configured catalogs yet."
+                        : `No ${source === "eessi" ? "EESSI modules" : "applications"} match your criteria.`}
               </p>
               <div className="ab-empty-actions">
                 {hasActiveFilters && (
