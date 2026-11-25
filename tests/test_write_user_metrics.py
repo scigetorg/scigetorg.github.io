@@ -78,7 +78,7 @@ class BuildMetricsTests(unittest.TestCase):
             start_date: str = write_user_metrics.EARLIEST_START_DATE,
             end_date: str = "today",
         ) -> list[dict]:
-            del token, property_id, end_date
+            del token, property_id
             metric_names = [metric["name"] for metric in body.get("metrics", [])]
             dimension_names = [
                 dimension["name"] for dimension in body.get("dimensions", [])
@@ -104,7 +104,11 @@ class BuildMetricsTests(unittest.TestCase):
             ):
                 return [{"metricValues": [{"value": "75"}]}]
 
-            if metric_names == ["totalUsers", "sessions", "screenPageViews"]:
+            if (
+                metric_names == ["totalUsers", "sessions", "screenPageViews"]
+                and start_date == "30daysAgo"
+                and end_date == "yesterday"
+            ):
                 return [
                     {
                         "metricValues": [
@@ -117,7 +121,7 @@ class BuildMetricsTests(unittest.TestCase):
 
             self.fail(
                 f"Unexpected report: metrics={metric_names}, "
-                f"dimensions={dimension_names}, start_date={start_date}"
+                f"dimensions={dimension_names}, start_date={start_date}, end_date={end_date}"
             )
 
         with mock.patch.object(
@@ -224,11 +228,16 @@ class ScigetWebappMetricsTests(unittest.TestCase):
             site_filter = write_user_metrics.production_hosts_filter()
 
             def report(token, property_id, body, start_date=write_user_metrics.EARLIEST_START_DATE, end_date="today"):
-                del token, property_id, end_date
+                del token, property_id
                 dimensions = [dimension["name"] for dimension in body.get("dimensions", [])]
                 if dimensions != ["countryId", "country"] or body.get("dimensionFilter") != site_filter:
                     return []
-                users = "12" if start_date == "30daysAgo" else "900"
+                if start_date == "30daysAgo":
+                    self.assertEqual(end_date, "yesterday")
+                    users = "12"
+                else:
+                    self.assertEqual(end_date, "today")
+                    users = "900"
                 return [{"dimensionValues": [{"value": "AU"}, {"value": "Australia"}], "metricValues": [{"value": users}]}]
 
             with (

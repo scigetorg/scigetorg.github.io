@@ -451,12 +451,61 @@
     block.append(renderChart(data.releases), renderTable(data.releases));
   }
 
+  function nextLinkUrl(linkHeader) {
+    if (!linkHeader) return null;
+    var parts = linkHeader.split(",");
+    for (var i = 0; i < parts.length; i++) {
+      var segments = parts[i].split(";").map(function (s) { return s.trim(); });
+      if (segments.length < 2 || segments.slice(1).indexOf('rel="next"') === -1) {
+        continue;
+      }
+      var target = segments[0];
+      if (target.startsWith("<") && target.endsWith(">")) {
+        try {
+          var parsed = new URL(target.slice(1, -1));
+          if (parsed.protocol === "https:" && parsed.hostname === "api.github.com") {
+            return parsed.href;
+          }
+        } catch (e) {
+          return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  function fetchLiveReleases(repo) {
+    var all = [];
+    var maxPages = 10;
+
+    function fetchPage(url, pageCount) {
+      return fetch(url, {
+        credentials: "omit",
+        headers: { Accept: "application/vnd.github+json" }
+      }).then(function (res) {
+        if (!res.ok) throw new Error("GitHub API returned " + res.status);
+        var nextUrl = pageCount + 1 < maxPages ? nextLinkUrl(res.headers.get("link")) : null;
+        return res.json().then(function (pageData) {
+          if (!Array.isArray(pageData)) {
+            throw new Error("GitHub API returned non-array releases payload");
+          }
+          all = all.concat(pageData);
+          if (nextUrl) {
+            return fetchPage(nextUrl, pageCount + 1);
+          }
+          return summarizeRawReleases(all, repo);
+        });
+      });
+    }
+
+    return fetchPage("https://api.github.com/repos/" + repo + "/releases?per_page=100", 0);
+  }
+
   var blocks = document.querySelectorAll("[data-app-downloads-url]");
   if (!blocks.length) return;
 
   var primaryUrl = blocks[0].dataset.appDownloadsUrl;
   var fallbackRepo = blocks[0].dataset.appDownloadsRepo || "scigetorg/neurodesk-app";
-  var fallbackApiUrl = "https://api.github.com/repos/" + fallbackRepo + "/releases?per_page=100";
 
   fetch(primaryUrl, { credentials: "same-origin" })
     .then(function (response) {
@@ -465,25 +514,17 @@
     })
     .then(function (data) {
       if (data && !data.unavailable && Array.isArray(data.releases) && data.releases.length) {
-        blocks.forEach(function (block) {
-          render(block, data);
-        });
-        return;
+        return data;
       }
-      return fetch(fallbackApiUrl, {
-        credentials: "omit",
-        headers: { Accept: "application/vnd.github+json" }
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("GitHub API returned " + res.status);
-          return res.json();
-        })
-        .then(function (rawReleases) {
-          var liveData = summarizeRawReleases(rawReleases, fallbackRepo);
-          blocks.forEach(function (block) {
-            render(block, liveData);
-          });
-        });
+      return fetchLiveReleases(fallbackRepo);
+    })
+    .catch(function () {
+      return fetchLiveReleases(fallbackRepo);
+    })
+    .then(function (data) {
+      blocks.forEach(function (block) {
+        render(block, data);
+      });
     })
     .catch(function () {
       blocks.forEach(function (block) {

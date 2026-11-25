@@ -78,6 +78,28 @@
     return ids.map(function (id) { return byId.get(id); }).filter(Boolean);
   }
 
+  function safeServiceUrl(raw) {
+    if (typeof raw !== "string" || !raw.trim()) {
+      return null;
+    }
+    try {
+      var parsed = new URL(raw.trim());
+      if (parsed.protocol !== "https:") {
+        return null;
+      }
+      var host = parsed.hostname.toLowerCase();
+      var allowed =
+        host === "sciget.org" ||
+        host.endsWith(".sciget.org") ||
+        host === "neurodesk.org" ||
+        host.endsWith(".neurodesk.org") ||
+        host === "play.neurodesk.cloud.edu.au";
+      return allowed ? parsed.href : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function addNumericCell(row, value) {
     var cell = document.createElement("td");
     cell.className = "user-metrics__num";
@@ -152,9 +174,10 @@
 
       var serviceCell = document.createElement("th");
       serviceCell.scope = "row";
-      if (segment.url) {
+      var safeHref = safeServiceUrl(segment.url);
+      if (safeHref) {
         var link = document.createElement("a");
-        link.href = segment.url;
+        link.href = safeHref;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = segment.name || segment.id;

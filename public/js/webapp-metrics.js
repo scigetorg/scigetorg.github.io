@@ -18,6 +18,22 @@
     });
   }
 
+  function safeWebappUrl(raw) {
+    if (typeof raw !== "string" || !raw.trim()) return null;
+    try {
+      var parsed = new URL(raw.trim());
+      if (parsed.protocol !== "https:") return null;
+      var host = parsed.hostname.toLowerCase();
+      var allowed =
+        host === "sciget.org" ||
+        host.endsWith(".sciget.org") ||
+        host === "webapps.neurodesk.org";
+      return allowed ? parsed.href : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function renderStatus(block, message) {
     block.textContent = "";
     var status = document.createElement("span");
@@ -74,14 +90,18 @@
 
     var meta = document.createElement("p");
     meta.className = "user-metrics__details";
-    var hostLink = document.createElement("a");
-    hostLink.href = catalog.url;
-    hostLink.target = "_blank";
-    hostLink.rel = "noopener noreferrer";
-    hostLink.textContent = catalog.host;
+    var safeCatalogHref = safeWebappUrl(catalog.url);
+    if (safeCatalogHref) {
+      var hostLink = document.createElement("a");
+      hostLink.href = safeCatalogHref;
+      hostLink.target = "_blank";
+      hostLink.rel = "noopener noreferrer";
+      hostLink.textContent = catalog.host;
+      meta.append(document.createTextNode("Catalogue: "), hostLink);
+    } else {
+      meta.append(document.createTextNode("Catalogue: " + catalog.host));
+    }
     meta.append(
-      document.createTextNode("Catalogue: "),
-      hostLink,
       document.createTextNode(" · Source: " + (catalog.source || "Google Analytics 4") + " · last " + periodDays + " days")
     );
     var updated = formatDate(catalog.generatedAt);
@@ -119,12 +139,17 @@
 
       var nameCell = document.createElement("th");
       nameCell.scope = "row";
-      var link = document.createElement("a");
-      link.href = app.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = app.title;
-      nameCell.append(link);
+      var safeAppHref = safeWebappUrl(app.url);
+      if (safeAppHref) {
+        var link = document.createElement("a");
+        link.href = safeAppHref;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = app.title;
+        nameCell.append(link);
+      } else {
+        nameCell.textContent = app.title;
+      }
       row.append(nameCell);
 
       if (hasAllTime) {
@@ -152,7 +177,7 @@
     panel.append(wrapper);
   }
 
-  function render(block, data, allTimeLookup) {
+  function render(block, data, allTimeLookup, blockIndex) {
     var catalogs = Array.isArray(data.catalogs) ? data.catalogs : [];
     var available = catalogs.filter(function (c) { return !c.unavailable; });
     if (!available.length) {
@@ -163,22 +188,47 @@
     block.textContent = "";
 
     var activeId = available[0].id;
+    var panelId = "webapp-metrics-panel-" + blockIndex;
     var tabs = document.createElement("div");
     tabs.className = "webapp-metrics__tabs";
     tabs.setAttribute("role", "tablist");
     tabs.setAttribute("aria-label", "Webapp catalogues");
 
     var panel = document.createElement("div");
+    panel.id = panelId;
     panel.className = "webapp-metrics__panel";
     panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("tabindex", "0");
 
     var buttons = [];
-    catalogs.forEach(function (catalog) {
+
+    function activateCatalog(index, focusTab) {
+      var catalog = catalogs[index];
+      if (!catalog) return;
+      activeId = catalog.id;
+      buttons.forEach(function (other, otherIndex) {
+        var isSelected = otherIndex === index;
+        other.classList.toggle("ab-domain-btn--active", isSelected);
+        other.setAttribute("aria-selected", isSelected ? "true" : "false");
+        other.setAttribute("tabindex", isSelected ? "0" : "-1");
+      });
+      panel.setAttribute("aria-labelledby", buttons[index].id);
+      renderCatalogPanel(panel, catalog, allTimeLookup);
+      if (focusTab) {
+        buttons[index].focus();
+      }
+    }
+
+    catalogs.forEach(function (catalog, index) {
+      var isInitial = catalog.id === activeId;
       var btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "ab-domain-btn" + (catalog.id === activeId ? " ab-domain-btn--active" : "");
+      btn.id = "webapp-metrics-tab-" + blockIndex + "-" + catalog.id;
+      btn.className = "ab-domain-btn" + (isInitial ? " ab-domain-btn--active" : "");
       btn.setAttribute("role", "tab");
-      btn.setAttribute("aria-selected", catalog.id === activeId ? "true" : "false");
+      btn.setAttribute("aria-selected", isInitial ? "true" : "false");
+      btn.setAttribute("aria-controls", panelId);
+      btn.setAttribute("tabindex", isInitial ? "0" : "-1");
       btn.dataset.catalogId = catalog.id;
 
       var label = document.createElement("span");
@@ -193,13 +243,24 @@
       }
 
       btn.addEventListener("click", function () {
-        activeId = catalog.id;
-        buttons.forEach(function (other) {
-          var isSelected = other.dataset.catalogId === activeId;
-          other.classList.toggle("ab-domain-btn--active", isSelected);
-          other.setAttribute("aria-selected", isSelected ? "true" : "false");
-        });
-        renderCatalogPanel(panel, catalog, allTimeLookup);
+        activateCatalog(index, false);
+      });
+
+      btn.addEventListener("keydown", function (event) {
+        var nextIndex = null;
+        if (event.key === "ArrowRight") {
+          nextIndex = (index + 1) % catalogs.length;
+        } else if (event.key === "ArrowLeft") {
+          nextIndex = (index - 1 + catalogs.length) % catalogs.length;
+        } else if (event.key === "Home") {
+          nextIndex = 0;
+        } else if (event.key === "End") {
+          nextIndex = catalogs.length - 1;
+        }
+        if (nextIndex !== null) {
+          event.preventDefault();
+          activateCatalog(nextIndex, true);
+        }
       });
 
       buttons.push(btn);
@@ -207,7 +268,8 @@
     });
 
     block.append(tabs, panel);
-    renderCatalogPanel(panel, available[0], allTimeLookup);
+    var initialIndex = catalogs.findIndex(function (c) { return c.id === activeId; });
+    activateCatalog(initialIndex >= 0 ? initialIndex : 0, false);
   }
 
   var blocks = document.querySelectorAll("[data-webapp-metrics-url]");
@@ -231,8 +293,8 @@
     .then(function (results) {
       var data = results[0];
       var allTimeLookup = buildAllTimeLookup(results[1]);
-      blocks.forEach(function (block) {
-        render(block, data, allTimeLookup);
+      blocks.forEach(function (block, blockIndex) {
+        render(block, data, allTimeLookup, blockIndex);
       });
     })
     .catch(function () {

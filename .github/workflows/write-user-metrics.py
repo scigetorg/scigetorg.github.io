@@ -377,6 +377,7 @@ def country_report(
     property_id: str,
     dimension_filter: dict[str, Any] | None = None,
     start_date: str = EARLIEST_START_DATE,
+    end_date: str = "today",
 ) -> list[dict[str, Any]]:
     return run_report(
         token,
@@ -390,6 +391,7 @@ def country_report(
             dimension_filter,
         ),
         start_date=start_date,
+        end_date=end_date,
     )
 
 
@@ -399,6 +401,8 @@ def period_report(
     period_days: int,
     dimension_filter: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
+    # GA4 date ranges are inclusive on both endpoints, so "<N>daysAgo" through
+    # "yesterday" spans exactly N completed calendar days.
     return run_report(
         token,
         property_id,
@@ -413,6 +417,7 @@ def period_report(
             dimension_filter,
         ),
         start_date=f"{period_days}daysAgo",
+        end_date="yesterday",
     )
 
 
@@ -524,7 +529,13 @@ def main() -> int:
     site_filter = production_hosts_filter()
     aggregate = build_metrics(token, property_id, args.period_days, site_filter)
     aggregate["periodCountries"] = summarize_countries(
-        country_report(token, property_id, site_filter, start_date=f"{args.period_days}daysAgo")
+        country_report(
+            token,
+            property_id,
+            site_filter,
+            start_date=f"{args.period_days}daysAgo",
+            end_date="yesterday",
+        )
     )
     print(
         f"GA4 property {property_id}: {len(aggregate['months'])} months, "
