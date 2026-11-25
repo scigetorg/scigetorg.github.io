@@ -1,14 +1,3736 @@
 {
-  "generatedAt": "2026-11-25T00:00:00Z",
+  "generatedAt": "2026-11-25T11:23:06Z",
   "source": "Google Analytics 4",
   "periodDays": 30,
-  "totalUsers": 0,
-  "periodUsers": 0,
-  "periodSessions": 0,
-  "periodPageViews": 0,
-  "months": [],
-  "countries": [],
-  "periodCountries": [],
-  "segments": [],
-  "unavailable": true
+  "totalUsers": 1116,
+  "periodUsers": 597,
+  "periodSessions": 656,
+  "periodPageViews": 777,
+  "months": [
+    {
+      "month": "2025-04",
+      "newUsers": 20,
+      "cumulativeUsers": 20
+    },
+    {
+      "month": "2025-05",
+      "newUsers": 47,
+      "cumulativeUsers": 67
+    },
+    {
+      "month": "2025-06",
+      "newUsers": 32,
+      "cumulativeUsers": 99
+    },
+    {
+      "month": "2025-07",
+      "newUsers": 47,
+      "cumulativeUsers": 146
+    },
+    {
+      "month": "2025-08",
+      "newUsers": 67,
+      "cumulativeUsers": 213
+    },
+    {
+      "month": "2025-09",
+      "newUsers": 13,
+      "cumulativeUsers": 226
+    },
+    {
+      "month": "2025-10",
+      "newUsers": 76,
+      "cumulativeUsers": 302
+    },
+    {
+      "month": "2025-11",
+      "newUsers": 31,
+      "cumulativeUsers": 333
+    },
+    {
+      "month": "2025-12",
+      "newUsers": 21,
+      "cumulativeUsers": 354
+    },
+    {
+      "month": "2026-01",
+      "newUsers": 22,
+      "cumulativeUsers": 376
+    },
+    {
+      "month": "2026-02",
+      "newUsers": 18,
+      "cumulativeUsers": 394
+    },
+    {
+      "month": "2026-03",
+      "newUsers": 29,
+      "cumulativeUsers": 423
+    },
+    {
+      "month": "2026-04",
+      "newUsers": 33,
+      "cumulativeUsers": 456
+    },
+    {
+      "month": "2026-05",
+      "newUsers": 36,
+      "cumulativeUsers": 492
+    },
+    {
+      "month": "2026-11",
+      "newUsers": 626,
+      "cumulativeUsers": 1118
+    }
+  ],
+  "countries": [
+    {
+      "code": "CN",
+      "name": "China",
+      "users": 514
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "users": 274
+    },
+    {
+      "code": "AU",
+      "name": "Australia",
+      "users": 145
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "users": 32
+    },
+    {
+      "code": "SG",
+      "name": "Singapore",
+      "users": 24
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands",
+      "users": 18
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "users": 13
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom",
+      "users": 11
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "users": 10
+    },
+    {
+      "code": "JP",
+      "name": "Japan",
+      "users": 8
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "users": 7
+    },
+    {
+      "code": "IN",
+      "name": "India",
+      "users": 7
+    },
+    {
+      "code": "SA",
+      "name": "Saudi Arabia",
+      "users": 5
+    },
+    {
+      "code": "BR",
+      "name": "Brazil",
+      "users": 4
+    },
+    {
+      "code": "RO",
+      "name": "Romania",
+      "users": 4
+    },
+    {
+      "code": "ZA",
+      "name": "South Africa",
+      "users": 4
+    },
+    {
+      "code": "AT",
+      "name": "Austria",
+      "users": 3
+    },
+    {
+      "code": "IL",
+      "name": "Israel",
+      "users": 3
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "users": 3
+    },
+    {
+      "code": "AR",
+      "name": "Argentina",
+      "users": 2
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "users": 2
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland",
+      "users": 2
+    },
+    {
+      "code": "GR",
+      "name": "Greece",
+      "users": 2
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "users": 2
+    },
+    {
+      "code": "PA",
+      "name": "Panama",
+      "users": 2
+    },
+    {
+      "code": "PL",
+      "name": "Poland",
+      "users": 2
+    },
+    {
+      "code": "SE",
+      "name": "Sweden",
+      "users": 2
+    },
+    {
+      "code": "TR",
+      "name": "T\u00fcrkiye",
+      "users": 2
+    },
+    {
+      "code": "TW",
+      "name": "Taiwan",
+      "users": 2
+    },
+    {
+      "code": "BS",
+      "name": "Bahamas",
+      "users": 1
+    },
+    {
+      "code": "BY",
+      "name": "Belarus",
+      "users": 1
+    },
+    {
+      "code": "DK",
+      "name": "Denmark",
+      "users": 1
+    },
+    {
+      "code": "HK",
+      "name": "Hong Kong",
+      "users": 1
+    },
+    {
+      "code": "IR",
+      "name": "Iran",
+      "users": 1
+    },
+    {
+      "code": "KR",
+      "name": "South Korea",
+      "users": 1
+    },
+    {
+      "code": "MX",
+      "name": "Mexico",
+      "users": 1
+    },
+    {
+      "code": "NZ",
+      "name": "New Zealand",
+      "users": 1
+    },
+    {
+      "code": "QA",
+      "name": "Qatar",
+      "users": 1
+    },
+    {
+      "code": "RU",
+      "name": "Russia",
+      "users": 1
+    },
+    {
+      "code": "SC",
+      "name": "Seychelles",
+      "users": 1
+    },
+    {
+      "code": "SI",
+      "name": "Slovenia",
+      "users": 1
+    },
+    {
+      "code": "TN",
+      "name": "Tunisia",
+      "users": 1
+    },
+    {
+      "code": "UA",
+      "name": "Ukraine",
+      "users": 1
+    }
+  ],
+  "periodCountries": [
+    {
+      "code": "CN",
+      "name": "China",
+      "users": 444
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "users": 83
+    },
+    {
+      "code": "AU",
+      "name": "Australia",
+      "users": 15
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands",
+      "users": 9
+    },
+    {
+      "code": "SG",
+      "name": "Singapore",
+      "users": 9
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "users": 5
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom",
+      "users": 4
+    },
+    {
+      "code": "AR",
+      "name": "Argentina",
+      "users": 2
+    },
+    {
+      "code": "GR",
+      "name": "Greece",
+      "users": 2
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "users": 2
+    },
+    {
+      "code": "PA",
+      "name": "Panama",
+      "users": 2
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "users": 2
+    },
+    {
+      "code": "AT",
+      "name": "Austria",
+      "users": 1
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "users": 1
+    },
+    {
+      "code": "BR",
+      "name": "Brazil",
+      "users": 1
+    },
+    {
+      "code": "BY",
+      "name": "Belarus",
+      "users": 1
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "users": 1
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland",
+      "users": 1
+    },
+    {
+      "code": "DK",
+      "name": "Denmark",
+      "users": 1
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "users": 1
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "users": 1
+    },
+    {
+      "code": "IN",
+      "name": "India",
+      "users": 1
+    },
+    {
+      "code": "JP",
+      "name": "Japan",
+      "users": 1
+    },
+    {
+      "code": "MX",
+      "name": "Mexico",
+      "users": 1
+    },
+    {
+      "code": "QA",
+      "name": "Qatar",
+      "users": 1
+    },
+    {
+      "code": "RO",
+      "name": "Romania",
+      "users": 1
+    },
+    {
+      "code": "SC",
+      "name": "Seychelles",
+      "users": 1
+    },
+    {
+      "code": "SE",
+      "name": "Sweden",
+      "users": 1
+    },
+    {
+      "code": "TN",
+      "name": "Tunisia",
+      "users": 1
+    },
+    {
+      "code": "TR",
+      "name": "T\u00fcrkiye",
+      "users": 1
+    },
+    {
+      "code": "ZA",
+      "name": "South Africa",
+      "users": 1
+    }
+  ],
+  "segments": [
+    {
+      "id": "play-australia",
+      "name": "Play Australia",
+      "url": "https://play-australia.sciget.org",
+      "description": "SCIGET Play server in Australia.",
+      "filters": {
+        "hostNames": [
+          "play-australia.sciget.org"
+        ]
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-musclemap",
+      "name": "MuscleMap",
+      "url": "https://mskapps.sciget.org/musclemap/",
+      "description": "MuscleMap hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/musclemap",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/musclemap/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-06",
+      "totalUsers": 539,
+      "periodUsers": 523,
+      "periodSessions": 565,
+      "periodPageViews": 625,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 541,
+          "cumulativeUsers": 541
+        }
+      ],
+      "countries": [
+        {
+          "code": "CN",
+          "name": "China",
+          "users": 449
+        },
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 47
+        },
+        {
+          "code": "SG",
+          "name": "Singapore",
+          "users": 9
+        },
+        {
+          "code": "NL",
+          "name": "Netherlands",
+          "users": 6
+        },
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 4
+        },
+        {
+          "code": "DE",
+          "name": "Germany",
+          "users": 4
+        },
+        {
+          "code": "AR",
+          "name": "Argentina",
+          "users": 2
+        },
+        {
+          "code": "GR",
+          "name": "Greece",
+          "users": 2
+        },
+        {
+          "code": "IT",
+          "name": "Italy",
+          "users": 2
+        },
+        {
+          "code": "BR",
+          "name": "Brazil",
+          "users": 1
+        },
+        {
+          "code": "CH",
+          "name": "Switzerland",
+          "users": 1
+        },
+        {
+          "code": "FR",
+          "name": "France",
+          "users": 1
+        },
+        {
+          "code": "GB",
+          "name": "United Kingdom",
+          "users": 1
+        },
+        {
+          "code": "IE",
+          "name": "Ireland",
+          "users": 1
+        },
+        {
+          "code": "JP",
+          "name": "Japan",
+          "users": 1
+        },
+        {
+          "code": "MX",
+          "name": "Mexico",
+          "users": 1
+        },
+        {
+          "code": "PA",
+          "name": "Panama",
+          "users": 1
+        },
+        {
+          "code": "QA",
+          "name": "Qatar",
+          "users": 1
+        },
+        {
+          "code": "RO",
+          "name": "Romania",
+          "users": 1
+        },
+        {
+          "code": "SE",
+          "name": "Sweden",
+          "users": 1
+        },
+        {
+          "code": "TN",
+          "name": "Tunisia",
+          "users": 1
+        },
+        {
+          "code": "TR",
+          "name": "T\u00fcrkiye",
+          "users": 1
+        },
+        {
+          "code": "ZA",
+          "name": "South Africa",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-msk-dicompare",
+      "name": "dicompare",
+      "url": "https://mskapps.sciget.org/dicompare/",
+      "description": "dicompare hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dicompare",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dicompare/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-mri2vid",
+      "name": "MRI2VID",
+      "url": "https://mskapps.sciget.org/mri2vid/",
+      "description": "MRI2VID hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/mri2vid",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/mri2vid/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-seedseg",
+      "name": "SeedSeg",
+      "url": "https://mskapps.sciget.org/seedseg/",
+      "description": "SeedSeg hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/seedseg",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/seedseg/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-18",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
+      "countries": [
+        {
+          "code": "CA",
+          "name": "Canada",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-msk-carotid-flow",
+      "name": "Carotid Flow",
+      "url": "https://mskapps.sciget.org/carotid-flow/",
+      "description": "Carotid Flow hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/carotid-flow",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/carotid-flow/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-23",
+      "totalUsers": 3,
+      "periodUsers": 3,
+      "periodSessions": 3,
+      "periodPageViews": 5,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 3,
+          "cumulativeUsers": 3
+        }
+      ],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 3
+        }
+      ]
+    },
+    {
+      "id": "webapp-msk-dcm2niix",
+      "name": "dcm2niix",
+      "url": "https://mskapps.sciget.org/dcm2niix/",
+      "description": "dcm2niix hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dcm2niix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dcm2niix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-dicomview",
+      "name": "DICOM View",
+      "url": "https://mskapps.sciget.org/dicomview/",
+      "description": "DICOM View hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dicomview",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dicomview/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-elastix",
+      "name": "elastix",
+      "url": "https://mskapps.sciget.org/elastix/",
+      "description": "elastix hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/elastix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/elastix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-ants-denoise",
+      "name": "ANTs DenoiseImage",
+      "url": "https://mskapps.sciget.org/ants-denoise/",
+      "description": "ANTs DenoiseImage hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/ants-denoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/ants-denoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-23",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
+      "countries": [
+        {
+          "code": "BE",
+          "name": "Belgium",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-msk-niimath",
+      "name": "NiiMath",
+      "url": "https://mskapps.sciget.org/niimath/",
+      "description": "NiiMath hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/niimath",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/niimath/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-medsam2",
+      "name": "MedSAM2",
+      "url": "https://mskapps.sciget.org/medsam2/",
+      "description": "MedSAM2 hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/medsam2",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/medsam2/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-msk-totalsegmentator",
+      "name": "TotalSegmentator",
+      "url": "https://mskapps.sciget.org/totalsegmentator/",
+      "description": "TotalSegmentator hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/totalsegmentator",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/totalsegmentator/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-mri2vid",
+      "name": "MRI2VID",
+      "url": "https://microscopyapps.sciget.org/mri2vid/",
+      "description": "MRI2VID hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/mri2vid",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/mri2vid/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-16",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-zarro",
+      "name": "ZARRo",
+      "url": "https://microscopyapps.sciget.org/zarro/",
+      "description": "ZARRo hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/zarro",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/zarro/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-10",
+      "totalUsers": 4,
+      "periodUsers": 4,
+      "periodSessions": 6,
+      "periodPageViews": 11,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 3,
+          "cumulativeUsers": 3
+        }
+      ],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 4
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-histo2mri",
+      "name": "Histology to MRI",
+      "url": "https://microscopyapps.sciget.org/histo2mri/",
+      "description": "Histology to MRI hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/histo2mri",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/histo2mri/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-12",
+      "totalUsers": 3,
+      "periodUsers": 2,
+      "periodSessions": 11,
+      "periodPageViews": 18,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 2
+        },
+        {
+          "code": "AT",
+          "name": "Austria",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-elastix",
+      "name": "elastix",
+      "url": "https://microscopyapps.sciget.org/elastix/",
+      "description": "elastix hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/elastix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/elastix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-11",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 3,
+      "periodPageViews": 2,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-microsam",
+      "name": "micro-sam",
+      "url": "https://microscopyapps.sciget.org/microsam/",
+      "description": "micro-sam hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/microsam",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/microsam/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-11",
+      "totalUsers": 4,
+      "periodUsers": 4,
+      "periodSessions": 4,
+      "periodPageViews": 4,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 2
+        },
+        {
+          "code": "AT",
+          "name": "Austria",
+          "users": 1
+        },
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-niimath",
+      "name": "NiiMath",
+      "url": "https://microscopyapps.sciget.org/niimath/",
+      "description": "NiiMath hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/niimath",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/niimath/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-stardist",
+      "name": "StarDist",
+      "url": "https://microscopyapps.sciget.org/stardist/",
+      "description": "StarDist hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/stardist",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/stardist/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-11",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-stitching",
+      "name": "Tile stitching",
+      "url": "https://microscopyapps.sciget.org/stitching/",
+      "description": "Tile stitching hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/stitching",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/stitching/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-16",
+      "totalUsers": 2,
+      "periodUsers": 2,
+      "periodSessions": 2,
+      "periodPageViews": 2,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        },
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-deconvolution",
+      "name": "Deconvolution",
+      "url": "https://microscopyapps.sciget.org/deconvolution/",
+      "description": "Deconvolution hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/deconvolution",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/deconvolution/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-12",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 2,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-neuromorph",
+      "name": "NeuroMorph",
+      "url": "https://microscopyapps.sciget.org/neuromorph/",
+      "description": "NeuroMorph hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/neuromorph",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/neuromorph/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-16",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-omezarr-convert",
+      "name": "OME-Zarr Converter",
+      "url": "https://microscopyapps.sciget.org/omezarr-convert/",
+      "description": "OME-Zarr Converter hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/omezarr-convert",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/omezarr-convert/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 1,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
+      "countries": [
+        {
+          "code": "JP",
+          "name": "Japan",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-microscopy-calcium-imaging",
+      "name": "Calcium imaging",
+      "url": "https://microscopyapps.sciget.org/calcium-imaging/",
+      "description": "Calcium imaging hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/calcium-imaging",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/calcium-imaging/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-cellpose",
+      "name": "Cellpose",
+      "url": "https://microscopyapps.sciget.org/cellpose/",
+      "description": "Cellpose hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/cellpose",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/cellpose/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-cryo-em",
+      "name": "Cryo-EM",
+      "url": "https://microscopyapps.sciget.org/cryo-em/",
+      "description": "Cryo-EM hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/cryo-em",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/cryo-em/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-denoise",
+      "name": "Denoise",
+      "url": "https://microscopyapps.sciget.org/denoise/",
+      "description": "Denoise hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/denoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/denoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-lightsheet-atlas",
+      "name": "Light-sheet atlas",
+      "url": "https://microscopyapps.sciget.org/lightsheet-atlas/",
+      "description": "Light-sheet atlas hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/lightsheet-atlas",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/lightsheet-atlas/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-microscope-qc",
+      "name": "Microscope QC",
+      "url": "https://microscopyapps.sciget.org/microscope-qc/",
+      "description": "Microscope QC hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/microscope-qc",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/microscope-qc/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-spot-detection",
+      "name": "Spot detection",
+      "url": "https://microscopyapps.sciget.org/spot-detection/",
+      "description": "Spot detection hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/spot-detection",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/spot-detection/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-microscopy-structure-tensor",
+      "name": "Structure Tensor",
+      "url": "https://microscopyapps.sciget.org/structure-tensor/",
+      "description": "Structure Tensor hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/structure-tensor",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/structure-tensor/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-qsmbly",
+      "name": "QSMbly",
+      "url": "https://preclinicalapps.sciget.org/qsmbly/",
+      "description": "QSMbly hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/qsmbly",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/qsmbly/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-24",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-preclinical-dicompare",
+      "name": "dicompare",
+      "url": "https://preclinicalapps.sciget.org/dicompare/",
+      "description": "dicompare hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dicompare",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dicompare/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-mri2vid",
+      "name": "MRI2VID",
+      "url": "https://preclinicalapps.sciget.org/mri2vid/",
+      "description": "MRI2VID hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/mri2vid",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/mri2vid/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-19",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-preclinical-dcm2niix",
+      "name": "dcm2niix",
+      "url": "https://preclinicalapps.sciget.org/dcm2niix/",
+      "description": "dcm2niix hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dcm2niix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dcm2niix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-dicomview",
+      "name": "DICOM View",
+      "url": "https://preclinicalapps.sciget.org/dicomview/",
+      "description": "DICOM View hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dicomview",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dicomview/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-zarro",
+      "name": "ZARRo",
+      "url": "https://preclinicalapps.sciget.org/zarro/",
+      "description": "ZARRo hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/zarro",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/zarro/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-elastix",
+      "name": "elastix",
+      "url": "https://preclinicalapps.sciget.org/elastix/",
+      "description": "elastix hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/elastix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/elastix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-dwidenoise",
+      "name": "Dwidenoise",
+      "url": "https://preclinicalapps.sciget.org/dwidenoise/",
+      "description": "Dwidenoise hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dwidenoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dwidenoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 1,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-preclinical-ants-denoise",
+      "name": "ANTs DenoiseImage",
+      "url": "https://preclinicalapps.sciget.org/ants-denoise/",
+      "description": "ANTs DenoiseImage hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/ants-denoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/ants-denoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-niimath",
+      "name": "NiiMath",
+      "url": "https://preclinicalapps.sciget.org/niimath/",
+      "description": "NiiMath hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/niimath",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/niimath/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-degibbs",
+      "name": "Degibbs",
+      "url": "https://preclinicalapps.sciget.org/degibbs/",
+      "description": "Degibbs hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/degibbs",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/degibbs/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-stitching",
+      "name": "Tile stitching",
+      "url": "https://preclinicalapps.sciget.org/stitching/",
+      "description": "Tile stitching hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/stitching",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/stitching/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-neuromorph",
+      "name": "NeuroMorph",
+      "url": "https://preclinicalapps.sciget.org/neuromorph/",
+      "description": "NeuroMorph hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/neuromorph",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/neuromorph/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-brainchomp",
+      "name": "Brainchomp",
+      "url": "https://preclinicalapps.sciget.org/brainchomp/",
+      "description": "Brainchomp hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/brainchomp",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/brainchomp/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-calcium-imaging",
+      "name": "Calcium imaging",
+      "url": "https://preclinicalapps.sciget.org/calcium-imaging/",
+      "description": "Calcium imaging hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/calcium-imaging",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/calcium-imaging/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-denoise",
+      "name": "Denoise",
+      "url": "https://preclinicalapps.sciget.org/denoise/",
+      "description": "Denoise hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/denoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/denoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-medsam2",
+      "name": "MedSAM2",
+      "url": "https://preclinicalapps.sciget.org/medsam2/",
+      "description": "MedSAM2 hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/medsam2",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/medsam2/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-structure-tensor",
+      "name": "Structure Tensor",
+      "url": "https://preclinicalapps.sciget.org/structure-tensor/",
+      "description": "Structure Tensor hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/structure-tensor",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/structure-tensor/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-dermatology-derm-compare",
+      "name": "DermCompare",
+      "url": "https://dermatologyapps.sciget.org/derm-compare/",
+      "description": "DermCompare hosted SCIGET Dermatology webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "dermatologyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/derm-compare",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/derm-compare/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 1,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 1
+        }
+      ]
+    },
+    {
+      "id": "webapp-dermatology-dermoscope",
+      "name": "Dermoscope ABCD",
+      "url": "https://dermatologyapps.sciget.org/dermoscope/",
+      "description": "Dermoscope ABCD hosted SCIGET Dermatology webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "dermatologyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dermoscope",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dermoscope/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-dermatology-dermvit",
+      "name": "DermViT",
+      "url": "https://dermatologyapps.sciget.org/dermvit/",
+      "description": "DermViT hosted SCIGET Dermatology webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "dermatologyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dermvit",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dermvit/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-dermatology-skin-chromophore",
+      "name": "Skin Chromophore",
+      "url": "https://dermatologyapps.sciget.org/skin-chromophore/",
+      "description": "Skin Chromophore hosted SCIGET Dermatology webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "dermatologyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/skin-chromophore",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/skin-chromophore/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-dermatology-wound-planimetry",
+      "name": "Wound Planimetry",
+      "url": "https://dermatologyapps.sciget.org/wound-planimetry/",
+      "description": "Wound Planimetry hosted SCIGET Dermatology webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "dermatologyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/wound-planimetry",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/wound-planimetry/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    }
+  ]
 }
