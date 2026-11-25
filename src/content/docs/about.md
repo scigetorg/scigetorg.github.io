@@ -33,3 +33,7 @@ A comprehensive metadata database provides easy tool discovery. In collaboration
 ## Conclusion
 
 SCIGET accelerates scientific discovery by streamlining access to essential software. It reduces setup overhead, enhances reproducibility across computing platforms, and fosters greater collaboration by ensuring consistent analytical environments. SCIGET is domain agnostic and seeks collaboration to expand across scientific domains via community engagement.
+
+## Support and acknowledgements
+
+SCIGET is backed by research grants, cloud infrastructure partners, and sponsors shared with the Neurodesk ecosystem. See our [Acknowledgements](/acknowledgements/) page for full details and our cultural and land acknowledgement, or visit [Sponsor & Donate](/sponsor/) to help sustain the platform.
