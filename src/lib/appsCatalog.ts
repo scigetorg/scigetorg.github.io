@@ -283,7 +283,7 @@ export function methodsText(
 	return `${app.name} (v${version}, built ${buildDate}) was run in Sciget / Neurodesk (${platformVersion}Renton et al., 2024).\n\nReferences:\n${references.join('\n\n')}`;
 }
 
-export function isEessiArm64Build(entry: EessiAppEntry): boolean {
+export function isEessiArm64Build(entry: Pick<EessiAppEntry, 'arch'>): boolean {
 	return entry.arch.includes('aarch64');
 }
 

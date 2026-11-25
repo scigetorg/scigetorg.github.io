@@ -667,6 +667,13 @@ export default function ApplicationsBrowser() {
       const builds = gpuOnly ? app.builds.filter((b) => b.gpu) : app.builds;
       if (builds.length === 0) continue;
 
+      const retainedDomainIds = gpuOnly
+        ? new Set(builds.flatMap((b) => b.domains.map((d) => d.id)))
+        : null;
+      const cardDomains = retainedDomainIds
+        ? app.domains.filter((d) => retainedDomainIds.has(d.id))
+        : app.domains;
+
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const searchable = [
@@ -674,7 +681,7 @@ export default function ApplicationsBrowser() {
           app.name,
           app.description || "",
           ...app.categories,
-          ...app.domains.flatMap((d) => [d.id, d.label]),
+          ...cardDomains.flatMap((d) => [d.id, d.label]),
           ...builds.flatMap((b) => [b.module, b.version, b.stack]),
         ]
           .join(" ")
@@ -690,7 +697,12 @@ export default function ApplicationsBrowser() {
 
       result.push(
         gpuOnly
-          ? { ...app, builds, arm64: builds.some(isEessiArm64Build) }
+          ? {
+              ...app,
+              builds,
+              domains: cardDomains,
+              arm64: builds.some(isEessiArm64Build),
+            }
           : app,
       );
     }
@@ -988,11 +1000,12 @@ export default function ApplicationsBrowser() {
                   : activeDomain?.unavailable)
                   ? `The ${activeDomain?.label} ${source === "eessi" ? "EESSI " : ""}catalog was unavailable during the latest site build.`
                   : !activeDomain &&
-                      source === "eessi" &&
                       totalAvailable === 0 &&
                       !hasActiveFilters &&
-                      domains.some((d) => d.eessiUnavailable)
-                    ? "EESSI catalogs were unavailable during the latest site build."
+                      domains.some((d) =>
+                        source === "eessi" ? d.eessiUnavailable : d.unavailable,
+                      )
+                    ? `${source === "eessi" ? "EESSI" : "Container"} catalogs were unavailable during the latest site build.`
                     : activeDomain && totalAvailable === 0 && !hasActiveFilters
                       ? `No ${source === "eessi" ? "EESSI modules" : "applications"} are listed in the ${activeDomain.label} catalog yet.`
                       : !activeDomain &&
