@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-25T11:23:06Z",
+  "generatedAt": "2026-11-26T03:07:16Z",
   "source": "Google Analytics 4",
   "periodDays": 30,
-  "totalUsers": 1116,
-  "periodUsers": 597,
-  "periodSessions": 656,
-  "periodPageViews": 777,
+  "totalUsers": 1139,
+  "periodUsers": 631,
+  "periodSessions": 690,
+  "periodPageViews": 817,
   "months": [
     {
       "month": "2025-04",
@@ -79,25 +79,25 @@
     },
     {
       "month": "2026-11",
-      "newUsers": 626,
-      "cumulativeUsers": 1118
+      "newUsers": 649,
+      "cumulativeUsers": 1141
     }
   ],
   "countries": [
     {
       "code": "CN",
       "name": "China",
-      "users": 514
+      "users": 530
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 274
+      "users": 276
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 145
+      "users": 146
     },
     {
       "code": "DE",
@@ -112,7 +112,7 @@
     {
       "code": "NL",
       "name": "Netherlands",
-      "users": 18
+      "users": 19
     },
     {
       "code": "IE",
@@ -122,12 +122,12 @@
     {
       "code": "GB",
       "name": "United Kingdom",
-      "users": 11
+      "users": 12
     },
     {
       "code": "FR",
       "name": "France",
-      "users": 10
+      "users": 11
     },
     {
       "code": "JP",
@@ -230,6 +230,11 @@
       "users": 2
     },
     {
+      "code": "AL",
+      "name": "Albania",
+      "users": 1
+    },
+    {
       "code": "BS",
       "name": "Bahamas",
       "users": 1
@@ -304,22 +309,22 @@
     {
       "code": "CN",
       "name": "China",
-      "users": 444
+      "users": 461
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 83
+      "users": 92
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 15
+      "users": 17
     },
     {
       "code": "NL",
       "name": "Netherlands",
-      "users": 9
+      "users": 11
     },
     {
       "code": "SG",
@@ -334,7 +339,7 @@
     {
       "code": "GB",
       "name": "United Kingdom",
-      "users": 4
+      "users": 5
     },
     {
       "code": "AR",
@@ -349,6 +354,11 @@
     {
       "code": "IT",
       "name": "Italy",
+      "users": 2
+    },
+    {
+      "code": "JP",
+      "name": "Japan",
       "users": 2
     },
     {
@@ -412,11 +422,6 @@
       "users": 1
     },
     {
-      "code": "JP",
-      "name": "Japan",
-      "users": 1
-    },
-    {
       "code": "MX",
       "name": "Mexico",
       "users": 1
@@ -429,6 +434,11 @@
     {
       "code": "RO",
       "name": "Romania",
+      "users": 1
+    },
+    {
+      "code": "RU",
+      "name": "Russia",
       "users": 1
     },
     {
@@ -524,22 +534,22 @@
         }
       },
       "trackingStartDate": "2026-11-06",
-      "totalUsers": 539,
-      "periodUsers": 523,
-      "periodSessions": 565,
-      "periodPageViews": 625,
+      "totalUsers": 557,
+      "periodUsers": 544,
+      "periodSessions": 586,
+      "periodPageViews": 648,
       "months": [
         {
           "month": "2026-11",
-          "newUsers": 541,
-          "cumulativeUsers": 541
+          "newUsers": 559,
+          "cumulativeUsers": 559
         }
       ],
       "countries": [
         {
           "code": "CN",
           "name": "China",
-          "users": 449
+          "users": 464
         },
         {
           "code": "US",
@@ -572,6 +582,16 @@
           "users": 2
         },
         {
+          "code": "FR",
+          "name": "France",
+          "users": 2
+        },
+        {
+          "code": "GB",
+          "name": "United Kingdom",
+          "users": 2
+        },
+        {
           "code": "GR",
           "name": "Greece",
           "users": 2
@@ -582,6 +602,11 @@
           "users": 2
         },
         {
+          "code": "AL",
+          "name": "Albania",
+          "users": 1
+        },
+        {
           "code": "BR",
           "name": "Brazil",
           "users": 1
@@ -589,16 +614,6 @@
         {
           "code": "CH",
           "name": "Switzerland",
-          "users": 1
-        },
-        {
-          "code": "FR",
-          "name": "France",
-          "users": 1
-        },
-        {
-          "code": "GB",
-          "name": "United Kingdom",
           "users": 1
         },
         {
@@ -831,73 +846,6 @@
       ]
     },
     {
-      "id": "webapp-msk-carotid-flow",
-      "name": "Carotid Flow",
-      "url": "https://mskapps.sciget.org/carotid-flow/",
-      "description": "Carotid Flow hosted SCIGET Musculoskeletal webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "mskapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/carotid-flow",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/carotid-flow/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": "2026-11-23",
-      "totalUsers": 3,
-      "periodUsers": 3,
-      "periodSessions": 3,
-      "periodPageViews": 5,
-      "months": [
-        {
-          "month": "2026-11",
-          "newUsers": 3,
-          "cumulativeUsers": 3
-        }
-      ],
-      "countries": [
-        {
-          "code": "US",
-          "name": "United States",
-          "users": 3
-        }
-      ]
-    },
-    {
       "id": "webapp-msk-dcm2niix",
       "name": "dcm2niix",
       "url": "https://mskapps.sciget.org/dcm2niix/",
@@ -1006,6 +954,73 @@
       "periodPageViews": 0,
       "months": [],
       "countries": []
+    },
+    {
+      "id": "webapp-msk-carotid-flow",
+      "name": "Carotid Flow",
+      "url": "https://mskapps.sciget.org/carotid-flow/",
+      "description": "Carotid Flow hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/carotid-flow",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/carotid-flow/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-23",
+      "totalUsers": 3,
+      "periodUsers": 3,
+      "periodSessions": 3,
+      "periodPageViews": 5,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 3,
+          "cumulativeUsers": 3
+        }
+      ],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 3
+        }
+      ]
     },
     {
       "id": "webapp-msk-elastix",
@@ -1356,6 +1371,72 @@
       ]
     },
     {
+      "id": "webapp-microscopy-histo2mri",
+      "name": "Histology to MRI",
+      "url": "https://microscopyapps.sciget.org/histo2mri/",
+      "description": "Histology to MRI hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/histo2mri",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/histo2mri/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-12",
+      "totalUsers": 3,
+      "periodUsers": 3,
+      "periodSessions": 12,
+      "periodPageViews": 19,
+      "months": [],
+      "countries": [
+        {
+          "code": "AU",
+          "name": "Australia",
+          "users": 2
+        },
+        {
+          "code": "AT",
+          "name": "Austria",
+          "users": 1
+        }
+      ]
+    },
+    {
       "id": "webapp-microscopy-zarro",
       "name": "ZARRo",
       "url": "https://microscopyapps.sciget.org/zarro/",
@@ -1419,72 +1500,6 @@
           "code": "US",
           "name": "United States",
           "users": 4
-        }
-      ]
-    },
-    {
-      "id": "webapp-microscopy-histo2mri",
-      "name": "Histology to MRI",
-      "url": "https://microscopyapps.sciget.org/histo2mri/",
-      "description": "Histology to MRI hosted SCIGET Microscopy webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "microscopyapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/histo2mri",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/histo2mri/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": "2026-11-12",
-      "totalUsers": 3,
-      "periodUsers": 2,
-      "periodSessions": 11,
-      "periodPageViews": 18,
-      "months": [],
-      "countries": [
-        {
-          "code": "AU",
-          "name": "Australia",
-          "users": 2
-        },
-        {
-          "code": "AT",
-          "name": "Austria",
-          "users": 1
         }
       ]
     },
@@ -1973,9 +1988,9 @@
       },
       "trackingStartDate": "2026-11-25",
       "totalUsers": 1,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
       "months": [
         {
           "month": "2026-11",
@@ -2780,6 +2795,67 @@
       "countries": []
     },
     {
+      "id": "webapp-preclinical-dwidenoise",
+      "name": "Dwidenoise",
+      "url": "https://preclinicalapps.sciget.org/dwidenoise/",
+      "description": "Dwidenoise hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/dwidenoise",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/dwidenoise/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 1,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 1,
+      "months": [],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 1
+        }
+      ]
+    },
+    {
       "id": "webapp-preclinical-elastix",
       "name": "elastix",
       "url": "https://preclinicalapps.sciget.org/elastix/",
@@ -2833,67 +2909,6 @@
       "periodPageViews": 0,
       "months": [],
       "countries": []
-    },
-    {
-      "id": "webapp-preclinical-dwidenoise",
-      "name": "Dwidenoise",
-      "url": "https://preclinicalapps.sciget.org/dwidenoise/",
-      "description": "Dwidenoise hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/dwidenoise",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/dwidenoise/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": "2026-11-25",
-      "totalUsers": 1,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": [
-        {
-          "code": "US",
-          "name": "United States",
-          "users": 1
-        }
-      ]
     },
     {
       "id": "webapp-preclinical-ants-denoise",
@@ -3004,6 +3019,73 @@
       "periodPageViews": 0,
       "months": [],
       "countries": []
+    },
+    {
+      "id": "webapp-preclinical-brainchomp",
+      "name": "Brainchomp",
+      "url": "https://preclinicalapps.sciget.org/brainchomp/",
+      "description": "Brainchomp hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/brainchomp",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/brainchomp/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 2,
+      "periodUsers": 2,
+      "periodSessions": 2,
+      "periodPageViews": 2,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 2,
+          "cumulativeUsers": 2
+        }
+      ],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 2
+        }
+      ]
     },
     {
       "id": "webapp-preclinical-degibbs",
@@ -3152,61 +3234,6 @@
                       "stringFilter": {
                         "matchType": "BEGINS_WITH",
                         "value": "/neuromorph/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": null,
-      "totalUsers": 0,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": []
-    },
-    {
-      "id": "webapp-preclinical-brainchomp",
-      "name": "Brainchomp",
-      "url": "https://preclinicalapps.sciget.org/brainchomp/",
-      "description": "Brainchomp hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/brainchomp",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/brainchomp/",
                         "caseSensitive": false
                       }
                     }
@@ -3494,9 +3521,9 @@
       },
       "trackingStartDate": "2026-11-25",
       "totalUsers": 1,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
+      "periodUsers": 1,
+      "periodSessions": 1,
+      "periodPageViews": 2,
       "months": [
         {
           "month": "2026-11",
