@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-26T03:07:16Z",
+  "generatedAt": "2026-11-27T03:07:39Z",
   "source": "Google Analytics 4",
   "periodDays": 30,
-  "totalUsers": 1139,
-  "periodUsers": 631,
-  "periodSessions": 690,
-  "periodPageViews": 817,
+  "totalUsers": 1189,
+  "periodUsers": 676,
+  "periodSessions": 742,
+  "periodPageViews": 896,
   "months": [
     {
       "month": "2025-04",
@@ -79,35 +79,35 @@
     },
     {
       "month": "2026-11",
-      "newUsers": 649,
-      "cumulativeUsers": 1141
+      "newUsers": 699,
+      "cumulativeUsers": 1191
     }
   ],
   "countries": [
     {
       "code": "CN",
       "name": "China",
-      "users": 530
+      "users": 552
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 276
+      "users": 277
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 146
+      "users": 161
     },
     {
       "code": "DE",
       "name": "Germany",
-      "users": 32
+      "users": 34
     },
     {
       "code": "SG",
       "name": "Singapore",
-      "users": 24
+      "users": 29
     },
     {
       "code": "NL",
@@ -115,14 +115,14 @@
       "users": 19
     },
     {
-      "code": "IE",
-      "name": "Ireland",
+      "code": "GB",
+      "name": "United Kingdom",
       "users": 13
     },
     {
-      "code": "GB",
-      "name": "United Kingdom",
-      "users": 12
+      "code": "IE",
+      "name": "Ireland",
+      "users": 13
     },
     {
       "code": "FR",
@@ -155,6 +155,11 @@
       "users": 4
     },
     {
+      "code": "IT",
+      "name": "Italy",
+      "users": 4
+    },
+    {
       "code": "RO",
       "name": "Romania",
       "users": 4
@@ -180,6 +185,11 @@
       "users": 3
     },
     {
+      "code": "AL",
+      "name": "Albania",
+      "users": 2
+    },
+    {
       "code": "AR",
       "name": "Argentina",
       "users": 2
@@ -197,11 +207,6 @@
     {
       "code": "GR",
       "name": "Greece",
-      "users": 2
-    },
-    {
-      "code": "IT",
-      "name": "Italy",
       "users": 2
     },
     {
@@ -230,8 +235,8 @@
       "users": 2
     },
     {
-      "code": "AL",
-      "name": "Albania",
+      "code": "AM",
+      "name": "Armenia",
       "users": 1
     },
     {
@@ -309,37 +314,42 @@
     {
       "code": "CN",
       "name": "China",
-      "users": 461
+      "users": 483
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 92
+      "users": 93
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 17
-    },
-    {
-      "code": "NL",
-      "name": "Netherlands",
-      "users": 11
+      "users": 26
     },
     {
       "code": "SG",
       "name": "Singapore",
-      "users": 9
+      "users": 14
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands",
+      "users": 12
     },
     {
       "code": "DE",
       "name": "Germany",
-      "users": 5
+      "users": 6
     },
     {
       "code": "GB",
       "name": "United Kingdom",
-      "users": 5
+      "users": 6
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "users": 4
     },
     {
       "code": "AR",
@@ -347,13 +357,13 @@
       "users": 2
     },
     {
-      "code": "GR",
-      "name": "Greece",
+      "code": "FR",
+      "name": "France",
       "users": 2
     },
     {
-      "code": "IT",
-      "name": "Italy",
+      "code": "GR",
+      "name": "Greece",
       "users": 2
     },
     {
@@ -370,6 +380,16 @@
       "code": "PT",
       "name": "Portugal",
       "users": 2
+    },
+    {
+      "code": "AL",
+      "name": "Albania",
+      "users": 1
+    },
+    {
+      "code": "AM",
+      "name": "Armenia",
+      "users": 1
     },
     {
       "code": "AT",
@@ -404,11 +424,6 @@
     {
       "code": "DK",
       "name": "Denmark",
-      "users": 1
-    },
-    {
-      "code": "FR",
-      "name": "France",
       "users": 1
     },
     {
@@ -534,22 +549,22 @@
         }
       },
       "trackingStartDate": "2026-11-06",
-      "totalUsers": 557,
-      "periodUsers": 544,
-      "periodSessions": 586,
-      "periodPageViews": 648,
+      "totalUsers": 582,
+      "periodUsers": 569,
+      "periodSessions": 613,
+      "periodPageViews": 675,
       "months": [
         {
           "month": "2026-11",
-          "newUsers": 559,
-          "cumulativeUsers": 559
+          "newUsers": 584,
+          "cumulativeUsers": 584
         }
       ],
       "countries": [
         {
           "code": "CN",
           "name": "China",
-          "users": 464
+          "users": 486
         },
         {
           "code": "US",
@@ -559,7 +574,7 @@
         {
           "code": "SG",
           "name": "Singapore",
-          "users": 9
+          "users": 10
         },
         {
           "code": "NL",
@@ -577,6 +592,16 @@
           "users": 4
         },
         {
+          "code": "GB",
+          "name": "United Kingdom",
+          "users": 3
+        },
+        {
+          "code": "AL",
+          "name": "Albania",
+          "users": 2
+        },
+        {
           "code": "AR",
           "name": "Argentina",
           "users": 2
@@ -584,11 +609,6 @@
         {
           "code": "FR",
           "name": "France",
-          "users": 2
-        },
-        {
-          "code": "GB",
-          "name": "United Kingdom",
           "users": 2
         },
         {
@@ -600,11 +620,6 @@
           "code": "IT",
           "name": "Italy",
           "users": 2
-        },
-        {
-          "code": "AL",
-          "name": "Albania",
-          "users": 1
         },
         {
           "code": "BR",
@@ -956,6 +971,61 @@
       "countries": []
     },
     {
+      "id": "webapp-msk-elastix",
+      "name": "elastix",
+      "url": "https://mskapps.sciget.org/elastix/",
+      "description": "elastix hosted SCIGET Musculoskeletal webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "mskapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/elastix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/elastix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
       "id": "webapp-msk-carotid-flow",
       "name": "Carotid Flow",
       "url": "https://mskapps.sciget.org/carotid-flow/",
@@ -1021,61 +1091,6 @@
           "users": 3
         }
       ]
-    },
-    {
-      "id": "webapp-msk-elastix",
-      "name": "elastix",
-      "url": "https://mskapps.sciget.org/elastix/",
-      "description": "elastix hosted SCIGET Musculoskeletal webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "mskapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/elastix",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/elastix/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": null,
-      "totalUsers": 0,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": []
     },
     {
       "id": "webapp-msk-ants-denoise",
@@ -1418,16 +1433,22 @@
         }
       },
       "trackingStartDate": "2026-11-12",
-      "totalUsers": 3,
-      "periodUsers": 3,
-      "periodSessions": 12,
-      "periodPageViews": 19,
-      "months": [],
+      "totalUsers": 4,
+      "periodUsers": 4,
+      "periodSessions": 14,
+      "periodPageViews": 22,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 1,
+          "cumulativeUsers": 1
+        }
+      ],
       "countries": [
         {
           "code": "AU",
           "name": "Australia",
-          "users": 2
+          "users": 3
         },
         {
           "code": "AT",
@@ -2227,6 +2248,61 @@
       "countries": []
     },
     {
+      "id": "webapp-microscopy-instanseg",
+      "name": "InstanSeg",
+      "url": "https://microscopyapps.sciget.org/instanseg/",
+      "description": "InstanSeg hosted SCIGET Microscopy webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "microscopyapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/instanseg",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/instanseg/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
       "id": "webapp-microscopy-lightsheet-atlas",
       "name": "Light-sheet atlas",
       "url": "https://microscopyapps.sciget.org/lightsheet-atlas/",
@@ -2795,6 +2871,61 @@
       "countries": []
     },
     {
+      "id": "webapp-preclinical-elastix",
+      "name": "elastix",
+      "url": "https://preclinicalapps.sciget.org/elastix/",
+      "description": "elastix hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/elastix",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/elastix/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
       "id": "webapp-preclinical-dwidenoise",
       "name": "Dwidenoise",
       "url": "https://preclinicalapps.sciget.org/dwidenoise/",
@@ -2854,61 +2985,6 @@
           "users": 1
         }
       ]
-    },
-    {
-      "id": "webapp-preclinical-elastix",
-      "name": "elastix",
-      "url": "https://preclinicalapps.sciget.org/elastix/",
-      "description": "elastix hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/elastix",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/elastix/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": null,
-      "totalUsers": 0,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": []
     },
     {
       "id": "webapp-preclinical-ants-denoise",
