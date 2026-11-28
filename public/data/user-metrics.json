@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-27T03:07:39Z",
+  "generatedAt": "2026-11-28T03:06:44Z",
   "source": "Google Analytics 4",
   "periodDays": 30,
-  "totalUsers": 1189,
-  "periodUsers": 676,
-  "periodSessions": 742,
-  "periodPageViews": 896,
+  "totalUsers": 1224,
+  "periodUsers": 711,
+  "periodSessions": 781,
+  "periodPageViews": 947,
   "months": [
     {
       "month": "2025-04",
@@ -79,25 +79,25 @@
     },
     {
       "month": "2026-11",
-      "newUsers": 699,
-      "cumulativeUsers": 1191
+      "newUsers": 734,
+      "cumulativeUsers": 1226
     }
   ],
   "countries": [
     {
       "code": "CN",
       "name": "China",
-      "users": 552
+      "users": 576
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 277
+      "users": 283
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 161
+      "users": 162
     },
     {
       "code": "DE",
@@ -107,17 +107,17 @@
     {
       "code": "SG",
       "name": "Singapore",
-      "users": 29
+      "users": 30
     },
     {
       "code": "NL",
       "name": "Netherlands",
-      "users": 19
+      "users": 20
     },
     {
       "code": "GB",
       "name": "United Kingdom",
-      "users": 13
+      "users": 14
     },
     {
       "code": "IE",
@@ -132,7 +132,7 @@
     {
       "code": "JP",
       "name": "Japan",
-      "users": 8
+      "users": 9
     },
     {
       "code": "CA",
@@ -314,32 +314,32 @@
     {
       "code": "CN",
       "name": "China",
-      "users": 483
+      "users": 502
     },
     {
       "code": "US",
       "name": "United States",
-      "users": 93
+      "users": 97
     },
     {
       "code": "AU",
       "name": "Australia",
-      "users": 26
+      "users": 33
     },
     {
       "code": "SG",
       "name": "Singapore",
-      "users": 14
+      "users": 15
     },
     {
       "code": "NL",
       "name": "Netherlands",
-      "users": 12
+      "users": 13
     },
     {
       "code": "DE",
       "name": "Germany",
-      "users": 6
+      "users": 7
     },
     {
       "code": "GB",
@@ -350,6 +350,11 @@
       "code": "IT",
       "name": "Italy",
       "users": 4
+    },
+    {
+      "code": "AL",
+      "name": "Albania",
+      "users": 2
     },
     {
       "code": "AR",
@@ -380,11 +385,6 @@
       "code": "PT",
       "name": "Portugal",
       "users": 2
-    },
-    {
-      "code": "AL",
-      "name": "Albania",
-      "users": 1
     },
     {
       "code": "AM",
@@ -549,22 +549,22 @@
         }
       },
       "trackingStartDate": "2026-11-06",
-      "totalUsers": 582,
-      "periodUsers": 569,
-      "periodSessions": 613,
-      "periodPageViews": 675,
+      "totalUsers": 609,
+      "periodUsers": 590,
+      "periodSessions": 636,
+      "periodPageViews": 698,
       "months": [
         {
           "month": "2026-11",
-          "newUsers": 584,
-          "cumulativeUsers": 584
+          "newUsers": 611,
+          "cumulativeUsers": 611
         }
       ],
       "countries": [
         {
           "code": "CN",
           "name": "China",
-          "users": 486
+          "users": 510
         },
         {
           "code": "US",
@@ -574,7 +574,7 @@
         {
           "code": "SG",
           "name": "Singapore",
-          "users": 10
+          "users": 11
         },
         {
           "code": "NL",
@@ -584,7 +584,7 @@
         {
           "code": "AU",
           "name": "Australia",
-          "users": 4
+          "users": 5
         },
         {
           "code": "DE",
@@ -594,7 +594,7 @@
         {
           "code": "GB",
           "name": "United Kingdom",
-          "users": 3
+          "users": 4
         },
         {
           "code": "AL",
@@ -622,6 +622,11 @@
           "users": 2
         },
         {
+          "code": "JP",
+          "name": "Japan",
+          "users": 2
+        },
+        {
           "code": "BR",
           "name": "Brazil",
           "users": 1
@@ -634,11 +639,6 @@
         {
           "code": "IE",
           "name": "Ireland",
-          "users": 1
-        },
-        {
-          "code": "JP",
-          "name": "Japan",
           "users": 1
         },
         {
@@ -2816,6 +2816,78 @@
       "countries": []
     },
     {
+      "id": "webapp-preclinical-brainchomp",
+      "name": "Brainchomp",
+      "url": "https://preclinicalapps.sciget.org/brainchomp/",
+      "description": "Brainchomp hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/brainchomp",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/brainchomp/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": "2026-11-25",
+      "totalUsers": 6,
+      "periodUsers": 5,
+      "periodSessions": 5,
+      "periodPageViews": 5,
+      "months": [
+        {
+          "month": "2026-11",
+          "newUsers": 6,
+          "cumulativeUsers": 6
+        }
+      ],
+      "countries": [
+        {
+          "code": "US",
+          "name": "United States",
+          "users": 4
+        },
+        {
+          "code": "NL",
+          "name": "Netherlands",
+          "users": 1
+        }
+      ]
+    },
+    {
       "id": "webapp-preclinical-zarro",
       "name": "ZARRo",
       "url": "https://preclinicalapps.sciget.org/zarro/",
@@ -3042,128 +3114,6 @@
       "countries": []
     },
     {
-      "id": "webapp-preclinical-niimath",
-      "name": "NiiMath",
-      "url": "https://preclinicalapps.sciget.org/niimath/",
-      "description": "NiiMath hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/niimath",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/niimath/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": null,
-      "totalUsers": 0,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": []
-    },
-    {
-      "id": "webapp-preclinical-brainchomp",
-      "name": "Brainchomp",
-      "url": "https://preclinicalapps.sciget.org/brainchomp/",
-      "description": "Brainchomp hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/brainchomp",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/brainchomp/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": "2026-11-25",
-      "totalUsers": 2,
-      "periodUsers": 2,
-      "periodSessions": 2,
-      "periodPageViews": 2,
-      "months": [
-        {
-          "month": "2026-11",
-          "newUsers": 2,
-          "cumulativeUsers": 2
-        }
-      ],
-      "countries": [
-        {
-          "code": "US",
-          "name": "United States",
-          "users": 2
-        }
-      ]
-    },
-    {
       "id": "webapp-preclinical-degibbs",
       "name": "Degibbs",
       "url": "https://preclinicalapps.sciget.org/degibbs/",
@@ -3200,6 +3150,61 @@
                       "stringFilter": {
                         "matchType": "BEGINS_WITH",
                         "value": "/degibbs/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-niimath",
+      "name": "NiiMath",
+      "url": "https://preclinicalapps.sciget.org/niimath/",
+      "description": "NiiMath hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/niimath",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/niimath/",
                         "caseSensitive": false
                       }
                     }
@@ -3274,6 +3279,61 @@
       "countries": []
     },
     {
+      "id": "webapp-preclinical-medsam2",
+      "name": "MedSAM2",
+      "url": "https://preclinicalapps.sciget.org/medsam2/",
+      "description": "MedSAM2 hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/medsam2",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/medsam2/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
       "id": "webapp-preclinical-neuromorph",
       "name": "NeuroMorph",
       "url": "https://preclinicalapps.sciget.org/neuromorph/",
@@ -3310,6 +3370,61 @@
                       "stringFilter": {
                         "matchType": "BEGINS_WITH",
                         "value": "/neuromorph/",
+                        "caseSensitive": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "trackingStartDate": null,
+      "totalUsers": 0,
+      "periodUsers": 0,
+      "periodSessions": 0,
+      "periodPageViews": 0,
+      "months": [],
+      "countries": []
+    },
+    {
+      "id": "webapp-preclinical-brkraw",
+      "name": "BrkRaw",
+      "url": "https://preclinicalapps.sciget.org/brkraw/",
+      "description": "BrkRaw hosted SCIGET Preclinical webapp.",
+      "filters": {
+        "andGroup": {
+          "expressions": [
+            {
+              "filter": {
+                "fieldName": "hostName",
+                "stringFilter": {
+                  "matchType": "EXACT",
+                  "value": "preclinicalapps.sciget.org",
+                  "caseSensitive": false
+                }
+              }
+            },
+            {
+              "orGroup": {
+                "expressions": [
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "EXACT",
+                        "value": "/brkraw",
+                        "caseSensitive": false
+                      }
+                    }
+                  },
+                  {
+                    "filter": {
+                      "fieldName": "pagePath",
+                      "stringFilter": {
+                        "matchType": "BEGINS_WITH",
+                        "value": "/brkraw/",
                         "caseSensitive": false
                       }
                     }
@@ -3420,61 +3535,6 @@
                       "stringFilter": {
                         "matchType": "BEGINS_WITH",
                         "value": "/denoise/",
-                        "caseSensitive": false
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "trackingStartDate": null,
-      "totalUsers": 0,
-      "periodUsers": 0,
-      "periodSessions": 0,
-      "periodPageViews": 0,
-      "months": [],
-      "countries": []
-    },
-    {
-      "id": "webapp-preclinical-medsam2",
-      "name": "MedSAM2",
-      "url": "https://preclinicalapps.sciget.org/medsam2/",
-      "description": "MedSAM2 hosted SCIGET Preclinical webapp.",
-      "filters": {
-        "andGroup": {
-          "expressions": [
-            {
-              "filter": {
-                "fieldName": "hostName",
-                "stringFilter": {
-                  "matchType": "EXACT",
-                  "value": "preclinicalapps.sciget.org",
-                  "caseSensitive": false
-                }
-              }
-            },
-            {
-              "orGroup": {
-                "expressions": [
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "EXACT",
-                        "value": "/medsam2",
-                        "caseSensitive": false
-                      }
-                    }
-                  },
-                  {
-                    "filter": {
-                      "fieldName": "pagePath",
-                      "stringFilter": {
-                        "matchType": "BEGINS_WITH",
-                        "value": "/medsam2/",
                         "caseSensitive": false
                       }
                     }
